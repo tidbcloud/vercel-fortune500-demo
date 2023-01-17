@@ -1,0 +1,23 @@
+.code {
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  padding: 14px;
+  justify-items: center;
+  width: 100%;
+}
+
+.error > svg {
+  margin-right: 4px;
+}
+
+.chart {
+  border-radius: 8px;
+  overflow: hidden;
+}

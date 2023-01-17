@@ -1,16 +1,33 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  gap: 150px;
+}
+
+.main.withResult {
+  justify-content: flex-start;
+  gap: 24px;
+}
+
+.builtWith {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.content {
+  max-width: var(--max-width);
+  width: 100%;
+  z-index: 2;
 }
 
 .description {
-  display: inherit;
-  justify-content: inherit;
-  align-items: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.85rem;
   max-width: var(--max-width);
   width: 100%;
@@ -39,39 +56,6 @@
   font-family: var(--font-mono);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(25%, auto));
-  width: var(--max-width);
-  max-width: 100%;
-}
-
-.card {
-  padding: 1rem 1.2rem;
-  border-radius: var(--border-radius);
-  background: rgba(var(--card-rgb), 0);
-  border: 1px solid rgba(var(--card-border-rgb), 0);
-  transition: background 200ms, border 200ms;
-}
-
-.card span {
-  display: inline-block;
-  transition: transform 200ms;
-}
-
-.card h2 {
-  font-weight: 600;
-  margin-bottom: 0.7rem;
-}
-
-.card p {
-  margin: 0;
-  opacity: 0.6;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  max-width: 30ch;
-}
-
 .center {
   display: flex;
   justify-content: center;
@@ -84,7 +68,7 @@
   background: var(--secondary-glow);
   border-radius: 50%;
   width: 480px;
-  height: 360px;
+  height: 300px;
   margin-left: -400px;
 }
 
@@ -97,7 +81,7 @@
 
 .center::before,
 .center::after {
-  content: '';
+  content: "";
   left: 50%;
   position: absolute;
   filter: blur(45px);
@@ -120,12 +104,12 @@
   transform: translateZ(0);
   border-radius: var(--border-radius);
   overflow: hidden;
-  box-shadow: 0px 2px 8px -1px #0000001a;
+  box-shadow: 0 2px 8px -1px #0000001a;
 }
 
 .thirteen::before,
 .thirteen::after {
-  content: '';
+  content: "";
   position: absolute;
   z-index: -1;
 }

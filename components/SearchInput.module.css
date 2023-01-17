@@ -1,0 +1,41 @@
+.wrapper {
+  max-width: var(--max-width);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper.withResult {
+  flex-direction: row;
+  gap: 40px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+.inputWrapper.withResult {
+  align-self: flex-start;
+}
+
+.input {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  border: 1px solid lightgray;
+  border-radius: 9999px;
+  padding: 16px 60px;
+  width: 768px;
+}
+
+.icon {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  color: gray;
+}
