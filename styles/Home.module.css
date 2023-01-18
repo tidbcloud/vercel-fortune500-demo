@@ -2,14 +2,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 6rem;
+  padding: 2rem 6rem;
   min-height: 100vh;
   gap: 150px;
 }
 
 .main.withResult {
   justify-content: flex-start;
-  gap: 24px;
+  gap: 50px;
 }
 
 .builtWith {
@@ -26,7 +26,7 @@
 
 .description {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   font-size: 0.85rem;
   max-width: var(--max-width);
@@ -38,6 +38,12 @@
 .slogon {
   font-size: 20px;
   font-weight: bold;
+  display: flex;
+  align-items: end;
+}
+
+.slogonIcon{
+  margin-right: 10px;
 }
 
 .description a {

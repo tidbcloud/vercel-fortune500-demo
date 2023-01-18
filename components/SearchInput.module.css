@@ -39,3 +39,10 @@
   left: 18px;
   color: gray;
 }
+
+.enterIcon {
+  position: absolute;
+  top: 21px;
+  right: 29px;
+  color: gray;
+}
