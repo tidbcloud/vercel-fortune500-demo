@@ -46,3 +46,6 @@
     flex-direction: column;
   }
 }
+.nowrap {
+  white-space: nowrap;
+}

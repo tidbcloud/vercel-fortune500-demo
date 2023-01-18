@@ -44,7 +44,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
           rel="noopener noreferrer"
           onClick={() => onSelect?.(v.content)}
         >
-          <h2 className={inter.className}>
+          <h2 className={`${inter.className} ${styles.nowrap}`}>
             {v.title} <span>-&gt;</span>
           </h2>
           <p className={inter.className}>{v.content}</p>

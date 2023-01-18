@@ -9,7 +9,7 @@
 
 .main.withResult {
   justify-content: flex-start;
-  gap: 50px;
+  gap: 20px;;
 }
 
 .builtWith {
@@ -26,7 +26,7 @@
 
 .description {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   font-size: 0.85rem;
   max-width: var(--max-width);
@@ -42,7 +42,7 @@
   align-items: end;
 }
 
-.slogonIcon{
+.slogonIcon {
   margin-right: 10px;
 }
 
@@ -57,8 +57,8 @@
   position: relative;
   margin: 0;
   padding: 1rem;
-  background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
+  /* background-color: rgba(var(--callout-rgb), 0.5);
+  border: 1px solid rgba(var(--callout-border-rgb), 0.3); */
   border-radius: var(--border-radius);
 }
 

@@ -40,7 +40,7 @@ export default function Home() {
       </Head>
       <main className={clsx(styles.main, showingResult && styles.withResult)}>
         <div className={styles.description}>
-          <p className={styles.slogon}>{logo}Instant data exploration</p>
+          <p className={styles.slogon}>{logo}Instant Data Exploration</p>
         </div>
 
         <motion.div layout className={styles.content}>

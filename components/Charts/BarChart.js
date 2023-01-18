@@ -19,6 +19,7 @@ export const BarChart = ({ chartInfo, data, className }) => {
       xAxis: {
         type: "category",
         data: xAxisData,
+        axisLabel: { interval: 0, rotate: 30 },
       },
       yAxis: {
         type: "value",
