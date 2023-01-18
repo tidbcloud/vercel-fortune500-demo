@@ -36,7 +36,7 @@ export const LineChart = ({ chartInfo, data, className }) => {
         id: "raw",
         source,
       },
-      backgroundColor: "rgb(36, 35, 43)",
+      // backgroundColor: "rgb(36, 35, 43)",
       grid: {
         top: 64,
         left: 8,

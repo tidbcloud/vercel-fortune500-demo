@@ -20,46 +20,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main className={clsx(styles.main, showingResult && styles.withResult)}>
         <div className={styles.description}>
-          <p>
-            Visualize your data with&nbsp;
-            <code className={styles.code}>SmartChart</code>
-            &nbsp;by asking anything
-          </p>
-          <div className={styles.builtWith}>
-            <span>Built with </span>
-            <a
-              href="https://en.pingcap.com/tidb-cloud/?utm_source=smartchart&utm_medium=referral"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src="/tidb.svg"
-                alt="TiDB Cloud Logo"
-                className={styles.vercelLogo}
-                width={138}
-                height={24}
-                priority
-              />
-            </a>
-            <span>x</span>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
+          <p className={styles.slogon}>Instant data exploration</p>
         </div>
 
         <motion.div layout className={styles.content}>
