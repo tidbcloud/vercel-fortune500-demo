@@ -14,7 +14,7 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
   if (!isLoading && !result) return null;
 
   const chartInfo = result?.chart_info;
-  const chart = ChartMap[chartInfo?.chartName];
+  const chart = ChartMap[chartInfo?.chartName || "TableChart"];
   const showError =
     error || result?.code !== 200 || !chart || result?.result === 0;
 
