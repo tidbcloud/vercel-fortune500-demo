@@ -23,9 +23,11 @@ export const TableChart = ({ data, columns }) => {
   );
 
   return (
-    <Table striped withBorder>
-      <thead>{titles}</thead>
-      <tbody>{rows}</tbody>
-    </Table>
+    <ScrollArea style={{ width: 768 }}>
+      <Table striped withBorder>
+        <thead>{titles}</thead>
+        <tbody>{rows}</tbody>
+      </Table>
+    </ScrollArea>
   );
 };

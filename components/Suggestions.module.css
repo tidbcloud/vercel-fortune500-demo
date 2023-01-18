@@ -4,7 +4,6 @@
   justify-content: space-between;
   width: var(--max-width);
   max-width: 100%;
-  flex: 0;
 }
 
 .grid.withResult {
@@ -45,7 +44,4 @@
   .grid {
     flex-direction: column;
   }
-}
-.nowrap {
-  white-space: nowrap;
 }

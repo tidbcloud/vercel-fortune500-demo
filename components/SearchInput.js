@@ -90,7 +90,7 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
   const dataSourceMenu = (
     <Menu shadow="md" width={290} classNames={styles.dataSourceMenu}>
       <Menu.Target>
-        <Button variant="default">
+        <Button variant="subtle">
           Global Fortune 500 in last 5 years
           <IconChevronDown />
         </Button>

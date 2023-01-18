@@ -87,7 +87,7 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
       <div className={styles.sql}>
         <div className={styles.sqlHead}>
           <div className={styles.sqlHeadInfo}>
-            <IconCode width={18} />
+            <IconCode width={18} className={styles.sqlHeadInfoIcon} />
             Generated SQL
           </div>
           <div className={styles.switch} onClick={() => setOpened((o) => !o)}>

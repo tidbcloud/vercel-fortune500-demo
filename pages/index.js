@@ -46,9 +46,10 @@ export default function Home() {
             setQuestion("");
           }}
         >
-          <p className={styles.slogon}>{logo}Instant Data Exploration</p>
+          <p className={styles.slogon}>
+            {logo}SmartChart - Instant Data Exploration
+          </p>
         </div>
-        <div></div>
         <motion.div layout className={styles.content}>
           <SearchInput
             onSearch={handleSearch}
@@ -63,12 +64,14 @@ export default function Home() {
 
         <footer className={styles.footer}>
           <a
+            className={styles.footerA}
             href="https://tidbcloud.com/?utm_source=smartchart&utm_medium=referral"
             target="_blank"
             rel="noopener noreferrer"
           >
             Powered by{" "}
             <Image
+              className={styles.footerImage}
               src="/tidb.svg"
               alt="TiDB Cloud Logo"
               width={138}

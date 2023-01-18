@@ -58,7 +58,7 @@
   align-items: center;
 }
 
-.iconCode {
+.sqlHeadInfoIcon{
   margin-right: 10px;
 }
 
@@ -66,23 +66,4 @@
   margin-left: auto;
   display: flex;
   cursor: pointer;
-}
-
-.sqlHeadInfo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.scrollArea {
-  width: 100%;
-  max-width: 768px;
-}
-
-.loading {
-  height: 40px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
 }
