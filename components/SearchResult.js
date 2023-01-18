@@ -1,4 +1,4 @@
-import { IconMoodSadSquint } from "@tabler/icons";
+import { IconMoodSadSquint, IconCode } from "@tabler/icons";
 import { Text, ScrollArea, Collapse, Loader } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React, { useState } from "react";
@@ -67,7 +67,10 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
     <div>
       <div className={styles.sql}>
         <div className={styles.sqlHead}>
-          <div className={styles.sqlHeadInfo}>Generated SQL</div>
+          <div className={styles.sqlHeadInfo}>
+            <IconCode width={18} />
+            Generated SQL
+          </div>
           <div className={styles.switch} onClick={() => setOpened((o) => !o)}>
             {opened ? "Hide" : "Show"}
             {arrow}

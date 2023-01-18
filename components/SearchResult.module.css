@@ -59,6 +59,12 @@
   cursor: pointer;
 }
 
+.sqlHeadInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .scrollArea {
   width: 100%;
   max-width: 768px;
