@@ -1,8 +1,9 @@
 import { IconMoodSadSquint } from "@tabler/icons";
-import { Text, ScrollArea, Collapse } from "@mantine/core";
+import { Text, ScrollArea, Collapse, Loader } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React, { useState } from "react";
 import { format } from "sql-formatter";
+import { Typewriter } from "@/components/Typewriter";
 import { ChartMap } from "./ChartMap";
 import styles from "./SearchResult.module.css";
 
@@ -10,13 +11,18 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
   const [opened, setOpened] = useState(false);
 
   if (isLoading) {
-    return <div className={styles.code}>{loadingText}</div>;
+    return (
+      <div className={styles.loading}>
+        <Loader size={"xs"} />
+        <Typewriter content={loadingText} ellipsis />
+      </div>
+    );
   }
 
   if (!isLoading && !result) return null;
 
   const chartInfo = result?.chart_info;
-  const chart = ChartMap[chartInfo?.chartName || "TableChart"];
+  const chart = ChartMap[chartInfo?.chartName] ?? ChartMap.Table;
   const showError =
     error || result?.code !== 200 || !chart || result?.result === 0;
 
@@ -74,7 +80,7 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
             copiedLabel="Copied"
             copyLabel="Copy"
           >
-            {format(result.gen_sql)}
+            {format(result?.gen_sql)}
           </Prism>
         </Collapse>
       </div>

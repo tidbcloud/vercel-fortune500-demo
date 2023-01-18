@@ -10,7 +10,7 @@ import styles from "./SearchInput.module.css";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
-  const [loadingText, setLoadingText] = useState("Analyzing question...");
+  const [loadingText, setLoadingText] = useState("Analyzing question");
   const [value, setValue] = useState("");
   const [query, setQuery] = useState("");
   const [showSuggestion, setShowSuggestion] = useState(false);
@@ -19,8 +19,11 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
     revalidateOnReconnect: false,
     shouldRetryOnError: false,
     revalidateOnMount: false,
+    onSuccess() {
+      setLoadingText("Analyzing question");
+    },
     onLoadingSlow() {
-      setLoadingText("Calculating and summarizing...");
+      setLoadingText("Calculating and summarizing");
     },
   });
 
