@@ -22,3 +22,42 @@
   border-radius: 8px;
   overflow: hidden;
 }
+
+.sql {
+  color: #333333;
+  border: #cac7c7 1px solid;
+  padding: 10px 20px 10px 20px;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.sqlHead {
+  display: flex;
+  height: 30px;
+  line-height: 30px;
+}
+
+.sqlIconDown {
+  width: 16px;
+}
+
+.sqlIcon {
+  width: 16px;
+}
+
+.trasform {
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.revertTransition {
+  transform: rotate(180deg);
+}
+
+.sqlHeadInfo {
+}
+
+.switch {
+  margin-left: auto;
+  display: flex;
+  cursor: pointer;
+}

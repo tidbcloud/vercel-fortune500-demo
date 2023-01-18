@@ -1,22 +1,33 @@
 import EChartsReact from "echarts-for-react";
 import { useMemo } from "react";
 
-export const BarChart = (chartInfo, data, className) => {
+export const BarChart = ({ chartInfo, data, className, columns }) => {
+  const {
+    options: { x, y },
+    title,
+  } = chartInfo;
+
   const chartOptions = useMemo(() => {
+    const xAxisData = data.map((v) => v[x]);
+    const series = (Array.isArray(y) ? y : [y]).map((field) => {
+      return {
+        data: data.map((v) => v[field]),
+        type: "bar",
+      };
+    });
+
     return {
       xAxis: {
         type: "category",
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        data: xAxisData,
       },
       yAxis: {
         type: "value",
       },
-      series: [
-        {
-          data: [120, 200, 150, 80, 70, 110, 130],
-          type: "bar",
-        },
-      ],
+      series: series,
+      tooltip: {
+        trigger: "axis",
+      },
     };
   }, []);
 

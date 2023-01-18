@@ -16,60 +16,40 @@ export const Suggestions = ({ showingResult, className }) => {
         className
       )}
     >
-      <a
-        href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        className={styles.card}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className={styles.card} target="_blank" rel="noopener noreferrer">
         <h2 className={inter.className}>
-          Docs <span>-&gt;</span>
+          Distribution <span>-&gt;</span>
         </h2>
         <p className={inter.className}>
-          Find in-depth information about Next.js features and&nbsp;API.
+          How many companies become global 500 from each country in 2022?
         </p>
       </a>
 
-      <a
-        href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        className={styles.card}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className={styles.card} target="_blank" rel="noopener noreferrer">
         <h2 className={inter.className}>
-          Learn <span>-&gt;</span>
+          Cash Machine <span>-&gt;</span>
         </h2>
         <p className={inter.className}>
-          Learn about Next.js in an interactive course with&nbsp;quizzes!
+          What are the top 10 companies by profit in 2022?
         </p>
       </a>
 
-      <a
-        href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        className={styles.card}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className={styles.card} target="_blank" rel="noopener noreferrer">
         <h2 className={inter.className}>
-          Templates <span>-&gt;</span>
+          Growth <span>-&gt;</span>
         </h2>
         <p className={inter.className}>
-          Discover and deploy boilerplate example Next.js&nbsp;projects.
+          which 10 companies had the highest increase by profit from 2018 to
+          2022?
         </p>
       </a>
 
-      <a
-        href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-        className={styles.card}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a className={styles.card} target="_blank" rel="noopener noreferrer">
         <h2 className={inter.className}>
-          Deploy <span>-&gt;</span>
+          Efficiency <span>-&gt;</span>
         </h2>
         <p className={inter.className}>
-          Instantly deploy your Next.js site to a shareable URL
-          with&nbsp;Vercel.
+          Top 10 companies generate the most profit with every employee?
         </p>
       </a>
     </motion.div>
