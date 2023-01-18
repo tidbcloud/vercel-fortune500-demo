@@ -1,5 +1,5 @@
 import { IconSearch } from "@tabler/icons";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
 import useSWR from "swr";
@@ -9,7 +9,7 @@ import styles from "./SearchInput.module.css";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-export const SearchInput = ({ onSearch, showingResult }) => {
+export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
   const [loadingText, setLoadingText] = useState("Analyzing question...");
   const [value, setValue] = useState("");
   const [query, setQuery] = useState("");
@@ -23,6 +23,12 @@ export const SearchInput = ({ onSearch, showingResult }) => {
       setLoadingText("Calculating and summarizing...");
     },
   });
+
+  useEffect(() => {
+    setValue(searchValue);
+    setQuery(searchValue);
+    searchValue !== "" && onSearch();
+  }, [searchValue]);
 
   const handleKeyDown = async (e) => {
     if (e.key !== "Enter") {
@@ -46,6 +52,12 @@ export const SearchInput = ({ onSearch, showingResult }) => {
     }
   }, [showingResult]);
 
+  const onSelect = useCallback((v) => {
+    setValue(v);
+    setQuery(v);
+    onSearch();
+  }, []);
+
   const enterIcon = (
     <svg
       className={styles.enterIcon}
@@ -58,9 +70,9 @@ export const SearchInput = ({ onSearch, showingResult }) => {
       <path
         d="M20 4V5.4C20 8.76031 20 10.4405 19.346 11.7239C18.7708 12.8529 17.8529 13.7708 16.7239 14.346C15.4405 15 13.7603 15 10.4 15H4M4 15L9 10M4 15L9 20"
         stroke="black"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -94,7 +106,9 @@ export const SearchInput = ({ onSearch, showingResult }) => {
         {enterIcon}
       </div>
 
-      {showSuggestion && <Suggestions showingResult={showingResult} />}
+      {showSuggestion && (
+        <Suggestions showingResult={showingResult} onSelect={onSelect} />
+      )}
     </motion.div>
   );
 };

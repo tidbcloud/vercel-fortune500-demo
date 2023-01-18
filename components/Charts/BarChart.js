@@ -1,10 +1,9 @@
 import EChartsReact from "echarts-for-react";
 import { useMemo } from "react";
 
-export const BarChart = ({ chartInfo, data, className, columns }) => {
+export const BarChart = ({ chartInfo, data, className }) => {
   const {
     options: { x, y },
-    title,
   } = chartInfo;
 
   const chartOptions = useMemo(() => {

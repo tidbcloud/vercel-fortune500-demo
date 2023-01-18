@@ -12,6 +12,7 @@
 }
 
 .card {
+  cursor: pointer;
   padding: 1rem 1.2rem;
   border-radius: var(--border-radius);
   background: rgba(var(--card-rgb), 0);

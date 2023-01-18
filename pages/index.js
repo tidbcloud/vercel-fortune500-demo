@@ -10,6 +10,8 @@ import { Suggestions } from "@/components/Suggestions";
 export default function Home() {
   const [showingResult, setShowingResult] = useState(false);
 
+  const [question, setQuestion] = useState("");
+
   const handleSearch = () => setShowingResult(true);
 
   const logo = (
@@ -42,10 +44,16 @@ export default function Home() {
         </div>
 
         <motion.div layout className={styles.content}>
-          <SearchInput onSearch={handleSearch} showingResult={showingResult} />
+          <SearchInput
+            onSearch={handleSearch}
+            showingResult={showingResult}
+            searchValue={question}
+          />
         </motion.div>
 
-        {!showingResult && <Suggestions showResult={showingResult} />}
+        {!showingResult && (
+          <Suggestions showResult={showingResult} onSelect={setQuestion} />
+        )}
       </main>
     </>
   );

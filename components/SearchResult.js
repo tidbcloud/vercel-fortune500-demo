@@ -1,5 +1,5 @@
 import { IconMoodSadSquint } from "@tabler/icons";
-import { Text, Button, Collapse } from "@mantine/core";
+import { Text, Collapse } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React, { useState } from "react";
 import { format } from "sql-formatter";
