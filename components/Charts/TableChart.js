@@ -21,8 +21,8 @@ export const TableChart = ({ chartInfo, data, className, columns, fields }) => {
   return (
     <div
       style={{
-        padding: "0 20px 20px 20px",
-        border: "1px solid rgba(89, 95, 236, 0.5) 0%",
+        padding: "0 20px 5px 20px",
+        border: "1px solid #c4c4c4",
         borderRadius: "3px",
       }}
     >
