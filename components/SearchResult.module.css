@@ -53,6 +53,15 @@
   transform: rotate(180deg);
 }
 
+.sqlHeadInfo {
+  display: flex;
+  align-items: center;
+}
+
+.iconCode {
+  margin-right: 10px;
+}
+
 .switch {
   margin-left: auto;
   display: flex;

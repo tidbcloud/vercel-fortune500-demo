@@ -63,6 +63,25 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
     </svg>
   );
 
+  const code = (
+    <svg
+      className={styles.iconCode}
+      width="20"
+      height="20"
+      viewBox="0 0 22 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M16 15L21 10L16 5M6 5L1 10L6 15M13 1L9 19"
+        stroke="black"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+
   return (
     <div>
       <div className={styles.sql}>
