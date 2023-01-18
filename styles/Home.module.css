@@ -62,9 +62,15 @@
   border-radius: var(--border-radius);
 }
 
-.logo,
-.thirteen {
-  position: relative;
+.footer {
+  font-family: var(--font-mono);
+  margin-top: auto;
+}
+
+.footer > a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Enable hover only on non-touch devices */
@@ -98,30 +104,6 @@
 
   .content {
     padding: 1rem;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-    margin-bottom: 120px;
-    max-width: 320px;
-    text-align: center;
-  }
-
-  .card {
-    padding: 1rem 2.5rem;
-  }
-
-  .card h2 {
-    margin-bottom: 0.5rem;
-  }
-
-  .center {
-    padding: 8rem 0 6rem;
-  }
-
-  .center::before {
-    transform: none;
-    height: 300px;
   }
 
   .description {
@@ -169,14 +151,6 @@
     z-index: 1;
   }
 }
-
-/* Tablet and Smaller Desktop */
-@media (min-width: 701px) and (max-width: 1120px) {
-  .grid {
-    grid-template-columns: repeat(2, 50%);
-  }
-}
-
 
 @keyframes rotate {
   from {

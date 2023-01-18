@@ -54,6 +54,23 @@ export default function Home() {
         {!showingResult && (
           <Suggestions showResult={showingResult} onSelect={setQuestion} />
         )}
+
+        <footer className={styles.footer}>
+          <a
+            href="https://tidbcloud.com/?utm_source=smartchart&utm_medium=referral"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Powered by{" "}
+            <Image
+              src="/tidb.svg"
+              alt="TiDB Cloud Logo"
+              width={138}
+              height={24}
+              priority
+            />
+          </a>
+        </footer>
       </main>
     </>
   );
