@@ -67,7 +67,6 @@ export const LineChart = ({ chartInfo, data, className }) => {
   return (
     <EChartsReact
       className={className}
-      theme="dark"
       style={{
         height: 400,
       }}
