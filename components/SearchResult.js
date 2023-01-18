@@ -1,5 +1,5 @@
 import { IconMoodSadSquint } from "@tabler/icons";
-import { Text, Collapse } from "@mantine/core";
+import { Text, ScrollArea, Collapse } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React, { useState } from "react";
 import { format } from "sql-formatter";
@@ -79,16 +79,19 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
         </Collapse>
       </div>
 
-      {chart &&
-        React.createElement(chart, {
-          className: styles.chart,
-          chartInfo: chartInfo,
-          columns: columnsObj,
-          data: rows,
-          fields: result?.columns.map((i) => ({
-            name: i.col,
-          })),
-        })}
+      {chart && (
+        <ScrollArea className={styles.scrollArea}>
+          {React.createElement(chart, {
+            className: styles.chart,
+            chartInfo: chartInfo,
+            columns: columnsObj,
+            data: rows,
+            fields: result?.columns.map((i) => ({
+              name: i.col,
+            })),
+          })}
+        </ScrollArea>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Table, ScrollArea } from "@mantine/core";
+import { Table } from "@mantine/core";
 import style from "./TableChart.module.css";
 
 export const TableChart = ({ data, columns }) => {
@@ -23,11 +23,9 @@ export const TableChart = ({ data, columns }) => {
   );
 
   return (
-    <ScrollArea style={{ width: 768 }}>
-      <Table striped withBorder>
-        <thead>{titles}</thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </ScrollArea>
+    <Table striped withBorder>
+      <thead>{titles}</thead>
+      <tbody>{rows}</tbody>
+    </Table>
   );
 };

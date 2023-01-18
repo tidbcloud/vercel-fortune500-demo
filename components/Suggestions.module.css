@@ -9,6 +9,7 @@
 .grid.withResult {
   flex-direction: column;
   align-self: flex-start;
+  min-width: 280px;
 }
 
 .card {
@@ -36,4 +37,11 @@
   font-size: 0.9rem;
   line-height: 1.5;
   max-width: 30ch;
+}
+
+
+@media (max-width: 700px) {
+  .grid {
+    flex-direction: column;
+  }
 }

@@ -61,3 +61,8 @@
   display: flex;
   cursor: pointer;
 }
+
+.scrollArea {
+  width: 100%;
+  max-width: 768px;
+}
