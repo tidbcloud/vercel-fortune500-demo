@@ -64,3 +64,15 @@
     gap: 20px;
   }
 }
+
+.dataSource {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.comingSoon {
+  text-align: center;
+  color: #afafaf;
+  margin-top: 10px;
+}

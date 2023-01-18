@@ -39,10 +39,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={clsx(styles.main, showingResult && styles.withResult)}>
-        <div className={styles.description}>
+        <div
+          className={styles.description}
+          onClick={() => {
+            setShowingResult(false);
+            setQuestion("");
+          }}
+        >
           <p className={styles.slogon}>{logo}Instant Data Exploration</p>
         </div>
-
+        <div></div>
         <motion.div layout className={styles.content}>
           <SearchInput
             onSearch={handleSearch}

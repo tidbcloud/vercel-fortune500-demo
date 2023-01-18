@@ -99,7 +99,10 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
           className={styles.input}
           placeholder={"Ask anything..."}
         />
-
+        <div className={styles.dataSource}>
+          Data source: Global Fortune 500 in last 5 years
+        </div>
+        <div className={styles.comingSoon}>More dataset is coming ...</div>
         <SearchResult
           isLoading={isLoading}
           loadingText={loadingText}
