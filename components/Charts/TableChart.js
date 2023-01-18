@@ -1,4 +1,4 @@
-import { Table } from "@mantine/core";
+import { Table, ScrollArea } from "@mantine/core";
 import style from "./TableChart.module.css";
 
 export const TableChart = ({ data, columns }) => {
