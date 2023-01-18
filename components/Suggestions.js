@@ -13,7 +13,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
         "what's the country distribution of global 500 companies in 2022?",
     },
     {
-      title: "Cash Machine",
+      title: "Profit",
       content: "What are the top 10 companies by profit in 2022?",
     },
     {
