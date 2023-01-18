@@ -10,7 +10,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
     {
       title: "Distribution",
       content:
-        "what's the country distribution of global 500 companies in 2022?",
+        "What's the country distribution of global 500 companies in 2022?",
     },
     {
       title: "Profit",
@@ -19,7 +19,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
     {
       title: "Growth",
       content:
-        "which 10 companies had the highest increase by profit from 2018 to 2022?",
+        "Which 10 companies had the highest increase by profit from 2018 to 2022?",
     },
     {
       title: "Efficiency",
