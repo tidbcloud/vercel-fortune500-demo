@@ -4,6 +4,7 @@
   justify-content: space-between;
   width: var(--max-width);
   max-width: 100%;
+  flex: 0;
 }
 
 .grid.withResult {
