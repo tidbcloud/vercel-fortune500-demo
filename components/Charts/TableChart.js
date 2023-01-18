@@ -6,15 +6,17 @@ export const TableChart = ({ chartInfo, data, className, columns, fields }) => {
   console.log("columns", columns);
   const rows = data.map((element) => (
     <tr key={element.name}>
-      {Object.values(element).map((v) => (
-        <td>{v}</td>
+      {Object.values(element).map((v, i) => (
+        <td key={i}>{v}</td>
       ))}
     </tr>
   ));
   const titles = (
     <tr>
-      {Object.values(columns).map((value) => (
-        <th style={{ height: "60px", color: "#c4c4c4" }}>{value.col}</th>
+      {Object.values(columns).map((value, i) => (
+        <th key={i} style={{ height: "60px", color: "#c4c4c4" }}>
+          {value.col}
+        </th>
       ))}
     </tr>
   );
