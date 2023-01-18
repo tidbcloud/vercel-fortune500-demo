@@ -69,11 +69,10 @@
 .dataSource {
   text-align: center;
   font-weight: bold;
-  margin-top: 20px;
+  margin: 20px 10px;
+  color: #afafaf;
 }
 
-.comingSoon {
-  text-align: center;
-  color: #afafaf;
-  margin-top: 10px;
+.dataSourceMenu {
+  margin-left: 10px;
 }

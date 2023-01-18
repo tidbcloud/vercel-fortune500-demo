@@ -1,4 +1,4 @@
-import { IconSearch } from "@tabler/icons";
+import { IconChevronDown, IconSearch } from "@tabler/icons";
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { Suggestions } from "@/components/Suggestions";
 import { SearchResult } from "@/components/SearchResult";
 import styles from "./SearchInput.module.css";
+import { Menu, Button } from "@mantine/core";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -86,6 +87,21 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
     </svg>
   );
 
+  const dataSourceMenu = (
+    <Menu shadow="md" width={290} classNames={styles.dataSourceMenu}>
+      <Menu.Target>
+        <Button variant="default">
+          Global Fortune 500 in last 5 years
+          <IconChevronDown />
+        </Button>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Item>Global Fortune 500 in last 5 years</Menu.Item>
+        <Menu.Label>More dataset is coming ...</Menu.Label>
+      </Menu.Dropdown>
+    </Menu>
+  );
+
   return (
     <motion.div
       className={clsx(styles.wrapper, showingResult && styles.withResult)}
@@ -105,10 +121,8 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
           className={styles.input}
           placeholder={"Ask anything..."}
         />
-        <div className={styles.dataSource}>
-          Data source: Global Fortune 500 in last 5 years
-        </div>
-        <div className={styles.comingSoon}>More dataset is coming ...</div>
+        <div className={styles.comingSoon}></div>
+        <div className={styles.dataSource}>Data source: {dataSourceMenu}</div>
         <SearchResult
           isLoading={isLoading}
           loadingText={loadingText}
