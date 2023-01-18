@@ -54,19 +54,16 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
         </Prism>
       </div>
 
-      {chart && (
-        <div>
-          {React.createElement(chart, {
-            className: styles.chart,
-            chartInfo: chartInfo,
-            columns: columnsObj,
-            data: rows,
-            fields: result?.columns.map((i) => ({
-              name: i.col,
-            })),
-          })}
-        </div>
-      )}
+      {chart &&
+        React.createElement(chart, {
+          className: styles.chart,
+          chartInfo: chartInfo,
+          columns: columnsObj,
+          data: rows,
+          fields: result?.columns.map((i) => ({
+            name: i.col,
+          })),
+        })}
     </div>
   );
 };

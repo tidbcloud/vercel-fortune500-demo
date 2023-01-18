@@ -3,6 +3,7 @@
   overflow: hidden;
   margin-top: 16px;
   margin-bottom: 16px;
+  max-width: 768px;
 }
 
 .error {

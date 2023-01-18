@@ -8,6 +8,7 @@
 
 .grid.withResult {
   flex-direction: column;
+  align-self: flex-start;
 }
 
 .card {
