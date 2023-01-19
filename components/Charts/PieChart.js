@@ -1,7 +1,7 @@
 import EChartsReact from "echarts-for-react";
 import { useMemo } from "react";
 
-export const PieChart = ({ chartInfo, data, className, col }) => {
+export const PieChart = ({ chartInfo, data, className }) => {
   const {
     options: { label, value },
   } = chartInfo;
@@ -31,7 +31,7 @@ export const PieChart = ({ chartInfo, data, className, col }) => {
         },
       ],
     };
-  }, []);
+  }, [data, label, value]);
 
   return (
     <EChartsReact

@@ -67,3 +67,17 @@
   display: flex;
   cursor: pointer;
 }
+
+.scrollArea {
+  width: 100%;
+  max-width: 768px;
+  margin-top: 12px;
+}
+
+.loading {
+  margin-top: 10px;
+  padding: 0 22px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}

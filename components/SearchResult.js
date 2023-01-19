@@ -2,6 +2,7 @@ import { IconMoodSadSquint, IconCode } from "@tabler/icons";
 import { Text, ScrollArea, Collapse, Loader } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { format } from "sql-formatter";
 import { Typewriter } from "@/components/Typewriter";
 import { ChartMap } from "./ChartMap";
@@ -13,7 +14,7 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
   if (isLoading) {
     return (
       <div className={styles.loading}>
-        <Loader size={"xs"} />
+        <Loader size={"xs"} color="gray" />
         <Typewriter content={loadingText} ellipsis />
       </div>
     );
@@ -70,27 +71,8 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
     </svg>
   );
 
-  const code = (
-    <svg
-      className={styles.iconCode}
-      width="20"
-      height="20"
-      viewBox="0 0 22 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M16 15L21 10L16 5M6 5L1 10L6 15M13 1L9 19"
-        stroke="black"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-
   return (
-    <div>
+    <motion.div layout>
       <div className={styles.sql}>
         <div className={styles.sqlHead}>
           <div className={styles.sqlHeadInfo}>
@@ -127,6 +109,6 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
           })}
         </ScrollArea>
       )}
-    </div>
+    </motion.div>
   );
 };

@@ -1,12 +1,12 @@
-import { IconChevronDown, IconSearch } from "@tabler/icons";
-import { useCallback, useEffect, useState } from "react";
+import { IconSearch } from "@tabler/icons";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import clsx from "clsx";
 import useSWR from "swr";
-import { Suggestions } from "@/components/Suggestions";
 import { SearchResult } from "@/components/SearchResult";
 import styles from "./SearchInput.module.css";
-import { Menu, Button } from "@mantine/core";
+import { Logo } from "@/components/Logo";
+import { DatasetSelect } from "@/components/DatasetSelect";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -14,59 +14,38 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
   const [loadingText, setLoadingText] = useState("Analyzing question");
   const [value, setValue] = useState("");
   const [query, setQuery] = useState("");
-  const [opened, setOpened] = useState(false);
-  const [showSuggestion, setShowSuggestion] = useState(false);
-  const { data, isLoading, error } = useSWR(`/api/search?q=${query}`, fetcher, {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    shouldRetryOnError: false,
-    revalidateOnMount: false,
-    onSuccess() {
-      setLoadingText("Analyzing question");
-    },
-    onLoadingSlow() {
-      setLoadingText("Calculating and summarizing");
-    },
-  });
+
+  const { data, isLoading, error } = useSWR(
+    () => (query ? `/api/search?q=${query}` : null),
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      shouldRetryOnError: false,
+      onSuccess() {
+        setLoadingText("Analyzing question");
+      },
+      onLoadingSlow() {
+        setLoadingText("Calculating and summarizing");
+      },
+    }
+  );
 
   useEffect(() => {
     setValue(searchValue);
     setQuery(searchValue);
-    searchValue !== "" && onSearch();
   }, [searchValue]);
 
   const handleKeyDown = async (e) => {
-    if (e.key !== "Enter") {
-      return;
+    if (e.key === "Enter" && value) {
+      onSearch(value);
     }
-
-    onSearch();
-
-    if (!value) return;
-
-    setQuery(value);
   };
 
-  useEffect(() => {
-    if (showingResult) {
-      setTimeout(() => {
-        setShowSuggestion(true);
-      }, 400);
-    } else {
-      setShowSuggestion(false);
-    }
-  }, [showingResult]);
-
-  const onSelect = useCallback((v) => {
-    setValue(v);
-    setQuery(v);
-    onSearch();
-  }, []);
-
-  const onClickEnter = useCallback(() => {
-    onSearch();
+  const handleClickIcon = () => {
+    onSearch(value);
     setQuery(value);
-  }, []);
+  };
 
   const enterIcon = (
     <svg
@@ -76,7 +55,7 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      onClick={onClickEnter}
+      onClick={handleClickIcon}
     >
       <path
         d="M20 4V5.4C20 8.76031 20 10.4405 19.346 11.7239C18.7708 12.8529 17.8529 13.7708 16.7239 14.346C15.4405 15 13.7603 15 10.4 15H4M4 15L9 10M4 15L9 20"
@@ -88,67 +67,46 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
     </svg>
   );
 
-  const dataSourceMenu = (
-    <Menu
-      shadow="md"
-      width={270}
-      classNames={styles.dataSourceMenu}
-      opened={opened}
-      onChange={setOpened}
-    >
-      <Menu.Target>
-        <span className={styles.trigger}>
-          Global Fortune 500 in last 5 years
-          <IconChevronDown />
-        </span>
-      </Menu.Target>
-      <Menu.Dropdown className={styles.dropdown}>
-        <div
-          className={`${styles.selected} ${styles.item}`}
-          onClick={() => setOpened(false)}
-        >
-          Global Fortune 500 in last 5 years
-        </div>
-        <div className={`${styles.disabled} ${styles.item}`}>
-          More dataset is coming ...
-        </div>
-      </Menu.Dropdown>
-    </Menu>
-  );
-
   return (
     <motion.div
       className={clsx(styles.wrapper, showingResult && styles.withResult)}
     >
-      <div
-        className={clsx(
-          styles.inputWrapper,
-          showingResult && styles.withResult
-        )}
-      >
-        <IconSearch className={styles.icon} />
-        <input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-          type="text"
-          className={styles.input}
-          placeholder={"Ask anything..."}
-        />
-        <div className={styles.comingSoon}></div>
-        <div className={styles.dataSource}>Data source: {dataSourceMenu}</div>
+      <div className={styles.content}>
+        <motion.div layout onClick={() => onSearch("")}>
+          <p className={styles.slogan}>
+            <Logo />
+            <span>SmartChart - Instant Data Exploration</span>
+          </p>
+        </motion.div>
+
+        <motion.div
+          layout
+          className={clsx(
+            styles.inputWrapper,
+            showingResult && styles.withResult
+          )}
+        >
+          <IconSearch className={styles.icon} />
+          <input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            type="text"
+            className={styles.input}
+            placeholder={"Ask anything..."}
+          />
+          {enterIcon}
+        </motion.div>
+
+        {!showingResult && <DatasetSelect />}
+
         <SearchResult
           isLoading={isLoading}
           loadingText={loadingText}
           result={data}
           error={error}
         />
-        {enterIcon}
       </div>
-
-      {showSuggestion && (
-        <Suggestions showingResult={showingResult} onSelect={onSelect} />
-      )}
     </motion.div>
   );
 };

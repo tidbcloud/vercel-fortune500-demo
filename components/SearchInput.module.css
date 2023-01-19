@@ -9,13 +9,20 @@
 
 .wrapper.withResult {
   flex-direction: row;
+  align-items: flex-start;
   gap: 40px;
+  flex: 1;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 768px;
 }
 
 .inputWrapper {
   position: relative;
-  display: flex;
-  flex-direction: column;
   align-self: center;
   width: 100%;
   max-width: 768px;
@@ -49,57 +56,31 @@
   top: 21px;
   right: 29px;
   color: gray;
+  cursor: pointer;
 }
 
-.enterIcon {
-  position: absolute;
-  top: 21px;
-  right: 29px;
-  color: gray;
+.slogan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 16px;
   cursor: pointer;
 }
 
 @media (max-width: 700px) {
+  .wrapper {
+    flex: 0;
+  }
+
   .wrapper.withResult {
     flex-direction: column;
     gap: 20px;
   }
-}
 
-.dataSource {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  margin: 20px 10px;
-  color: #afafaf;
-  font-weight: normal;
-}
-
-.dataSourceMenu {
-  margin-left: 10px;
-}
-
-.item {
-  padding: 10px 12px;
-  font-size: 14px;
-}
-
-.selected {
-  color: #333333;
-  background: #cccccc8a;
-}
-
-.disabled {
-  color: #b9b9b9;
-}
-
-.trigger {
-  display: flex;
-  align-items: center;
-  margin-left: 5px;
-}
-
-.dropdown {
-  background-color: #e9e9e9;
+  .slogan {
+    font-size: 14px;
+  }
 }

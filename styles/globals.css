@@ -86,7 +86,7 @@ body {
 }
 
 body {
-  font-family: Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,Noto Sans SC,Microsoft Yahei,sans-serif,Menlo,Consolas,monospace,Apple Color Emoji,Segoe UI Emoji,emoji,Helvetica Neue,Helvetica;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,Noto Sans SC,Microsoft Yahei,sans-serif,Menlo,Consolas,monospace,Apple Color Emoji,Segoe UI Emoji,emoji,Helvetica Neue,Helvetica;
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,

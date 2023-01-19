@@ -29,7 +29,7 @@ export const BarChart = ({ chartInfo, data, className }) => {
         trigger: "axis",
       },
     };
-  }, []);
+  }, [data, x, y]);
 
   return (
     <EChartsReact

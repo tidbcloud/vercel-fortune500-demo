@@ -1,3 +1,4 @@
+import { Text } from "@mantine/core";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
@@ -7,6 +8,7 @@ export const Typewriter = ({ content, ellipsis }) => {
   if (ellipsis) {
     content = content + suffix;
   }
+
   const [index, setIndex] = useState(0);
   const intervalRef = useRef(60);
 
@@ -52,7 +54,7 @@ export const Typewriter = ({ content, ellipsis }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {content.slice(0, index)}
+        <Text color="dark.3">{content.slice(0, index)}</Text>
       </motion.div>
     </AnimatePresence>
   );
