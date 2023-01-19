@@ -20,7 +20,7 @@ const useStyles = createStyles({
     },
 
     "@media (max-width: 389px)": {
-      fontSize: 14,
+      fontSize: 16,
     },
   },
 });
