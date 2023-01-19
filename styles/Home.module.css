@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 6rem;
+  padding: 8rem 6rem;
   min-height: 100vh;
   gap: 150px;
 }
@@ -31,9 +31,9 @@
   font-size: 0.85rem;
   max-width: var(--max-width);
   width: 100%;
-  z-index: 2;
-  font-family: var(--font-mono);
+  z-index: 10;
   cursor: pointer;
+  margin: 10px 0 0 10px;
 }
 
 .slogon {
@@ -44,7 +44,7 @@
 }
 
 .slogonIcon {
-  margin-right: 10px;
+  margin-right: 0.3rem;
 }
 
 .description a {
@@ -57,9 +57,6 @@
 .description p {
   position: relative;
   margin: 0;
-  padding: 1rem;
-  background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
   border-radius: var(--border-radius);
 }
 
@@ -98,6 +95,7 @@
   }
 
   .content {
+    margin-top: 2rem;
     padding: 1rem;
   }
 
@@ -127,6 +125,12 @@
 
   .description {
     font-size: 0.8rem;
+    left: 0;
+    top: 0;
+    padding: 0.3rem 0 0 00.3rem;
+    background: #d9dedf;
+    z-index: 10;
+    margin: 0;
   }
 
   .description a {
@@ -135,23 +139,16 @@
 
   .description p,
   .description div {
+    font-size: 0.7rem;
     display: flex;
     justify-content: center;
-    width: 100%;
   }
 
   .description p {
     align-items: center;
     inset: 0 0 auto;
-    padding: 2rem 1rem 1.4rem;
     border-radius: 0;
     border: none;
-    border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--background-start-rgb), 1),
-      rgba(var(--callout-rgb), 0.5)
-    );
     background-clip: padding-box;
     backdrop-filter: blur(24px);
   }
@@ -162,11 +159,6 @@
     inset: auto 0 0;
     padding: 2rem;
     height: 200px;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgb(var(--background-end-rgb)) 40%
-    );
     z-index: 1;
   }
 }
