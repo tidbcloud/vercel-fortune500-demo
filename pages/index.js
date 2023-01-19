@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import clsx from "clsx";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "@/styles/Home.module.css";
-import { SearchInput } from "@/components/SearchInput";
+import { Content } from "@/components/Content";
 import { Suggestions } from "@/components/Suggestions";
 
 export default function Home() {
@@ -30,18 +29,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={clsx(styles.main, showingResult && styles.withResult)}>
-        <motion.div
-          layout
+        <div
           className={clsx(styles.content, showingResult && styles.withResult)}
         >
-          <SearchInput
+          <Content
             onSearch={handleSearch}
             showingResult={showingResult}
             searchValue={question}
           />
 
           <Suggestions showingResult={showingResult} onSelect={handleSearch} />
-        </motion.div>
+        </div>
 
         <footer className={styles.footer}>
           <a

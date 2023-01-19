@@ -1,19 +1,36 @@
 import { IconMoodSadSquint, IconCode } from "@tabler/icons";
-import { Text, ScrollArea, Collapse, Loader } from "@mantine/core";
+import {
+  Text,
+  ScrollArea,
+  Collapse,
+  Loader,
+  createStyles,
+} from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { format } from "sql-formatter";
 import { Typewriter } from "@/components/Typewriter";
 import { ChartMap } from "./ChartMap";
 import styles from "./SearchResult.module.css";
+import clsx from "clsx";
 
-export const SearchResult = ({ isLoading, loadingText, result, error }) => {
+const useStyles = createStyles(() => ({
+  root: {},
+}));
+
+export const SearchResult = ({
+  className,
+  isLoading,
+  loadingText,
+  result,
+  error,
+}) => {
+  const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
 
   if (isLoading) {
     return (
-      <div className={styles.loading}>
+      <div className={clsx(styles.loading, className)}>
         <Loader size={"xs"} color="gray" />
         <Typewriter content={loadingText} ellipsis />
       </div>
@@ -34,7 +51,7 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
 
   if (!isLoading && showError) {
     return (
-      <div className={styles.error}>
+      <div className={clsx(styles.error, className)}>
         <IconMoodSadSquint />
         <Text>
           {result?.code !== 200
@@ -72,7 +89,7 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
   );
 
   return (
-    <motion.div layout>
+    <div className={className}>
       <div className={styles.sql}>
         <div className={styles.sqlHead}>
           <div className={styles.sqlHeadInfo}>
@@ -109,6 +126,6 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
           })}
         </ScrollArea>
       )}
-    </motion.div>
+    </div>
   );
 };

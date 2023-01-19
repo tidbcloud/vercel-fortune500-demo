@@ -29,7 +29,7 @@ const DATASET = [
   },
 ];
 
-export const DatasetSelect = ({ className }) => {
+export const DatasetSelect = ({ className, inputStyle }) => {
   const { classes } = useStyles();
 
   return (
@@ -42,8 +42,10 @@ export const DatasetSelect = ({ className }) => {
         size="xs"
         styles={(theme) => ({
           input: {
-            minWidth: 220,
+            cursor: "pointer",
+            minWidth: 225,
             color: theme.colors.gray[6],
+            ...inputStyle,
           },
         })}
         data={DATASET}

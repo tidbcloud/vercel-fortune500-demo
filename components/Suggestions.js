@@ -1,8 +1,7 @@
-import { motion } from "framer-motion";
 import { IconArrowRight } from "@tabler/icons";
 import clsx from "clsx";
 import { DatasetSelect } from "@/components/DatasetSelect";
-import styles from "./Suggestions.module.css";
+import { createStyles } from "@mantine/core";
 
 const data = [
   {
@@ -24,22 +23,84 @@ const data = [
   },
 ];
 
+const useStyles = createStyles(() => ({
+  root: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flex: 0,
+
+    "@media (max-width: 700px)": {
+      flexDirection: "column",
+      marginTop: 24,
+    },
+  },
+  withResult: {
+    flexDirection: "column",
+    alignSelf: "flex-start",
+    minWidth: 280,
+  },
+  dataset: {
+    fontSize: 16,
+    gap: 0,
+    marginTop: 36,
+    justifyContent: "flex-start",
+    paddingLeft: 12,
+    "& select": {
+      fontSize: 16,
+    },
+    "@media (max-width: 700px)": {
+      fontSize: 12,
+      gap: 4,
+
+      "& select": {
+        fontSize: 12,
+      },
+    },
+  },
+  card: {
+    cursor: "pointer",
+    padding: 12,
+
+    "& > h2": {
+      marginBottom: 8,
+      display: "flex",
+      alignItems: "center",
+      gap: 4,
+    },
+
+    "& > p": {
+      opacity: 0.6,
+      fontSize: 14,
+      lineHeight: 1.5,
+    },
+  },
+}));
+
 export const Suggestions = ({ showingResult, className, onSelect }) => {
+  const { classes } = useStyles();
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+    <div
       className={clsx(
-        styles.grid,
-        showingResult && styles.withResult,
+        classes.root,
+        showingResult && classes.withResult,
         className
       )}
     >
-      {showingResult && <DatasetSelect className={styles.dataset} />}
+      {showingResult && (
+        <DatasetSelect
+          className={classes.dataset}
+          inputStyle={{
+            fontSize: 16,
+            minWidth: 265,
+          }}
+        />
+      )}
+
       {data.map((v) => (
         <a
           key={v.content}
-          className={styles.card}
+          className={classes.card}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => onSelect?.(v.content)}
@@ -50,6 +111,6 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
           <p>{v.content}</p>
         </a>
       ))}
-    </motion.div>
+    </div>
   );
 };
