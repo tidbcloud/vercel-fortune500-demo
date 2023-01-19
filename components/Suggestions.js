@@ -1,6 +1,5 @@
 import { IconArrowRight } from "@tabler/icons";
 import clsx from "clsx";
-import { DatasetSelect } from "@/components/DatasetSelect";
 import { createStyles } from "@mantine/core";
 
 const data = [
@@ -39,6 +38,11 @@ const useStyles = createStyles(() => ({
     flexDirection: "column",
     alignSelf: "flex-start",
     minWidth: 280,
+    marginTop: 54,
+
+    "@media (max-width: 700px)": {
+      marginTop: 0,
+    },
   },
   dataset: {
     fontSize: 16,
@@ -87,16 +91,6 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
         className
       )}
     >
-      {showingResult && (
-        <DatasetSelect
-          className={classes.dataset}
-          inputStyle={{
-            fontSize: 16,
-            minWidth: 265,
-          }}
-        />
-      )}
-
       {data.map((v) => (
         <a
           key={v.content}

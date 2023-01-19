@@ -3,7 +3,6 @@ import clsx from "clsx";
 
 const useStyles = createStyles({
   root: {
-    marginTop: 12,
     display: "flex",
     gap: 4,
     justifyContent: "center",

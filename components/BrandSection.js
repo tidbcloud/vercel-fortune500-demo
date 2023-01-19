@@ -1,7 +1,11 @@
 import { createStyles } from "@mantine/core";
 import { Logo } from "@/components/Logo";
+import { DatasetSelect } from "@/components/DatasetSelect";
 
 const useStyles = createStyles({
+  root: {
+    marginBottom: 12,
+  },
   slogan: {
     display: "flex",
     alignItems: "center",
@@ -9,7 +13,6 @@ const useStyles = createStyles({
     gap: 8,
     fontWeight: 700,
     fontSize: 24,
-    marginBottom: 16,
     cursor: "pointer",
 
     "@media (max-width: 700px)": {
@@ -25,9 +28,12 @@ const useStyles = createStyles({
 export const BrandSection = ({ onClick }) => {
   const { classes } = useStyles();
   return (
-    <p className={classes.slogan} onClick={onClick}>
-      <Logo />
-      <span>SmartChart - Instant Data Exploration</span>
-    </p>
+    <div className={classes.root}>
+      <p className={classes.slogan} onClick={onClick}>
+        <Logo />
+        <span>SmartChart - Instant Data Exploration</span>
+      </p>
+      <DatasetSelect />
+    </div>
   );
 };

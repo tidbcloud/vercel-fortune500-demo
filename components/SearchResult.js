@@ -1,21 +1,54 @@
-import { IconMoodSadSquint, IconCode } from "@tabler/icons";
+import { IconMoodSadSquint } from "@tabler/icons";
 import {
   Text,
   ScrollArea,
-  Collapse,
   Loader,
   createStyles,
+  UnstyledButton,
+  Modal,
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React, { useState } from "react";
 import { format } from "sql-formatter";
 import { Typewriter } from "@/components/Typewriter";
 import { ChartMap } from "./ChartMap";
-import styles from "./SearchResult.module.css";
 import clsx from "clsx";
 
-const useStyles = createStyles(() => ({
-  root: {},
+const useStyles = createStyles((theme) => ({
+  sql: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
+  loading: {
+    height: 25,
+    marginTop: 12,
+    paddingLeft: 26,
+    display: "flex",
+    gap: 8,
+    alignItems: "center",
+
+    "@media (max-width: 700px)": {
+      paddingLeft: 22,
+    },
+  },
+  error: {
+    display: "flex",
+    alignItems: "flex-start",
+    width: "100%",
+    paddingLeft: 26,
+    gap: 4,
+    marginTop: 12,
+    color: theme.colors.dark[4],
+
+    "@media (max-width: 700px)": {
+      paddingLeft: 22,
+      fontSize: 14,
+    },
+  },
+  scroll: {
+    width: "100%",
+    marginTop: 12,
+  },
 }));
 
 export const SearchResult = ({
@@ -30,7 +63,7 @@ export const SearchResult = ({
 
   if (isLoading) {
     return (
-      <div className={clsx(styles.loading, className)}>
+      <div className={clsx(classes.loading, className)}>
         <Loader size={"xs"} color="gray" />
         <Typewriter content={loadingText} ellipsis />
       </div>
@@ -51,7 +84,7 @@ export const SearchResult = ({
 
   if (!isLoading && showError) {
     return (
-      <div className={clsx(styles.error, className)}>
+      <div className={clsx(classes.error, className)}>
         <IconMoodSadSquint />
         <Text>
           {result?.code !== 200
@@ -74,58 +107,41 @@ export const SearchResult = ({
       }, {});
   });
 
-  const arrow = (
-    <svg
-      className={`${styles.sqlIcon} ${styles.trasform} ${
-        opened && styles.revertTransition
-      }`}
-      focusable="false"
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      data-testid="ExpandMoreIcon"
-    >
-      <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
-    </svg>
-  );
-
   return (
     <div className={className}>
-      <div className={styles.sql}>
-        <div className={styles.sqlHead}>
-          <div className={styles.sqlHeadInfo}>
-            <IconCode width={18} className={styles.sqlHeadInfoIcon} />
-            Generated SQL
-          </div>
-          <div className={styles.switch} onClick={() => setOpened((o) => !o)}>
-            {opened ? "Hide" : "Show"}
-            {arrow}
-          </div>
-        </div>
-        <Collapse in={opened}>
-          <Prism
-            language="sql"
-            className={styles.code}
-            copiedLabel="Copied"
-            copyLabel="Copy"
-          >
-            {format(result?.gen_sql)}
-          </Prism>
-        </Collapse>
+      <ScrollArea className={classes.scroll}>
+        {React.createElement(chart, {
+          chartInfo: chartInfo,
+          columns: columnsObj,
+          data: rows,
+          fields: result?.columns.map((i) => ({
+            name: i.col,
+          })),
+        })}
+      </ScrollArea>
+      <div className={classes.sql}>
+        <UnstyledButton variant="subtle" onClick={() => setOpened((o) => !o)}>
+          <Text size={12} color="dimmed">
+            View Generated SQL
+          </Text>
+        </UnstyledButton>
       </div>
 
-      {chart && (
-        <ScrollArea className={styles.scrollArea}>
-          {React.createElement(chart, {
-            className: styles.chart,
-            chartInfo: chartInfo,
-            columns: columnsObj,
-            data: rows,
-            fields: result?.columns.map((i) => ({
-              name: i.col,
-            })),
-          })}
-        </ScrollArea>
-      )}
+      <Modal
+        centered
+        title="Generated SQL"
+        opened={opened}
+        onClose={() => setOpened(false)}
+      >
+        <Prism
+          language="sql"
+          className={classes.code}
+          copiedLabel="Copied"
+          copyLabel="Copy"
+        >
+          {format(result?.gen_sql)}
+        </Prism>
+      </Modal>
     </div>
   );
 };

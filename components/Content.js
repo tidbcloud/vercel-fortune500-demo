@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import useSWR from "swr";
 import { SearchResult } from "@/components/SearchResult";
-import { DatasetSelect } from "@/components/DatasetSelect";
 import { BrandSection } from "@/components/BrandSection";
 import { Input } from "@/components/Input";
 import { createStyles } from "@mantine/core";
@@ -11,7 +10,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const useStyles = createStyles({
   content: {
-    maxWidth: 1100,
+    maxWidth: 1200,
     width: "100%",
     display: "flex",
     flexDirection: "column",
@@ -24,10 +23,11 @@ const useStyles = createStyles({
   },
   result: {
     width: "100%",
+    marginBottom: 100,
   },
 });
 
-export const Content = ({ onSearch, showingResult, searchValue }) => {
+export const Content = ({ onSearch, searchValue }) => {
   const { classes } = useStyles();
   const [loadingText, setLoadingText] = useState("Analyzing question");
   const [query, setQuery] = useState("");
@@ -57,8 +57,6 @@ export const Content = ({ onSearch, showingResult, searchValue }) => {
       <motion.div layout className={classes.input}>
         <Input onConfirm={(val) => setQuery(val)} value={searchValue} />
       </motion.div>
-
-      {!showingResult && <DatasetSelect />}
 
       <SearchResult
         className={classes.result}

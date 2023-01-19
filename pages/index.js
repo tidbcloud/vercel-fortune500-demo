@@ -2,11 +2,56 @@ import { useState } from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import Image from "next/image";
-import styles from "@/styles/Home.module.css";
 import { Content } from "@/components/Content";
 import { Suggestions } from "@/components/Suggestions";
+import { createStyles } from "@mantine/core";
+
+const useStyles = createStyles(() => ({
+  main: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    paddingTop: "8rem",
+    paddingBottom: "4rem",
+    minHeight: "100vh",
+    "@media (max-width: 700px)": {
+      padding: "0 0 2rem",
+    },
+  },
+  mainWithResult: {
+    justifyContent: "flex-start",
+  },
+  content: {
+    maxWidth: 1100,
+    width: "100%",
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    "@media (max-width: 700px)": {
+      marginTop: "2rem",
+      padding: "1rem",
+      justifyContent: "flex-start",
+      gap: 24,
+    },
+  },
+  contentWithResult: {
+    flexDirection: "row",
+    gap: 40,
+    "@media (max-width: 700px)": {
+      flexDirection: "column",
+    },
+  },
+  link: {
+    display: "flex",
+    alignItems: "center",
+    lineHeight: "16px",
+    gap: 8,
+  },
+}));
 
 export default function Home() {
+  const { classes } = useStyles();
   const [showingResult, setShowingResult] = useState(false);
   const [question, setQuestion] = useState("");
 
@@ -28,21 +73,23 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={clsx(styles.main, showingResult && styles.withResult)}>
+      <main
+        className={clsx(classes.main, showingResult && classes.mainWithResult)}
+      >
         <div
-          className={clsx(styles.content, showingResult && styles.withResult)}
+          className={clsx(
+            classes.content,
+            showingResult && classes.contentWithResult
+          )}
         >
-          <Content
-            onSearch={handleSearch}
-            showingResult={showingResult}
-            searchValue={question}
-          />
+          <Content onSearch={handleSearch} searchValue={question} />
 
           <Suggestions showingResult={showingResult} onSelect={handleSearch} />
         </div>
 
-        <footer className={styles.footer}>
+        <footer>
           <a
+            className={classes.link}
             href="https://tidbcloud.com/?utm_source=smartchart&utm_medium=referral"
             target="_blank"
             rel="noopener noreferrer"
