@@ -7,9 +7,9 @@ import { MapChart } from "@/components/Charts/MapChart";
 
 export const ChartMap = {
   LineChart,
-  NumberCard,
+  // NumberCard,
   PieChart,
   BarChart,
   Table,
-  MapChart,
+  // MapChart,
 };

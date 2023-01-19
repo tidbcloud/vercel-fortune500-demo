@@ -24,14 +24,21 @@ export const SearchResult = ({ isLoading, loadingText, result, error }) => {
   const chartInfo = result?.chart_info;
   const chart = ChartMap[chartInfo?.chartName] ?? ChartMap.Table;
   const showError =
-    error || result?.code !== 200 || !chart || result?.result === 0;
+    error ||
+    result?.code !== 200 ||
+    !chart ||
+    !result?.rows ||
+    !result?.columns ||
+    result?.result === 0;
 
   if (!isLoading && showError) {
     return (
       <div className={styles.error}>
         <IconMoodSadSquint />
         <Text>
-          {`Sorry, we couldn't find any thing useful for you, try to tell me more details.`}
+          {result?.code !== 200
+            ? result.message
+            : `Sorry, we couldn't find any thing useful for you, try to tell me more details.`}
         </Text>
       </div>
     );
