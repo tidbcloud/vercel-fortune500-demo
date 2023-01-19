@@ -128,6 +128,7 @@ export const SearchResult = ({
       </div>
 
       <Modal
+        fullScreen={window.innerWidth <= 700}
         centered
         title="Generated SQL"
         opened={opened}
