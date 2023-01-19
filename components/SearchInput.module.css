@@ -67,7 +67,9 @@
 }
 
 .dataSource {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: bold;
   margin: 20px 10px;
   color: #afafaf;
@@ -76,4 +78,28 @@
 
 .dataSourceMenu {
   margin-left: 10px;
+}
+
+.item {
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.selected {
+  color: #333333;
+  background: #cccccc8a;
+}
+
+.disabled {
+  color: #b9b9b9;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+}
+
+.dropdown {
+  background-color: #e9e9e9;
 }

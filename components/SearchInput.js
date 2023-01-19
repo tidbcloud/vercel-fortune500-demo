@@ -14,6 +14,7 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
   const [loadingText, setLoadingText] = useState("Analyzing question");
   const [value, setValue] = useState("");
   const [query, setQuery] = useState("");
+  const [opened, setOpened] = useState(false);
   const [showSuggestion, setShowSuggestion] = useState(false);
   const { data, isLoading, error } = useSWR(`/api/search?q=${query}`, fetcher, {
     revalidateOnFocus: false,
@@ -88,16 +89,29 @@ export const SearchInput = ({ onSearch, showingResult, searchValue }) => {
   );
 
   const dataSourceMenu = (
-    <Menu shadow="md" width={290} classNames={styles.dataSourceMenu}>
+    <Menu
+      shadow="md"
+      width={270}
+      classNames={styles.dataSourceMenu}
+      opened={opened}
+      onChange={setOpened}
+    >
       <Menu.Target>
-        <Button variant="subtle">
+        <span className={styles.trigger}>
           Global Fortune 500 in last 5 years
           <IconChevronDown />
-        </Button>
+        </span>
       </Menu.Target>
-      <Menu.Dropdown>
-        <Menu.Item>Global Fortune 500 in last 5 years</Menu.Item>
-        <Menu.Label>More dataset is coming ...</Menu.Label>
+      <Menu.Dropdown className={styles.dropdown}>
+        <div
+          className={`${styles.selected} ${styles.item}`}
+          onClick={() => setOpened(false)}
+        >
+          Global Fortune 500 in last 5 years
+        </div>
+        <div className={`${styles.disabled} ${styles.item}`}>
+          More dataset is coming ...
+        </div>
       </Menu.Dropdown>
     </Menu>
   );
