@@ -11,7 +11,7 @@ const useStyles = createStyles(() => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    paddingTop: "8rem",
+    paddingTop: "4rem",
     paddingBottom: "4rem",
     minHeight: "100vh",
     "@media (max-width: 700px)": {

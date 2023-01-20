@@ -23,7 +23,6 @@ const useStyles = createStyles({
   },
   result: {
     width: "100%",
-    marginBottom: 100,
   },
 });
 

@@ -119,6 +119,7 @@ export const SearchResult = ({
           })),
         })}
       </ScrollArea>
+
       <div className={classes.sql}>
         <UnstyledButton variant="subtle" onClick={() => setOpened((o) => !o)}>
           <Text size={12} color="dimmed">

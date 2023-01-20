@@ -31,7 +31,6 @@ const useStyles = createStyles(() => ({
 
     "@media (max-width: 700px)": {
       flexDirection: "column",
-      marginTop: 24,
     },
   },
   withResult: {
