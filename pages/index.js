@@ -47,6 +47,9 @@ const useStyles = createStyles(() => ({
     alignItems: "center",
     lineHeight: "16px",
     gap: 8,
+    "@media (max-width: 700px)": {
+      transform: "scale(0.75)",
+    },
   },
 }));
 
