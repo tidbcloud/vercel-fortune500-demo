@@ -46,6 +46,9 @@ export const BarChart = ({ chartInfo, data, className }) => {
         },
         grid: {
           containLabel: true,
+          left: 10,
+          right: 10,
+          bottom: 10,
         },
         series: makeSeries(y),
         tooltip: {
