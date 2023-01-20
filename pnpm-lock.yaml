@@ -7,6 +7,7 @@ specifiers:
   '@mantine/prism': ^5.10.1
   '@next/font': 13.1.2
   '@tabler/icons': ^1.119.0
+  '@vercel/analytics': ^0.1.8
   clsx: ^1.2.1
   echarts: ^5.4.1
   echarts-for-react: ^3.0.2
@@ -27,6 +28,7 @@ dependencies:
   '@mantine/prism': 5.10.1_ynz4r3bmi75slbqnmaycv7w7wa
   '@next/font': 13.1.2
   '@tabler/icons': 1.119.0_biqbaboplfbrettd7655fr4n2y
+  '@vercel/analytics': 0.1.8_react@18.2.0
   clsx: 1.2.1
   echarts: 5.4.1
   echarts-for-react: 3.0.2_echarts@5.4.1+react@18.2.0
@@ -771,6 +773,14 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.48.1
       eslint-visitor-keys: 3.3.0
+    dev: false
+
+  /@vercel/analytics/0.1.8_react@18.2.0:
+    resolution: {integrity: sha512-PQrOI8BJ9qUiVJuQfnKiJd15eDjDJH9TBKsNeMrtelT4NAk7d9mBVz1CoZkvoFnHQ0OW7Xnqmr1F2nScfAnznQ==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /acorn-jsx/5.3.2_acorn@8.8.1:
