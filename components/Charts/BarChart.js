@@ -17,6 +17,8 @@ export const BarChart = ({ chartInfo, data, className }) => {
       if (typeof y === "string") {
         return {
           type: "bar",
+          name: y,
+          datasetId: "raw",
           data: data.map((v) => v[y]),
         };
       } else {
@@ -24,8 +26,14 @@ export const BarChart = ({ chartInfo, data, className }) => {
       }
     };
 
+    const series = makeSeries(y);
+
     return {
       options: {
+        dataset: {
+          id: "raw",
+          source: data,
+        },
         xAxis: {
           type: "category",
           data: xAxisData,
@@ -44,13 +52,18 @@ export const BarChart = ({ chartInfo, data, className }) => {
             width: 100,
           },
         },
+        legend: {
+          left: "center",
+          top: 28,
+        },
         grid: {
           containLabel: true,
+          top: 64,
           left: 10,
           right: 10,
           bottom: 10,
         },
-        series: makeSeries(y),
+        series,
         tooltip: {
           trigger: "axis",
         },
