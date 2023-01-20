@@ -14,7 +14,7 @@ const data = [
   {
     title: "Growth",
     content:
-      "Which 10 companies had the highest increase by profit from 2018 to 2022?",
+      "Which 10 companies had the highest revenue increase from 2018 to 2022?",
   },
   {
     title: "Efficiency",

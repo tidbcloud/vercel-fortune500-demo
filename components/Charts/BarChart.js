@@ -1,52 +1,72 @@
 import EChartsReact from "echarts-for-react";
 import { useMemo } from "react";
+import { isTimeField } from "@/components/Charts/utils";
 
 export const BarChart = ({ chartInfo, data, className }) => {
   const {
     options: { x, y },
   } = chartInfo;
 
-  const chartOptions = useMemo(() => {
+  const isTime = isTimeField(x);
+  const isNotTime = !isTime;
+
+  const { options, height } = useMemo(() => {
     const xAxisData = data.map((v) => v[x]);
-    const series = (Array.isArray(y) ? y : [y]).map((field) => {
-      return {
-        data: data.map((v) => v[field]),
-        type: "bar",
-      };
-    });
+
+    const makeSeries = function (y) {
+      if (typeof y === "string") {
+        return {
+          type: "bar",
+          data: data.map((v) => v[y]),
+        };
+      } else {
+        return y.map(makeSeries);
+      }
+    };
 
     return {
-      xAxis: {
-        type: "category",
-        data: xAxisData,
-        axisLabel: {
-          interval: 0,
-          rotate: 30,
-          fontSize: 10,
-          width: 100,
-          overflow: "break",
+      options: {
+        xAxis: {
+          type: "category",
+          data: xAxisData,
+          axisLabel: {
+            interval: 0,
+            rotate: 30,
+            fontSize: 10,
+            overflow: "break",
+          },
         },
+        yAxis: {
+          type: "value",
+          axisLabel: {
+            fontSize: 10,
+            interval: 0,
+            width: 100,
+          },
+        },
+        grid: {
+          containLabel: true,
+        },
+        series: makeSeries(y),
+        tooltip: {
+          trigger: "axis",
+        },
+        animationDuration: 2000,
       },
-      yAxis: {
-        type: "value",
-      },
-      series: series,
-      tooltip: {
-        trigger: "axis",
-      },
+      height: Math.max(isNotTime ? 40 * data.length : 400, 400),
     };
-  }, [data, x, y]);
+  }, [data, x, y, isNotTime]);
 
   return (
     <EChartsReact
       className={className}
       style={{
-        height: 400,
+        height,
       }}
       opts={{
-        height: 400,
+        height,
       }}
-      option={chartOptions}
+      option={options}
     ></EChartsReact>
   );
 };
