@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import Image from "next/image";
@@ -65,6 +65,20 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    function setHeight() {
+      const el = document.querySelector(".main");
+      if (el) {
+        el.style.minHeight = window.innerHeight + "px";
+      }
+    }
+    const deviceWidth = window.matchMedia("(max-width: 700px)");
+    if (deviceWidth.matches) {
+      window.addEventListener("resize", setHeight);
+      setHeight();
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -74,7 +88,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className={clsx(classes.main, showingResult && classes.mainWithResult)}
+        className={clsx(
+          "main",
+          classes.main,
+          showingResult && classes.mainWithResult
+        )}
       >
         <div
           className={clsx(

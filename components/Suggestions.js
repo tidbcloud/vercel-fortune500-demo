@@ -70,6 +70,11 @@ const useStyles = createStyles(() => ({
       display: "flex",
       alignItems: "center",
       gap: 4,
+
+      "@media (max-width: 700px)": {
+        fontSize: 16,
+        marginBottom: 0,
+      },
     },
 
     "& > p": {
