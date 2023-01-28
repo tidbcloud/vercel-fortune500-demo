@@ -18,7 +18,7 @@ const data = [
   },
   {
     title: "Efficiency",
-    content: "Top 10 companies generate the most profit with every employee?",
+    content: "Top 10 companies generate the most profit with every employee in 2022?",
   },
 ];
 

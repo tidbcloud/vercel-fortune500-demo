@@ -18,7 +18,7 @@ const useStyles = createStyles({
 
 const DATASET = [
   {
-    label: "Global Fortune 500 in last 5 years",
+    label: "Global Fortune 500 in 2018 - 2022",
     value: 1,
   },
   {
@@ -42,7 +42,7 @@ export const DatasetSelect = ({ className }) => {
         styles={(theme) => ({
           input: {
             cursor: "pointer",
-            minWidth: 210,
+            minWidth: 215,
             color: theme.colors.gray[6],
           },
         })}
