@@ -1,6 +1,11 @@
 import { Table, createStyles } from "@mantine/core";
 
 const useStyles = createStyles({
+  table: {
+    borderRadius: 8,
+    borderCollapse: 'initial',
+    overflow: 'hidden',
+  },
   headCell: {
     height: 50,
   },
@@ -32,7 +37,7 @@ export const TableChart = ({ data, columns }) => {
   );
 
   return (
-    <Table striped withBorder>
+    <Table striped withBorder cellSpacing={0} className={classes.table}>
       <thead>{titles}</thead>
       <tbody>{rows}</tbody>
     </Table>

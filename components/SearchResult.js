@@ -46,7 +46,9 @@ const useStyles = createStyles((theme) => ({
     },
   },
   scroll: {
-    width: "100%",
+    width: "98%",
+    marginLeft: 'auto',
+    marginRight: 'auto',
     marginTop: 12,
   },
 }));
