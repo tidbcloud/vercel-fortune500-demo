@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import useSWR from "swr";
 import { SearchResult } from "@/components/SearchResult";
@@ -47,6 +47,11 @@ export const Content = ({ onSearch, searchValue }) => {
     }
   );
 
+  const onConfirm = useCallback((val) => {
+    setQuery(val);
+    onSearch(val);
+  }, [onSearch])
+
   return (
     <div className={classes.content}>
       <motion.div layout>
@@ -54,7 +59,7 @@ export const Content = ({ onSearch, searchValue }) => {
       </motion.div>
 
       <motion.div layout className={classes.input}>
-        <Input onConfirm={(val) => setQuery(val)} value={searchValue} />
+        <Input onConfirm={onConfirm} value={searchValue} />
       </motion.div>
 
       <SearchResult

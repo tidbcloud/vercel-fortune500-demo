@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import Image from "next/image";
@@ -58,7 +58,7 @@ export default function Home() {
   const [showingResult, setShowingResult] = useState(false);
   const [question, setQuestion] = useState("");
 
-  const handleSearch = (val) => {
+  const handleSearch = useCallback((val) => {
     if (val) {
       setQuestion(val);
       setShowingResult(true);
@@ -66,7 +66,7 @@ export default function Home() {
       setQuestion("");
       setShowingResult(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     function setHeight() {

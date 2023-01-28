@@ -33,7 +33,7 @@ export const Input = ({ onConfirm, value: _value, className }) => {
   useEffect(() => {
     setValue(_value);
     onConfirm(_value);
-  }, [_value]);
+  }, [_value, onConfirm]);
 
   return (
     <div className={clsx(classes.root, className)}>
