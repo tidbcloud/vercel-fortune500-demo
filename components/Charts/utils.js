@@ -19,3 +19,7 @@ export function transformTimeData(data, field) {
     return { ...item, [field]: value };
   });
 }
+
+export function isNumberFiled(column) {
+  return ["DECIMAL", "INT", "DOUBLE", "BIGINT"].includes(column.data_type);
+}

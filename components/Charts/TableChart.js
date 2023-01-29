@@ -1,4 +1,5 @@
 import { Table, createStyles } from "@mantine/core";
+import { isNumberFiled } from "./utils";
 
 const useStyles = createStyles({
   table: {
@@ -16,15 +17,6 @@ const useStyles = createStyles({
 
 export const TableChart = ({ data, columns }) => {
   const { classes } = useStyles();
-  const rows = data.map((element, index) => (
-    <tr key={index}>
-      {Object.values(element).map((v, i) => (
-        <td key={i} className={classes.bodyCell}>
-          {v}
-        </td>
-      ))}
-    </tr>
-  ));
 
   const titles = (
     <tr>
@@ -35,6 +27,16 @@ export const TableChart = ({ data, columns }) => {
       ))}
     </tr>
   );
+
+  const rows = data.map((element, index) => (
+    <tr key={index}>
+      {Object.entries(element).map(([k, v], i) => (
+        <td key={i} className={classes.bodyCell}>
+          {isNumberFiled(columns[k]) ? Number(v).toLocaleString("en-US") : v}
+        </td>
+      ))}
+    </tr>
+  ));
 
   return (
     <Table striped withBorder cellSpacing={0} className={classes.table}>
