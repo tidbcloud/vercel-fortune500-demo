@@ -51,6 +51,9 @@ const useStyles = createStyles(() => ({
       transform: "scale(0.75)",
     },
   },
+  footer: {
+    marginTop: 24,
+  }
 }));
 
 export default function Home() {
@@ -108,7 +111,7 @@ export default function Home() {
           <Suggestions showingResult={showingResult} onSelect={handleSearch} />
         </div>
 
-        <footer>
+        <footer className={classes.footer}>
           <a
             className={classes.link}
             href="https://tidbcloud.com/?utm_source=smartchart&utm_medium=referral"
