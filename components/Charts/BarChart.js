@@ -67,21 +67,23 @@ export const BarChart = ({ chartInfo, data, className }) => {
         tooltip: {
           trigger: "axis",
         },
+        dataZoom: [
+          {
+            type: 'inside',
+            throttle: 50
+          }
+        ],
         animationDuration: 2000,
       },
-      height: Math.max(isNotTime ? 40 * data.length : 400, 400),
+      height: 400,
     };
-  }, [data, x, y, isNotTime]);
+  }, [data, x, y]);
 
   return (
     <EChartsReact
       className={className}
-      style={{
-        height,
-      }}
-      opts={{
-        height,
-      }}
+      style={{height}}
+      opts={{height}}
       option={options}
     ></EChartsReact>
   );
