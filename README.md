@@ -1,8 +1,15 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
-First, run the development server:
+First, create a `.env.local` file in the root folder with given environment variables, you can get them in the setting of chat2query in TiDBCloud's web console:
+
+```env
+TIDBCLOUD_URL=https://data.tidbcloud.com/api/v1beta/apps/[YOUR_DATAAPI_ENDPOINT]/v1/chat2chart
+TIDBCLOUD_API_KEY=YOUR_DATA_API_KEY
+TIDBCLOUD_DB=sample_data
+TIDBCLOUD_CLUSTER_ID=YOUR_CLUSTER_ID
+```
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -23,6 +30,8 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 To learn more about Next.js, take a look at the following resources:
 
