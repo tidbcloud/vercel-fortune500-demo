@@ -1,10 +1,10 @@
 import { createStyles } from "@mantine/core";
 import { Logo } from "@/components/Logo";
-import { DatasetSelect } from "@/components/DatasetSelect";
+import { config } from "@/config";
 
 const useStyles = createStyles({
   root: {
-    marginBottom: 12,
+    marginBottom: 24,
   },
   slogan: {
     display: "flex",
@@ -31,9 +31,8 @@ export const BrandSection = ({ onClick }) => {
     <div className={classes.root}>
       <p className={classes.slogan} onClick={onClick}>
         <Logo />
-        <span>SmartChart - Instant Data Exploration</span>
+        <span>{config.title}</span>
       </p>
-      <DatasetSelect />
     </div>
   );
 };
