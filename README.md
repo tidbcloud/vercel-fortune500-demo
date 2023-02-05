@@ -12,11 +12,11 @@ TIDBCLOUD_CLUSTER_ID=YOUR_CLUSTER_ID
 Install the dependencies:
 
 ```bash
-npm install next react react-dom
+npm install
 # or
-yarn add next react react-dom
-# or
-pnpm add next react react-dom
+yarn install
+# or preferred
+pnpm install
 ```
 
 Run the development server:
@@ -52,6 +52,6 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftidbcloud%2Fvercel-fortune500-demo&env=TIDBCLOUD_URL,TIDBCLOUD_API_KEY,TIDBCLOUD_DB,TIDBCLOUD_CLUSTER_ID&envDescription=You%20can%20get%20them%20in%20the%20setting%20of%20chat2query%20in%20TiDBCloud's%20web%20console)
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
