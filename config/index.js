@@ -1,9 +1,10 @@
 export const config = {
-  title: 'Fortune 500 - Instant Data Exploration',
+  title: "Fortune 500 Q&A",
   suggestions: [
     {
       title: "Distribution",
-      content: "What's the country distribution of global 500 companies in 2022?",
+      content:
+        "What's the country distribution of global 500 companies in 2022?",
     },
     {
       title: "Profit",
@@ -16,7 +17,8 @@ export const config = {
     },
     {
       title: "Efficiency",
-      content: "Top 10 companies generate the most profit with every employee in 2022?",
+      content:
+        "Top 10 companies generate the most profit with every employee in 2022?",
     },
-  ]
-}
+  ],
+};
