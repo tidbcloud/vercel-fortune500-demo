@@ -5,8 +5,18 @@ First, create a `.env.local` file in the root folder with given environment vari
 ```env
 TIDBCLOUD_URL=https://data.tidbcloud.com/api/v1beta/apps/[YOUR_DATAAPI_ENDPOINT]/v1/chat2chart
 TIDBCLOUD_API_KEY=YOUR_DATA_API_KEY
-TIDBCLOUD_DB=sample_data
+TIDBCLOUD_DB=YOUR_DATABASE_NAME
 TIDBCLOUD_CLUSTER_ID=YOUR_CLUSTER_ID
+```
+
+Install the dependencies:
+
+```bash
+npm install next react react-dom
+# or
+yarn add next react react-dom
+# or
+pnpm add next react react-dom
 ```
 
 Run the development server:
