@@ -1,0 +1,8 @@
+[build]
+command = "npm run netlify-build"
+
+[template.environment]
+TIDBCLOUD_URL = "TiDB Cloud chart2chart data api url"
+TIDBCLOUD_API_KEY = "TiDB Cloud data api key"
+TIDBCLOUD_DB = "TiDB Cloud Database Name"
+TIDBCLOUD_CLUSTER_ID = "TiDB Cloud cluster ID"

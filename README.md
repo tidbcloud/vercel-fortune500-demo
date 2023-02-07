@@ -33,8 +33,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
@@ -55,3 +53,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftidbcloud%2Fvercel-fortune500-demo&env=TIDBCLOUD_URL,TIDBCLOUD_API_KEY,TIDBCLOUD_DB,TIDBCLOUD_CLUSTER_ID&envDescription=You%20can%20get%20them%20in%20the%20setting%20of%20chat2query%20in%20TiDBCloud's%20web%20console)
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Deploy on Netlify
+
+[![Deploy to Netlify button](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/tidbcloud/vercel-fortune500-demo)
+
+1. Click the **Deploy to Netlify** button.
+2. Click **Connect to GitHub** and authenticate your GitHub account.
+3. Fill in **Repository name** for your own GitHub repository.
+4. Enter the environment variables:
+    - `TIDBCLOUD_URL`: The TiDB Cloud chart2chart data api url.
+    - `TIDBCLOUD_API_KEY`: The TiDB Cloud data api key.
+    - `TIDBCLOUD_DB`: TiDB Cloud Database Name.
+    - `TIDBCLOUD_CLUSTER_ID`: TiDB Cloud cluster ID.
+5. Click **Save & Deploy**.
+
