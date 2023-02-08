@@ -1,5 +1,5 @@
 [build]
-command = "npm run netlify-build"
+command = "npm run build"
 
 [template.environment]
 TIDBCLOUD_URL = "TiDB Cloud chart2chart data api url"
