@@ -35,7 +35,16 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Basic Auth
+
+If you want to deploy your own clone and also protect the page from being visited by the public, we also provided a simple basic access authentication solution. You'll need to add two more environment variables in your `.env.local` and the Vercel dashboard. Don't use a simple passphrase like below, replace `admin` with your own one: 
+
+```env
+BASIC_AUTH_USER=admin
+BASIC_AUTH_PASSPHRASE=admin
+```
+
+Then re-deploy, all your pages will be protected, and they can only be accessed with correct user and passphrase!
 
 ## Learn More
 
