@@ -67,6 +67,7 @@ export const Input = ({ onConfirm, value: _value, className }) => {
         size="xl"
         radius="xl"
         value={value}
+        onFocus={(e) => e.target.select()}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={"Ask anything..."}
