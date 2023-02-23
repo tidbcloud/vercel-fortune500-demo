@@ -84,14 +84,51 @@ export const SearchResult = ({
     !result?.columns ||
     result?.result === 0;
 
+  const code = (
+    <>
+      <Modal
+        fullScreen={window.innerWidth <= 700}
+        centered
+        title="Generated SQL"
+        opened={opened}
+        onClose={() => setOpened(false)}
+      >
+        <Prism
+          language="sql"
+          className={classes.code}
+          copiedLabel="Copied"
+          copyLabel="Copy"
+        >
+          {format(result?.gen_sql)}
+        </Prism>
+      </Modal>
+    </>
+  );
+
   if (!isLoading && showError) {
     return (
       <div className={clsx(classes.error, className)}>
         <IconMoodSadSquint />
         <Text>
           {result?.code !== 200
-            ? result.message
+            ? result.message.endsWith(".")
+              ? result.message
+              : result.message + "."
             : `Sorry, we couldn't find any thing useful for you, try to tell me more details.`}
+
+          {result?.gen_sql && (
+            <>
+              <UnstyledButton
+                variant="subtle"
+                onClick={() => setOpened((o) => !o)}
+              >
+                <Text size={16} color="dimmed" ml={2}>
+                  View generated SQL.
+                </Text>
+              </UnstyledButton>
+              {code}
+            </>
+          )}
         </Text>
       </div>
     );
@@ -122,30 +159,17 @@ export const SearchResult = ({
         })}
       </ScrollArea>
 
-      <div className={classes.sql}>
-        <UnstyledButton variant="subtle" onClick={() => setOpened((o) => !o)}>
-          <Text size={12} color="dimmed">
-            View Generated SQL
-          </Text>
-        </UnstyledButton>
-      </div>
+      {result?.gen_sql && (
+        <div className={classes.sql}>
+          <UnstyledButton variant="subtle" onClick={() => setOpened((o) => !o)}>
+            <Text size={12} color="dimmed">
+              View Generated SQL
+            </Text>
+          </UnstyledButton>
 
-      <Modal
-        fullScreen={window.innerWidth <= 700}
-        centered
-        title="Generated SQL"
-        opened={opened}
-        onClose={() => setOpened(false)}
-      >
-        <Prism
-          language="sql"
-          className={classes.code}
-          copiedLabel="Copied"
-          copyLabel="Copy"
-        >
-          {format(result?.gen_sql)}
-        </Prism>
-      </Modal>
+          {code}
+        </div>
+      )}
     </div>
   );
 };
