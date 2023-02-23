@@ -99,7 +99,7 @@ export const SearchResult = ({
           copiedLabel="Copied"
           copyLabel="Copy"
         >
-          {format(result?.gen_sql)}
+          {format(result?.gen_sql ?? "")}
         </Prism>
       </Modal>
     </>
