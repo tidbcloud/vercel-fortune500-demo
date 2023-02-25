@@ -7,18 +7,19 @@ const TIDBCLOUD_ENV = {
   api_key: process.env.TIDBCLOUD_API_KEY,
   db: process.env.TIDBCLOUD_DB,
   cluster_id: process.env.TIDBCLOUD_CLUSTER_ID,
-}
+};
 
 export default async function handler(req, res) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("q");
+  const id = searchParams.get("id");
 
-  if (req.method === "GET" && query) {
+  if (req.method === "GET" && query && id) {
     const response = await fetch(TIDBCLOUD_ENV.url, {
       method: "POST",
       body: JSON.stringify({
         cluster_id: TIDBCLOUD_ENV.cluster_id,
-        database: TIDBCLOUD_ENV.db,
+        database: id,
         instruction: query,
       }),
       headers: {
@@ -34,5 +35,5 @@ export default async function handler(req, res) {
     });
   }
 
-  res.status(200).json({ name: "John Doe" });
+  return new Response(null, { status: 400 });
 }

@@ -6,9 +6,11 @@ specifiers:
   '@mantine/hooks': ^5.10.1
   '@mantine/prism': ^5.10.1
   '@next/font': 13.1.2
+  '@prisma/client': ^4.10.1
   '@tabler/icons': ^1.119.0
   '@vercel/analytics': ^0.1.8
   clsx: ^1.2.1
+  csv-parse: ^5.3.5
   echarts: ^5.4.1
   echarts-for-react: ^3.0.2
   eslint: 8.31.0
@@ -16,8 +18,10 @@ specifiers:
   framer-motion: ^8.4.3
   next: 13.1.2
   prettier: ^2.8.3
+  prisma: ^4.10.1
   react: 18.2.0
   react-dom: 18.2.0
+  short-unique-id: ^4.4.4
   sql-formatter: ^12.0.5
   swr: ^2.0.0
 
@@ -27,9 +31,11 @@ dependencies:
   '@mantine/hooks': 5.10.1_react@18.2.0
   '@mantine/prism': 5.10.1_ynz4r3bmi75slbqnmaycv7w7wa
   '@next/font': 13.1.2
+  '@prisma/client': 4.10.1_prisma@4.10.1
   '@tabler/icons': 1.119.0_biqbaboplfbrettd7655fr4n2y
   '@vercel/analytics': 0.1.8_react@18.2.0
   clsx: 1.2.1
+  csv-parse: 5.3.5
   echarts: 5.4.1
   echarts-for-react: 3.0.2_echarts@5.4.1+react@18.2.0
   eslint: 8.31.0
@@ -38,11 +44,13 @@ dependencies:
   next: 13.1.2_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  short-unique-id: 4.4.4
   sql-formatter: 12.0.5
   swr: 2.0.0_react@18.2.0
 
 devDependencies:
   prettier: 2.8.3
+  prisma: 4.10.1
 
 packages:
 
@@ -570,6 +578,28 @@ packages:
       tslib: 2.4.1
     dev: false
 
+  /@prisma/client/4.10.1_prisma@4.10.1:
+    resolution: {integrity: sha512-VonXLJZybdt8e5XZH5vnIGCRNnIh6OMX1FS3H/yzMGLT3STj5TJ/OkMcednrvELgk8PK89Vo3aSh51MWNO0axA==}
+    engines: {node: '>=14.17'}
+    requiresBuild: true
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+    dependencies:
+      '@prisma/engines-version': 4.10.1-2.aead147aa326ccb985dcfed5b065b4fdabd44b19
+      prisma: 4.10.1
+    dev: false
+
+  /@prisma/engines-version/4.10.1-2.aead147aa326ccb985dcfed5b065b4fdabd44b19:
+    resolution: {integrity: sha512-tsjTho7laDhf9EJ9EnDxAPEf7yrigSMDhniXeU4YoWc7azHAs4GPxRi2P9LTFonmHkJLMOLjR77J1oIP8Ife1w==}
+    dev: false
+
+  /@prisma/engines/4.10.1:
+    resolution: {integrity: sha512-B3tcTxjx196nuAu1GOTKO9cGPUgTFHYRdkPkTS4m5ptb2cejyBlH9X7GOfSt3xlI7p4zAJDshJP4JJivCg9ouA==}
+    requiresBuild: true
+
   /@radix-ui/number/1.0.0:
     resolution: {integrity: sha512-Ofwh/1HX69ZfJRiRBMTy7rgjAzHmwe4kW9C9Y99HTRUcYLUuVT0KESFj15rPjRgKJs20GPq8Bm5aEDJ8DuA3vA==}
     dependencies:
@@ -1048,6 +1078,10 @@ packages:
 
   /csstype/3.1.1:
     resolution: {integrity: sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==}
+    dev: false
+
+  /csv-parse/5.3.5:
+    resolution: {integrity: sha512-8O5KTIRtwmtD3+EVfW6BCgbwZqJbhTYsQZry12F1TP5RUp0sD9tp1UnCWic3n0mLOhzeocYaCZNYxOGSg3dmmQ==}
     dev: false
 
   /damerau-levenshtein/1.0.8:
@@ -2394,6 +2428,14 @@ packages:
       react: 18.2.0
     dev: false
 
+  /prisma/4.10.1:
+    resolution: {integrity: sha512-0jDxgg+DruB1kHVNlcspXQB9au62IFfVg9drkhzXudszHNUAQn0lVuu+T8np0uC2z1nKD5S3qPeCyR8u5YFLnA==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@prisma/engines': 4.10.1
+
   /prop-types/15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
     dependencies:
@@ -2559,6 +2601,11 @@ packages:
   /shebang-regex/3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
+    dev: false
+
+  /short-unique-id/4.4.4:
+    resolution: {integrity: sha512-oLF1NCmtbiTWl2SqdXZQbo5KM1b7axdp0RgQLq8qCBBLoq+o3A5wmLrNM6bZIh54/a8BJ3l69kTXuxwZ+XCYuw==}
+    hasBin: true
     dev: false
 
   /side-channel/1.0.4:
