@@ -108,27 +108,27 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
   );
 
   return (
-    <div
-      className={clsx(
-        classes.root,
-        showingResult && classes.withResult,
-        className
-      )}
-    >
-      {config.suggestions.map((v) => (
-        <a
-          key={v.content}
-          className={classes.card}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => onSelect?.(v.content)}
-        >
-          <h2>
-            {v.title} <IconArrowRight />
-          </h2>
-          <p>{v.content}</p>
-        </a>
-      ))}
+    <div>
+      <div className={classes.title}>Questions</div>
+      <div
+        className={clsx(
+          classes.root,
+          showingResult && classes.withResult,
+          className
+        )}
+      >
+        {config.suggestions.map((v) => (
+          <a
+            key={v.content}
+            className={classes.card}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => onSelect?.(v.content)}
+          >
+            <p>{v.content}</p>
+          </a>
+        ))}
+      </div>
     </div>
   );
 };
