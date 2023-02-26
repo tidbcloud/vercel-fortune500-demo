@@ -6,6 +6,7 @@ import { Content } from "@/components/Content";
 import { Suggestions } from "@/components/Suggestions";
 import { createStyles } from "@mantine/core";
 import { config } from "@/config";
+import { UploadBlock } from "@/components/UploadBlock";
 
 const useStyles = createStyles(() => ({
   main: {
@@ -35,6 +36,9 @@ const useStyles = createStyles(() => ({
       justifyContent: "flex-start",
       gap: 24,
     },
+  },
+  bottomContent: {
+    display: 'flex',
   },
   contentWithResult: {
     flexDirection: "row",
@@ -109,7 +113,10 @@ export default function Home() {
         >
           <Content onSearch={handleSearch} searchValue={question} />
 
-          <Suggestions showingResult={showingResult} onSelect={handleSearch} />
+          <div className={classes.bottomContent}>
+            <Suggestions showingResult={showingResult} onSelect={handleSearch} />
+            <UploadBlock />
+          </div>
         </div>
 
         <footer className={classes.footer}>
