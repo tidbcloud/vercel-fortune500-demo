@@ -6,13 +6,17 @@ import { config } from "@/config";
 const useStyles = createStyles(() => ({
   root: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     flex: 0,
-
     "@media (max-width: 700px)": {
       flexDirection: "column",
     },
+  },
+  title: {
+    color: '#333333',
+    fontSize: 24,
+    marginBottom: 18,
   },
   withResult: {
     flexDirection: "column",
@@ -44,7 +48,7 @@ const useStyles = createStyles(() => ({
   },
   card: {
     cursor: "pointer",
-    padding: 12,
+    padding: 0,
 
     "& > h2": {
       marginBottom: 8,
@@ -69,24 +73,27 @@ const useStyles = createStyles(() => ({
 export const Suggestions = ({ showingResult, className, onSelect }) => {
   const { classes } = useStyles();
   return (
-    <div
-      className={clsx(
-        classes.root,
-        showingResult && classes.withResult,
-        className
-      )}
-    >
-      {config.suggestions.map((v) => (
-        <a
-          key={v.content}
-          className={classes.card}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => onSelect?.(v.content)}
-        >
-          <p>{v.content}</p>
-        </a>
-      ))}
+    <div>
+      <div className={classes.title}>Questions</div>
+      <div
+        className={clsx(
+          classes.root,
+          showingResult && classes.withResult,
+          className
+        )}
+      >
+        {config.suggestions.map((v) => (
+          <a
+            key={v.content}
+            className={classes.card}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => onSelect?.(v.content)}
+          >
+            <p>{v.content}</p>
+          </a>
+        ))}
+      </div>
     </div>
   );
 };
