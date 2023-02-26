@@ -84,9 +84,6 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
           rel="noopener noreferrer"
           onClick={() => onSelect?.(v.content)}
         >
-          <h2>
-            {v.title} <IconArrowRight />
-          </h2>
           <p>{v.content}</p>
         </a>
       ))}
