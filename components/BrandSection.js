@@ -12,7 +12,7 @@ const useStyles = createStyles({
     justifyContent: "center",
     gap: 8,
     fontWeight: 700,
-    fontSize: 24,
+    fontSize: 38,
     cursor: "pointer",
 
     "@media (max-width: 700px)": {
