@@ -1,6 +1,6 @@
 import { IconArrowRight } from "@tabler/icons";
 import clsx from "clsx";
-import { createStyles } from "@mantine/core";
+import { Badge, createStyles } from "@mantine/core";
 import { config } from "@/config";
 
 const useStyles = createStyles(() => ({
@@ -48,7 +48,7 @@ const useStyles = createStyles(() => ({
   },
   card: {
     cursor: "pointer",
-    padding: 0,
+    padding: 4,
 
     "& > h2": {
       marginBottom: 8,
@@ -90,7 +90,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
             rel="noopener noreferrer"
             onClick={() => onSelect?.(v.content)}
           >
-            <p>{v.content}</p>
+            <p>{v.content}<Badge>{v.title}</Badge></p>
           </a>
         ))}
       </div>
