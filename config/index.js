@@ -2,23 +2,23 @@ export const config = {
   title: "Fortune 500 Q&A",
   suggestions: [
     {
+      title: "Revenue",
+      content:
+        "Top 10 companies by revenues in 2022?",
+    },
+    {
+      title: "Revenue",
+      content: "Top 10 companies by sales in 2021?",
+    },
+    {
       title: "Distribution",
       content:
-        "What's the country distribution of global 500 companies in 2022?",
+        "What’s the country distribution of global 500 companies in 2019?",
     },
     {
-      title: "Profit",
-      content: "What are the top 10 companies by profit in 2022?",
-    },
-    {
-      title: "Growth",
+      title: "Revenue",
       content:
-        "Which 10 companies had the highest revenue increase from 2018 to 2022?",
-    },
-    {
-      title: "Efficiency",
-      content:
-        "Top 10 companies generate the most profit with every employee in 2022?",
+        "Which 10 companies had the highest revenue increase from 2019 to 2022?",
     },
   ],
 };
