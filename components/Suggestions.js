@@ -81,9 +81,6 @@ const useStyles = createStyles(() => ({
       lineHeight: 1.5,
     },
   },
-  badge: {
-    marginLeft: 4,
-  },
 }));
 
 export const Suggestions = ({ showingResult, className, onSelect }) => {
@@ -125,7 +122,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
           {data?.questions?.map((v) => (
             <a
               key={v.question_id}
-              className={classes.card}
+              className={classes.question}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => onSelect?.(v.question)}
