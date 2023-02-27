@@ -111,26 +111,29 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
   );
 
   return (
-    <div>
-      <div className={classes.title}>Questions</div>
-      <div
-        className={clsx(
-          classes.root,
-          showingResult && classes.withResult,
-          className
-        )}
-      >
-        {config.suggestions.map((v) => (
-          <a
-            key={v.content}
-            className={classes.card}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => onSelect?.(v.content)}
-          >
-            <div>{v.content}<Badge className={classes.badge}>{v.title}</Badge></div>
-          </a>
-        ))}
+    <div className={classes.root}>
+      <div className={classes.container}>
+        <div className={classes.title}>Questions</div>
+        {isLoading && <div className={classes.hint}>{loadingText}</div>}
+        <div
+          className={clsx(classes.result,
+            showingResult ? classes.withResult : classes.loadingBlock,
+            className
+          )}
+        >
+          <LoadingOverlay visible={isLoading} overlayBlur={2} />
+          {data?.questions?.map((v) => (
+            <a
+              key={v.question_id}
+              className={classes.card}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => onSelect?.(v.question)}
+            >
+              <div>{v.question}</div>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );

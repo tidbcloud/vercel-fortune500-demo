@@ -4,6 +4,13 @@ export const config = {
   runtime: "edge",
 };
 
+const TIDBCLOUD_ENV = {
+  url: process.env.TIDBCLOUD_URL,
+  api_key: process.env.TIDBCLOUD_API_KEY,
+  db: process.env.TIDBCLOUD_DB,
+  cluster_id: process.env.TIDBCLOUD_CLUSTER_ID,
+};
+
 export default async function handler(req, res) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
