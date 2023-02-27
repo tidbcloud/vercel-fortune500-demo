@@ -61,9 +61,9 @@ const useStyles = createStyles(() => ({
       },
     },
   },
-  card: {
+  question: {
     cursor: "pointer",
-    padding: 4,
+    color: '#666666',
 
     "& > h2": {
       marginBottom: 8,
@@ -82,9 +82,6 @@ const useStyles = createStyles(() => ({
       fontSize: 14,
       lineHeight: 1.5,
     },
-  },
-  badge: {
-    marginLeft: 4,
   },
 }));
 
@@ -134,7 +131,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
           {data?.questions?.map((v) => (
             <a
               key={v.question_id}
-              className={classes.card}
+              className={classes.question}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => onSelect?.(v.question)}

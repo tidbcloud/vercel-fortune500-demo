@@ -41,6 +41,10 @@ const useStyles = createStyles(() => ({
   },
   bottomContent: {
     display: 'flex',
+    flexDirection: 'row',
+  },
+  bottomContentWithResult: {
+    flexDirection: 'column',
   },
   contentWithResult: {
     flexDirection: "row",
@@ -115,9 +119,9 @@ export default function Home() {
         >
           <Content onSearch={handleSearch} searchValue={question} />
 
-          <div className={classes.bottomContent}>
+          <div className={clsx(classes.bottomContent, showingResult && classes.bottomContentWithResult)}>
             <div className={classes.block}><Suggestions showingResult={showingResult} onSelect={handleSearch} /></div>
-            <div className={classes.block}><UploadBlock /></div>
+            <div className={classes.block}><UploadBlock showingResult={showingResult} /></div>
           </div>
         </div>
 
