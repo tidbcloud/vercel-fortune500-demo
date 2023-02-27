@@ -1,6 +1,5 @@
 import { createStyles } from "@mantine/core";
-import { Logo } from "@/components/Logo";
-import { config } from "@/config";
+import TitleWithLogo from '@/components/TitleWithLogo'
 
 const useStyles = createStyles({
   root: {
@@ -29,10 +28,9 @@ export const BrandSection = ({ onClick }) => {
   const { classes } = useStyles();
   return (
     <div className={classes.root}>
-      <p className={classes.slogan} onClick={onClick}>
-        <Logo />
-        <span>{config.title}</span>
-      </p>
+      <div className={classes.slogan} onClick={onClick}>
+        <TitleWithLogo />
+      </div>
     </div>
   );
 };
