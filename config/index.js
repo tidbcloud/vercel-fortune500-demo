@@ -1,5 +1,5 @@
 export const config = {
-  title: "Fortune 500 Q&A",
+  title: "AI Insight",
   suggestions: [
     {
       title: "Revenue",

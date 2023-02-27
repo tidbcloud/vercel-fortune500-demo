@@ -98,12 +98,23 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={clsx("main", classes.main, showingResult && classes.mainWithResult)}>
-        <div className={clsx(classes.content, showingResult && classes.contentWithResult)}>
+      <main
+        className={clsx(
+          "main",
+          classes.main,
+          showingResult && classes.mainWithResult
+        )}
+      >
+        <div
+          className={clsx(
+            classes.content,
+            showingResult && classes.contentWithResult
+          )}
+        >
           <Content onSearch={handleSearch} searchValue={question} />
 
           <div className={classes.bottomContent}>
-            test
+            <Suggestions showingResult={showingResult} onSelect={handleSearch} />
             <UploadBlock />
           </div>
         </div>
