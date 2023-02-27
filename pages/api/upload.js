@@ -1,5 +1,7 @@
 import { createHash } from "crypto";
-import { generateDatabaseName, prisma } from "@/lib/db";
+import sqlstring from "sqlstring";
+import { generateUniqueName, prisma } from "@/lib/db";
+import { DATABASE_ENV } from "@/config/env";
 import { parse } from "@/lib/csv";
 
 export default async function handler(req, res) {
@@ -12,31 +14,36 @@ export default async function handler(req, res) {
     typeof content === "string"
   ) {
     const [columns, data] = await parse(content);
-    const columnsSql = columns.map((i) => `\`${i}\` TEXT`).join(",");
-    const dataSql = data
-      .map((i) => `(${i.map((j) => `"${j}"`).join(",")})`)
+    const columnsSql = columns
+      .map((i) => sqlstring.format("?? TEXT", [i]))
       .join(",");
 
-    const db = generateDatabaseName();
-    const table = "userdata";
-    const createDatabaseStatement = `CREATE DATABASE ${db};`;
-    const createTableStatement = `CREATE TABLE IF NOT EXISTS \`${db}\`.\`${table}\` (${columnsSql});`;
-    const insertStatement = `INSERT INTO \`${db}\`.\`${table}\` VALUES ${dataSql};`;
+    const db = DATABASE_ENV.database;
+    const table = generateUniqueName();
 
-    await prisma.$executeRawUnsafe(createDatabaseStatement);
-    await prisma.$executeRawUnsafe(createTableStatement);
-    await prisma.$executeRawUnsafe(insertStatement);
+    const createTableStatement =
+      sqlstring.format("CREATE TABLE IF NOT EXISTS ??.?? ", [db, table]) +
+      `(${columnsSql})`;
 
-    await prisma.file.create({
-      data: {
-        filename,
-        db,
-        table,
-        hash: createHash("md5").update(content).digest("hex"),
-      },
-    });
+    const insertStatement = sqlstring.format("INSERT INTO ??.?? VALUES ?", [
+      db,
+      table,
+      data,
+    ]);
 
-    return res.status(200).json({ message: "success", data: { id: db } });
+    await prisma.$transaction([
+      prisma.$executeRawUnsafe(createTableStatement),
+      prisma.$executeRawUnsafe(insertStatement),
+      prisma.file.create({
+        data: {
+          filename,
+          table,
+          hash: createHash("md5").update(content).digest("hex"),
+        },
+      }),
+    ]);
+
+    return res.status(200).json({ message: "success", data: { id: table } });
   }
 
   res.status(400).json({ message: "invalid request" });
