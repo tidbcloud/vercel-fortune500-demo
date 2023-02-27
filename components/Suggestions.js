@@ -81,6 +81,9 @@ const useStyles = createStyles(() => ({
       lineHeight: 1.5,
     },
   },
+  badge: {
+    marginLeft: 4,
+  },
 }));
 
 export const Suggestions = ({ showingResult, className, onSelect }) => {
@@ -125,7 +128,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
             rel="noopener noreferrer"
             onClick={() => onSelect?.(v.content)}
           >
-            <p>{v.content}<Badge>{v.title}</Badge></p>
+            <div>{v.content}<Badge className={classes.badge}>{v.title}</Badge></div>
           </a>
         ))}
       </div>
