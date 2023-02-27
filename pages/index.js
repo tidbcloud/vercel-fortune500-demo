@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { Button, createStyles } from "@mantine/core";
+import { Button, createStyles, Modal, Group, Text } from "@mantine/core";
+import { Dropzone } from '@mantine/dropzone'
 import { config } from "@/config";
-import { UploadBlock } from "@/components/UploadBlock";
 import TitleWidthLogo from '@/components/TitleWithLogo'
+import { IconUpload, IconPhoto, IconX } from '@tabler/icons'
 
 const useStyles = createStyles(() => ({
   main: {
@@ -23,6 +24,12 @@ const useStyles = createStyles(() => ({
     fontSize: 20,
     fontWeight: 700,
     marginBottom: 24,
+    position: 'relative',
+  },
+  titleIcon: {
+    position: 'absolute',
+    left: -40,
+    top: -4,
   },
   paragraph: {
     fontSize: 16,
@@ -36,7 +43,7 @@ const useStyles = createStyles(() => ({
   line: {
     height: 500,
     borderLeft: `1px solid #666666`,
-    margin: 24,
+    margin: 24 + 50,
   },
   preview: {
     width: 558,
@@ -66,6 +73,7 @@ const useStyles = createStyles(() => ({
 
 export default function Home() {
   const { classes } = useStyles();
+  const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
     function setHeight() {
@@ -93,15 +101,33 @@ export default function Home() {
           <TitleWidthLogo />
           <div className={classes.content}>
             <div className={classes.block}>
-              <div className={classes.subTitle}> Step 1. Upload a CSV file</div>
+              <div className={classes.subTitle}>
+                <Image
+                  src="/upload.svg"
+                  alt="Upload"
+                  width={32}
+                  height={32}
+                  className={classes.titleIcon}
+                />
+                Step 1. Upload a CSV file
+              </div>
               <div className={classes.paragraph}>Upload a CSV file, then ask questions by natural language</div>
-              <Button style={{ marginBottom: 24 }}>Explore any dataset</Button>
+              <Button style={{ marginBottom: 24 }} onClick={() => setUploading(true)}>Explore any dataset</Button>
               <div className={classes.paragraph}>Don&apos;t have a CSV file? You can try our sample dataset about fortune 500</div>
               <Button variant="light">Explore fortune 500</Button>
             </div>
             <div className={classes.line}></div>
             <div className={classes.block}>
-              <div className={classes.subTitle}> Step 2. Ask questions from it</div>
+              <div className={classes.subTitle}>
+                <Image
+                  src="/ai.svg"
+                  alt="Upload"
+                  width={32}
+                  height={32}
+                  className={classes.titleIcon}
+                />
+                Step 2. Ask questions from it
+              </div>
               <div className={classes.preview}>PLACEHOLDER</div>
             </div>
           </div>
@@ -124,6 +150,43 @@ export default function Home() {
           </a>
         </footer>
       </main>
+      <Modal
+        opened={uploading}
+        onClose={() => setUploading(false)}
+        title="Explore your own dataset!"
+      >
+        <Dropzone
+          onDrop={(files) => console.log('accepted files', files)}
+          onReject={(files) => console.log('rejected files', files)}
+          maxSize={3 * 1024 ** 2}
+        >
+          <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
+            <Dropzone.Accept>
+              <IconUpload
+                size={50}
+                stroke={1.5}
+              />
+            </Dropzone.Accept>
+            <Dropzone.Reject>
+              <IconX
+                size={50}
+                stroke={1.5}
+              />
+            </Dropzone.Reject>
+            <Dropzone.Idle>
+              <IconPhoto size={50} stroke={1.5} />
+            </Dropzone.Idle>
+            <div>
+              <Text size="xl" inline>
+                Drag images here or click to select files
+              </Text>
+              <Text size="sm" color="dimmed" inline mt={7}>
+                Attach as many files as you like, each file should not exceed 5mb
+              </Text>
+            </div>
+          </Group>
+        </Dropzone>
+      </Modal>
     </>
   );
 }
