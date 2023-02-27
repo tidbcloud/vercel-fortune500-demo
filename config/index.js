@@ -3,8 +3,7 @@ export const config = {
   suggestions: [
     {
       title: "Revenue",
-      content:
-        "Top 10 companies by revenues in 2022?",
+      content: "Top 10 companies by revenues in 2022?",
     },
     {
       title: "Revenue",
