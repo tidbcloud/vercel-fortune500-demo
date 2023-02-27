@@ -1,4 +1,5 @@
 import { Button, createStyles } from "@mantine/core";
+import Link from "next/link"
 
 const useStyles = createStyles(() => ({
   root: {
@@ -16,16 +17,18 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-export const UploadBlock = () => {
+export const UploadBlock = ({ showingResult }) => {
   const { classes } = useStyles();
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={showingResult ? { marginLeft: 0 } : {}}>
       <div className={classes.title}>Explore</div>
       <div className={classes.text}>
-        Try your own data?
+        {showingResult ? "Changed another dataset?" : "Try your own data?"}
       </div>
       <div>
-        <Button variant="light">Explore your own data</Button>
+        <Link href="/">
+          <Button variant="light">Explore your own data</Button>
+        </Link>
       </div>
     </div>
   );
