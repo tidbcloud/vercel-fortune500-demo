@@ -1,12 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
-import clsx from "clsx";
+import { useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { Content } from "@/components/Content";
-import { Suggestions } from "@/components/Suggestions";
-import { createStyles } from "@mantine/core";
+import { Button, createStyles } from "@mantine/core";
 import { config } from "@/config";
 import { UploadBlock } from "@/components/UploadBlock";
+import TitleWidthLogo from '@/components/TitleWithLogo'
 
 const useStyles = createStyles(() => ({
   main: {
@@ -20,32 +18,37 @@ const useStyles = createStyles(() => ({
       padding: "0 0 2rem",
     },
   },
-  mainWithResult: {
-    justifyContent: "flex-start",
+  subTitle: {
+    color: '#666666',
+    fontSize: 20,
+    fontWeight: 700,
+    marginBottom: 24,
+  },
+  paragraph: {
+    fontSize: 16,
+    color: '#777777',
+    marginBottom: 24,
+  },
+  block: {
+    width: 500,
+    paddingTop: 100,
+  },
+  line: {
+    height: 500,
+    borderLeft: `1px solid #666666`,
+    margin: 24,
+  },
+  preview: {
+    width: 558,
+    height: 305,
+    backgroundColor: '#D9D9D9',
+    marginBottom: 24,
+    padding: 24,
+    color: '#FFF',
   },
   content: {
-    maxWidth: 1100,
-    width: "100%",
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    "@media (max-width: 700px)": {
-      marginTop: "2rem",
-      padding: "1rem",
-      justifyContent: "flex-start",
-      gap: 24,
-    },
-  },
-  bottomContent: {
     display: 'flex',
-  },
-  contentWithResult: {
-    flexDirection: "row",
-    gap: 40,
-    "@media (max-width: 700px)": {
-      flexDirection: "column",
-    },
+    marginTop: 80,
   },
   link: {
     display: "flex",
@@ -63,18 +66,6 @@ const useStyles = createStyles(() => ({
 
 export default function Home() {
   const { classes } = useStyles();
-  const [showingResult, setShowingResult] = useState(false);
-  const [question, setQuestion] = useState("");
-
-  const handleSearch = useCallback((val) => {
-    if (val) {
-      setQuestion(val);
-      setShowingResult(true);
-    } else {
-      setQuestion("");
-      setShowingResult(false);
-    }
-  }, []);
 
   useEffect(() => {
     function setHeight() {
@@ -98,15 +89,22 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={clsx("main", classes.main, showingResult && classes.mainWithResult)}>
-        <div className={clsx(classes.content, showingResult && classes.contentWithResult)}>
-          <Content onSearch={handleSearch} searchValue={question} />
-
-          <div className={classes.bottomContent}>
-            test
-            <UploadBlock />
+      <main className={classes.main}>
+          <TitleWidthLogo />
+          <div className={classes.content}>
+            <div className={classes.block}>
+              <div className={classes.subTitle}> Step 1. Upload a CSV file</div>
+              <div className={classes.paragraph}>Upload a CSV file, then ask questions by natural language</div>
+              <Button style={{ marginBottom: 24 }}>Explore any dataset</Button>
+              <div className={classes.paragraph}>Don&apos;t have a CSV file? You can try our sample dataset about fortune 500</div>
+              <Button variant="light">Explore fortune 500</Button>
+            </div>
+            <div className={classes.line}></div>
+            <div className={classes.block}>
+              <div className={classes.subTitle}> Step 2. Ask questions from it</div>
+              <div className={classes.preview}>PLACEHOLDER</div>
+            </div>
           </div>
-        </div>
 
         <footer className={classes.footer}>
           <a
