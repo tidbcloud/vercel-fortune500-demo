@@ -37,6 +37,8 @@ const useStyles = createStyles(() => ({
       gap: 24,
     },
   },
+  block: {
+  },
   bottomContent: {
     display: 'flex',
   },
@@ -114,8 +116,8 @@ export default function Home() {
           <Content onSearch={handleSearch} searchValue={question} />
 
           <div className={classes.bottomContent}>
-            <Suggestions showingResult={showingResult} onSelect={handleSearch} />
-            <UploadBlock />
+            <div className={classes.block}><Suggestions showingResult={showingResult} onSelect={handleSearch} /></div>
+            <div className={classes.block}><UploadBlock /></div>
           </div>
         </div>
 

@@ -1,10 +1,14 @@
-import { IconArrowRight } from "@tabler/icons";
 import clsx from "clsx";
-import { Badge, createStyles } from "@mantine/core";
-import { config } from "@/config";
+import { createStyles, LoadingOverlay } from "@mantine/core";
+import useSWR from 'swr'
+import { useRouter } from "next/router"
+import { useState } from 'react'
+
 
 const useStyles = createStyles(() => ({
   root: {
+  },
+  container: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -13,10 +17,21 @@ const useStyles = createStyles(() => ({
       flexDirection: "column",
     },
   },
+  hint: {
+    color: '#666666',
+    marginTop: 12,
+  },
+  result: {
+    position: 'relative',
+    minHeight: 200,
+  },
   title: {
     color: '#333333',
     fontSize: 24,
     marginBottom: 18,
+  },
+  loadingBlock: {
+    width: 600,
   },
   withResult: {
     flexDirection: "column",
@@ -75,27 +90,59 @@ const useStyles = createStyles(() => ({
 
 export const Suggestions = ({ showingResult, className, onSelect }) => {
   const { classes } = useStyles();
+  const router = useRouter()
+  const [loadingText, setLoadingText] = useState('Loading suggestions based on your dataset...')
+  const id = router.query.id
+  const fetcher = (url) => fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      cluster_id: process.env.TIDBCLOUD_CLUSTER_ID,
+      database: `${router.query.id}`,
+      question_num: 3,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': process.env.TIDBCLOUD_API_KEY,
+    },
+  }).then((res) => res.json());
+  const { data, isLoading, error } = useSWR(id ? `/api/suggest?id=${id}` : null,
+  fetcher,
+  {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    shouldRetryOnError: false,
+    onSuccess() {
+      setLoadingText("Questions based on your own dataset:");
+    },
+    onLoadingSlow() {
+      setLoadingText("Calculating and summarizing...");
+    },
+  })
+  console.log(`isLoading=${isLoading}`)
   return (
-    <div>
-      <div className={classes.title}>Questions</div>
-      <div
-        className={clsx(
-          classes.root,
-          showingResult && classes.withResult,
-          className
-        )}
-      >
-        {config.suggestions.map((v) => (
-          <a
-            key={v.content}
-            className={classes.card}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => onSelect?.(v.content)}
-          >
-            <div>{v.content}<Badge className={classes.badge}>{v.title}</Badge></div>
-          </a>
-        ))}
+    <div className={classes.root}>
+      <div className={classes.container}>
+        <div className={classes.title}>Questions</div>
+        {isLoading && <div className={classes.hint}>{loadingText}</div>}
+        <div
+          className={clsx(classes.result,
+            showingResult ? classes.withResult : classes.loadingBlock,
+            className
+          )}
+        >
+          <LoadingOverlay visible={isLoading} overlayBlur={2} />
+          {data?.questions?.map((v) => (
+            <a
+              key={v.question_id}
+              className={classes.card}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => onSelect?.(v.question)}
+            >
+              <div>{v.question}</div>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );

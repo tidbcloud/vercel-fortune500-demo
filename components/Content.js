@@ -5,8 +5,9 @@ import { SearchResult } from "@/components/SearchResult";
 import { BrandSection } from "@/components/BrandSection";
 import { Input } from "@/components/Input";
 import { createStyles } from "@mantine/core";
+import { useRouter } from "next/router"
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+export const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const useStyles = createStyles({
   content: {
@@ -30,9 +31,11 @@ export const Content = ({ onSearch, searchValue }) => {
   const { classes } = useStyles();
   const [loadingText, setLoadingText] = useState("Analyzing question");
   const [query, setQuery] = useState("");
+  const router = useRouter()
+  const id = router.query.id
 
   const { data, isLoading, error } = useSWR(
-    query ? `/api/search?q=${query}` : null,
+    query ? `/api/search?q=${query}${id ? `&id=${id}` : ''}` : null,
     fetcher,
     {
       revalidateOnFocus: false,

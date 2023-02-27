@@ -6,6 +6,7 @@ import { Dropzone, MIME } from '@mantine/dropzone'
 import { config } from "@/config";
 import TitleWidthLogo from '@/components/TitleWithLogo'
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons'
+import { useRouter } from "next/router"
 
 const useStyles = createStyles(() => ({
   main: {
@@ -73,7 +74,9 @@ const useStyles = createStyles(() => ({
 
 export default function Home() {
   const { classes } = useStyles();
+  const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     function setHeight() {
@@ -94,6 +97,7 @@ export default function Home() {
     if (!files?.[0]) {
       return
     }
+    setUploading(true)
     const reader = new FileReader()
 
     reader.onload = (e) => {
@@ -110,7 +114,13 @@ export default function Home() {
           "Content-Type": "application/json",
         },
       }).then(res => {
-        console.log(`res:`, res)
+        setUploading(false)
+        res.json().then(result => {
+          router.push(`/search?id=${result.data.id}`)
+        })
+      }).catch(res => {
+        setUploading(false)
+        alert(JSON.stringify(res))
       })
 
     }
@@ -141,9 +151,9 @@ export default function Home() {
                 Step 1. Upload a CSV file
               </div>
               <div className={classes.paragraph}>Upload a CSV file, then ask questions by natural language</div>
-              <Button style={{ marginBottom: 24 }} onClick={() => setUploading(true)}>Explore any dataset</Button>
+              <Button style={{ marginBottom: 24 }} onClick={() => setShowUpload(true)}>Explore any dataset</Button>
               <div className={classes.paragraph}>Don&apos;t have a CSV file? You can try our sample dataset about fortune 500</div>
-              <Button variant="light">Explore fortune 500</Button>
+              <Button variant="light" onClick={() => window.location.href = `https://fortune500.vercel.app/`}>Explore fortune 500</Button>
             </div>
             <div className={classes.line}></div>
             <div className={classes.block}>
@@ -180,8 +190,8 @@ export default function Home() {
         </footer>
       </main>
       <Modal
-        opened={uploading}
-        onClose={() => setUploading(false)}
+        opened={showUpload}
+        onClose={() => setShowUpload(false)}
         title="Explore your own dataset!"
       >
         <Dropzone
@@ -189,6 +199,7 @@ export default function Home() {
           onReject={(files) => console.log('rejected files', files)}
           accept={{"text/csv": ['.csv']}}
           maxSize={3 * 1024 ** 2}
+          loading={uploading}
         >
           <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
             <Dropzone.Accept>
