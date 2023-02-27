@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { Button, createStyles, Modal, Group, Text } from "@mantine/core";
-import { Dropzone } from '@mantine/dropzone'
+import { Dropzone, MIME } from '@mantine/dropzone'
 import { config } from "@/config";
 import TitleWidthLogo from '@/components/TitleWithLogo'
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons'
@@ -89,6 +89,35 @@ export default function Home() {
     }
   }, []);
 
+
+  const upload = (files) => {
+    if (!files?.[0]) {
+      return
+    }
+    const reader = new FileReader()
+
+    reader.onload = (e) => {
+
+      const data = {
+        filename: files[0].name,
+        content: e.target.result,
+      }
+
+      fetch(`/api/upload`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(res => {
+        console.log(`res:`, res)
+      })
+
+    }
+    reader.readAsText(files[0])
+   
+  }
+
   return (
     <>
       <Head>
@@ -156,8 +185,9 @@ export default function Home() {
         title="Explore your own dataset!"
       >
         <Dropzone
-          onDrop={(files) => console.log('accepted files', files)}
+          onDrop={(files) =>  upload(files)}
           onReject={(files) => console.log('rejected files', files)}
+          accept={{"text/csv": ['.csv']}}
           maxSize={3 * 1024 ** 2}
         >
           <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
