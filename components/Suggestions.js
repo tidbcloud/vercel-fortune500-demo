@@ -30,12 +30,12 @@ const useStyles = createStyles(() => ({
   },
   loadingBlock: {
     width: 600,
+    background: '#DEDEDE',
   },
   withResult: {
     flexDirection: "column",
     alignSelf: "flex-start",
     minWidth: 280,
-    marginTop: 54,
 
     "@media (max-width: 700px)": {
       marginTop: 0,
@@ -112,9 +112,11 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
       <div className={classes.container}>
         <div className={classes.title}>Questions</div>
         {isLoading && <div className={classes.hint}>{loadingText}</div>}
+        {error && <Alert title="Ooops, error occurred" icon={<IconAlertCircle size={16} />} color="red">Failed to load suggestions: {error.message}</Alert>}
         <div
           className={clsx(classes.result,
-            showingResult ? classes.withResult : classes.loadingBlock,
+            showingResult && classes.withResult,
+            isLoading && classes.loadingBlock,
             className
           )}
         >
