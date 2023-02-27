@@ -125,7 +125,6 @@ export default function Home() {
 
     }
     reader.readAsText(files[0])
-
   }
 
   return (
