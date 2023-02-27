@@ -91,7 +91,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
   );
   const id = router.query.id;
 
-  const { data, isLoading } = useSWR(
+  const { data, isLoading, error } = useSWR(
     id ? `/api/suggest?id=${id}` : null,
     fetcher,
     {
