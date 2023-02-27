@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { createStyles, LoadingOverlay } from "@mantine/core";
+import { createStyles, LoadingOverlay, Alert } from "@mantine/core";
+import { IconAlertCircle } from '@tabler/icons'
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { useState } from "react";
