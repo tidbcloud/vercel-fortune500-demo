@@ -24,6 +24,7 @@ specifiers:
   react-dom: 18.2.0
   short-unique-id: ^4.4.4
   sql-formatter: ^12.0.5
+  sqlstring: ^2.3.3
   swr: ^2.0.0
 
 dependencies:
@@ -48,6 +49,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   short-unique-id: 4.4.4
   sql-formatter: 12.0.5
+  sqlstring: 2.3.3
   swr: 2.0.0_react@18.2.0
 
 devDependencies:
@@ -2696,6 +2698,11 @@ packages:
     dependencies:
       argparse: 2.0.1
       nearley: 2.20.1
+    dev: false
+
+  /sqlstring/2.3.3:
+    resolution: {integrity: sha512-qC9iz2FlN7DQl3+wjwn3802RTyjCx7sDvfQEXchwa6CWOx07/WVfh91gBmQ9fahw8snwGEWU3xGzOt4tFyHLxg==}
+    engines: {node: '>= 0.6'}
     dev: false
 
   /string.prototype.matchall/4.0.8:
