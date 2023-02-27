@@ -1,13 +1,11 @@
 import clsx from "clsx";
 import { createStyles, LoadingOverlay } from "@mantine/core";
-import useSWR from 'swr'
-import { useRouter } from "next/router"
-import { useState } from 'react'
-
+import useSWR from "swr";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { fetcher } from "@/lib/fetch";
 
 const useStyles = createStyles(() => ({
-  root: {
-  },
   container: {
     display: "flex",
     flexDirection: "column",
@@ -18,15 +16,15 @@ const useStyles = createStyles(() => ({
     },
   },
   hint: {
-    color: '#666666',
+    color: "#666666",
     marginTop: 12,
   },
   result: {
-    position: 'relative',
+    position: "relative",
     minHeight: 200,
   },
   title: {
-    color: '#333333',
+    color: "#333333",
     fontSize: 24,
     marginBottom: 18,
   },
@@ -63,7 +61,7 @@ const useStyles = createStyles(() => ({
   },
   question: {
     cursor: "pointer",
-    color: '#666666',
+    color: "#666666",
 
     "& > h2": {
       marginBottom: 8,
@@ -87,42 +85,36 @@ const useStyles = createStyles(() => ({
 
 export const Suggestions = ({ showingResult, className, onSelect }) => {
   const { classes } = useStyles();
-  const router = useRouter()
-  const [loadingText, setLoadingText] = useState('Loading suggestions based on your dataset...')
-  const id = router.query.id
-  const fetcher = (url) => fetch(url, {
-    method: 'POST',
-    body: JSON.stringify({
-      cluster_id: process.env.TIDBCLOUD_CLUSTER_ID,
-      database: `${router.query.id}`,
-      question_num: 3,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-      'api-key': process.env.TIDBCLOUD_API_KEY,
-    },
-  }).then((res) => res.json());
-  const { data, isLoading, error } = useSWR(id ? `/api/suggest?id=${id}` : null,
-  fetcher,
-  {
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    shouldRetryOnError: false,
-    onSuccess() {
-      setLoadingText("Questions based on your own dataset:");
-    },
-    onLoadingSlow() {
-      setLoadingText("Calculating and summarizing...");
-    },
-  })
-  console.log(`isLoading=${isLoading}`)
+  const router = useRouter();
+  const [loadingText, setLoadingText] = useState(
+    "Loading suggestions based on your dataset..."
+  );
+  const id = router.query.id;
+
+  const { data, isLoading } = useSWR(
+    id ? `/api/suggest?id=${id}` : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      shouldRetryOnError: false,
+      onSuccess() {
+        setLoadingText("Questions based on your own dataset:");
+      },
+      onLoadingSlow() {
+        setLoadingText("Calculating and summarizing...");
+      },
+    }
+  );
+
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.title}>Questions</div>
         {isLoading && <div className={classes.hint}>{loadingText}</div>}
         <div
-          className={clsx(classes.result,
+          className={clsx(
+            classes.result,
             showingResult ? classes.withResult : classes.loadingBlock,
             className
           )}

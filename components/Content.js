@@ -1,13 +1,12 @@
 import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import useSWR from "swr";
+import { useRouter } from "next/router";
+import { createStyles } from "@mantine/core";
 import { SearchResult } from "@/components/SearchResult";
 import { BrandSection } from "@/components/BrandSection";
 import { Input } from "@/components/Input";
-import { createStyles } from "@mantine/core";
-import { useRouter } from "next/router"
-
-export const fetcher = (...args) => fetch(...args).then((res) => res.json());
+import { fetcher } from "@/lib/fetch";
 
 const useStyles = createStyles({
   content: {
@@ -31,11 +30,11 @@ export const Content = ({ onSearch, searchValue }) => {
   const { classes } = useStyles();
   const [loadingText, setLoadingText] = useState("Analyzing question");
   const [query, setQuery] = useState("");
-  const router = useRouter()
-  const id = router.query.id
+  const router = useRouter();
+  const id = router.query.id;
 
   const { data, isLoading, error } = useSWR(
-    query ? `/api/search?q=${query}${id ? `&id=${id}` : ''}` : null,
+    query ? `/api/search?q=${query}${id ? `&id=${id}` : ""}` : null,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -50,10 +49,13 @@ export const Content = ({ onSearch, searchValue }) => {
     }
   );
 
-  const onConfirm = useCallback((val) => {
-    setQuery(val);
-    onSearch(val);
-  }, [onSearch])
+  const onConfirm = useCallback(
+    (val) => {
+      setQuery(val);
+      onSearch(val);
+    },
+    [onSearch]
+  );
 
   return (
     <div className={classes.content}>
