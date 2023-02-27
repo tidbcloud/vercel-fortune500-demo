@@ -4,6 +4,11 @@ import { generateUniqueName, prisma } from "@/lib/db";
 import { DATABASE_ENV } from "@/config/env";
 import { parse } from "@/lib/csv";
 
+function isNumeric(str) {
+  if (typeof str != "string") return false;
+  return !isNaN(str) && !isNaN(parseFloat(str));
+}
+
 export default async function handler(req, res) {
   const { content, filename } = req.body;
 
@@ -14,8 +19,16 @@ export default async function handler(req, res) {
     typeof content === "string"
   ) {
     const [columns, data] = await parse(content);
+
+    if (columns.some((i) => isNumeric(i))) {
+      // not a valid header
+      return res
+        .status(400)
+        .json({ message: "It seems this file does not contain valid header" });
+    }
+
     const columnsSql = columns
-      .map((i) => sqlstring.format("?? TEXT", [i]))
+      .map((i, index) => sqlstring.format("?? TEXT", [i || `c${index}`]))
       .join(",");
 
     const db = DATABASE_ENV.database;
