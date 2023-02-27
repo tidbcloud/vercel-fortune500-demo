@@ -197,7 +197,7 @@ export default function Home() {
           onDrop={(files) =>  upload(files)}
           onReject={(files) => console.log('rejected files', files)}
           accept={{"text/csv": ['.csv']}}
-          maxSize={3 * 1024 ** 2}
+          maxSize={1 * 1024 ** 2}
           loading={uploading}
         >
           <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
@@ -218,10 +218,10 @@ export default function Home() {
             </Dropzone.Idle>
             <div>
               <Text size="xl" inline>
-                Drag images here or click to select files
+                Drag the CSV file here or click to select one CSV file
               </Text>
               <Text size="sm" color="dimmed" inline mt={7}>
-                Attach as many files as you like, each file should not exceed 5mb
+                Attach only one file please, do not exceed 1mb
               </Text>
             </div>
           </Group>
