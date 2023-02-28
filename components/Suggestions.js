@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { createStyles, LoadingOverlay, Alert } from "@mantine/core";
+import { createStyles, LoadingOverlay, Alert, Badge } from "@mantine/core";
 import { IconAlertCircle } from '@tabler/icons'
 import useSWR from "swr";
 import { useRouter } from "next/router";
@@ -60,10 +60,15 @@ const useStyles = createStyles(() => ({
       },
     },
   },
+  badge: {
+    marginLeft: 4,
+  },
+  questionText: {
+    marginBottom: 12,
+  },
   question: {
     cursor: "pointer",
     color: "#666666",
-
     "& > h2": {
       marginBottom: 8,
       display: "flex",
@@ -130,7 +135,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
               rel="noopener noreferrer"
               onClick={() => onSelect?.(v.question)}
             >
-              <div>{v.question}</div>
+              <div className={classes.questionText}>{v.question} <Badge className={classes.badge}>{v.question_keyword}</Badge></div>
             </a>
           ))}
         </div>
