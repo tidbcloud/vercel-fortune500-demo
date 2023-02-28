@@ -3,6 +3,7 @@ import Link from "next/link"
 import React, { useState } from "react"
 import BuildMyOwnAIInsightDialog from "./BuildMyOwnAIInsightDialog";
 import { TwitterShareButton, TwitterIcon } from 'react-share'
+import { FacebookShareButton, FacebookIcon } from 'react-share'
 
 const useStyles = createStyles(() => ({
   root: {
@@ -23,6 +24,9 @@ const useStyles = createStyles(() => ({
 export const UploadBlock = ({ showingResult }) => {
   const { classes } = useStyles();
   const [showingDIYBuild, setShowingDIYBuild] = useState(false);
+  const shareURL = typeof window !== 'undefined' ? window.location.href : ''
+  const shareQuote = 'AI Insight exploration!'
+  const shareHashtag = '#tidbcloud #tidb #aiinsight'
   return (
     <div className={classes.root} style={showingResult ? { marginLeft: 0 } : {}}>
       <div className={classes.title}>Explore</div>
@@ -49,12 +53,19 @@ support unlimited file size!</div>
       <div className={classes.text}>Share this AI Insight!</div>
       <div>
         <TwitterShareButton
-          url={typeof window !== 'undefined' ? window.location.href : ''}
-          quote={'AI Insight exploration!'}
-          hashtag="#tidbcloud #tidb #aiinsight"
+          url={shareURL}
+          quote={shareQuote}
+          hashtag={shareHashtag}
         >
           <TwitterIcon size={32} round />
         </TwitterShareButton>
+        <FacebookShareButton
+           url={shareURL}
+           quote={shareQuote}
+           hashtag={shareHashtag}
+        >
+          <FacebookIcon size={32} round />
+        </FacebookShareButton>
       </div>
     </div>
   );

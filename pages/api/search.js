@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("q");
   const id = searchParams.get("id");
+  console.log(req)
 
   if (req.method === "GET" && query && id) {
     const response = await chat2chart(query, id);
