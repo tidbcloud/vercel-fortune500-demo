@@ -2,6 +2,7 @@ import { Button, createStyles, Modal } from "@mantine/core";
 import Link from "next/link"
 import React, { useState } from "react"
 import BuildMyOwnAIInsightDialog from "./BuildMyOwnAIInsightDialog";
+import { TwitterShareButton, TwitterIcon } from 'react-share'
 
 const useStyles = createStyles(() => ({
   root: {
@@ -44,6 +45,16 @@ support unlimited file size!</div>
         <Link href="/">
           <Button variant="light">Explore any dataset</Button>
         </Link>
+      </div>
+      <div className={classes.text}>Share this AI Insight!</div>
+      <div>
+        <TwitterShareButton
+          url={typeof window !== 'undefined' ? window.location.href : ''}
+          quote={'AI Insight exploration!'}
+          hashtag="#tidbcloud #tidb #aiinsight"
+        >
+          <TwitterIcon size={32} round />
+        </TwitterShareButton>
       </div>
     </div>
   );
