@@ -19,6 +19,7 @@ const useStyles = createStyles(() => ({
   hint: {
     color: "#666666",
     marginTop: 12,
+    marginBottom: 12,
   },
   result: {
     position: "relative",
