@@ -43,7 +43,7 @@ const useStyles = createStyles(() => ({
     paddingTop: 100,
   },
   line: {
-    height: 500,
+    height: 300,
     borderLeft: `1px solid #666666`,
     margin: 24 + 50,
   },
@@ -51,7 +51,7 @@ const useStyles = createStyles(() => ({
   },
   content: {
     display: 'flex',
-    marginTop: 80,
+    marginTop: 0,
   },
   link: {
     display: "flex",
@@ -168,8 +168,9 @@ export default function Home() {
                 <Image
                   src="/demo.gif"
                   alt="demo"
-                  width={500}
-                  height={340}
+                  width={400}
+                  height={272}
+                  style={{ border: `1px solid #DFDFDF` }}
                 />
               </div>
             </div>
