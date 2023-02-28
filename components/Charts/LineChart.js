@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import EChartsReact from "echarts-for-react";
-import { isTimeField, transformTimeData } from "./utils";
+import { isTimeField, transformTimeData } from "@/lib/utils";
 
 export const LineChart = ({ chartInfo, data, className }) => {
   const {

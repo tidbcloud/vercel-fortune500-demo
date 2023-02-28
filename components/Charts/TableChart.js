@@ -1,11 +1,11 @@
 import { Table, createStyles } from "@mantine/core";
-import { isNumberFiled } from "./utils";
+import { isNumberFiled } from "@/lib/utils";
 
 const useStyles = createStyles({
   table: {
     borderRadius: 8,
-    borderCollapse: 'initial',
-    overflow: 'hidden',
+    borderCollapse: "initial",
+    overflow: "hidden",
   },
   headCell: {
     height: 50,

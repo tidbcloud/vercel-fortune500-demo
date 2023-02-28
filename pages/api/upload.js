@@ -3,17 +3,12 @@ import sqlstring from "sqlstring";
 import { generateUniqueName, prisma } from "@/lib/db";
 import { DATABASE_ENV } from "@/config/env";
 import { parse } from "@/lib/csv";
-
-function isNumeric(str) {
-  if (typeof str != "string") return false;
-  return !isNaN(str) && !isNaN(parseFloat(str));
-}
+import { isNumeric } from "@/lib/utils";
 
 export default async function handler(req, res) {
   const { content, filename } = req.body;
 
   try {
-
     if (
       req.method === "POST" &&
       filename &&
@@ -24,9 +19,9 @@ export default async function handler(req, res) {
 
       if (columns.some((i) => isNumeric(i))) {
         // not a valid header
-        return res
-          .status(400)
-          .json({ message: "It seems this file does not contain valid header" });
+        return res.status(400).json({
+          message: "It seems this file does not contain valid header",
+        });
       }
 
       const columnsSql = columns
@@ -62,7 +57,9 @@ export default async function handler(req, res) {
     }
 
     res.status(400).json({ message: "invalid request" });
-    } catch(ex) {
-      res.status(500).json({ message: `Parse error: ${ex.message}, please try another file.` });
-    }
+  } catch (ex) {
+    res.status(500).json({
+      message: `Parse error: ${ex.message}, please try another file.`,
+    });
+  }
 }

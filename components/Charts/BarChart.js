@@ -1,6 +1,6 @@
 import EChartsReact from "echarts-for-react";
 import { useMemo } from "react";
-import { isTimeField } from "@/components/Charts/utils";
+import { isTimeField } from "@/lib/utils";
 
 export const BarChart = ({ chartInfo, data, className }) => {
   const {
@@ -69,9 +69,9 @@ export const BarChart = ({ chartInfo, data, className }) => {
         },
         dataZoom: [
           {
-            type: 'inside',
-            throttle: 50
-          }
+            type: "inside",
+            throttle: 50,
+          },
         ],
         animationDuration: 2000,
       },
@@ -82,8 +82,8 @@ export const BarChart = ({ chartInfo, data, className }) => {
   return (
     <EChartsReact
       className={className}
-      style={{height}}
-      opts={{height}}
+      style={{ height }}
+      opts={{ height }}
       option={options}
     ></EChartsReact>
   );
