@@ -16,6 +16,7 @@ specifiers:
   echarts-for-react: ^3.0.2
   eslint: 8.31.0
   eslint-config-next: 13.1.2
+  fetch-to-curl: ^0.6.0
   framer-motion: ^8.4.3
   next: 13.1.2
   prettier: ^2.8.3
@@ -55,6 +56,7 @@ dependencies:
   swr: 2.0.0_react@18.2.0
 
 devDependencies:
+  fetch-to-curl: 0.6.0
   prettier: 2.8.3
   prisma: 4.10.1
 
@@ -1660,6 +1662,10 @@ packages:
     dependencies:
       reusify: 1.0.4
     dev: false
+
+  /fetch-to-curl/0.6.0:
+    resolution: {integrity: sha512-Gsn0baHnENueQrtvKGikEkaAJhfQYDbSFnyZvI/qnwiZtdIwiuK6iJ0BAKzS3bEzpWyUr6SV9uB4H3HUwl/yZA==}
+    dev: true
 
   /file-entry-cache/6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
