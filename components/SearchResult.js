@@ -1,4 +1,4 @@
-import { IconMoodSadSquint } from "@tabler/icons";
+import { IconMoodSadSquint, IconTableAlias, IconChartPie } from "@tabler/icons";
 import {
   Text,
   ScrollArea,
@@ -6,19 +6,17 @@ import {
   createStyles,
   UnstyledButton,
   Modal,
+  Group,
+  ActionIcon,
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React, { useMemo, useState } from "react";
 import { format } from "sql-formatter";
 import { Typewriter } from "@/components/Typewriter";
-import { ChartMap } from "./ChartMap";
 import clsx from "clsx";
+import { ChartMap } from "./ChartMap";
 
 const useStyles = createStyles((theme) => ({
-  sql: {
-    display: "flex",
-    justifyContent: "flex-end",
-  },
   loading: {
     height: 25,
     marginTop: 12,
@@ -50,6 +48,8 @@ const useStyles = createStyles((theme) => ({
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: 12,
+    marginBottom: 4,
+    height: 400,
   },
 }));
 
@@ -62,6 +62,7 @@ export const SearchResult = ({
 }) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
+  const [type, setType] = useState("table");
   const sqlCode = useMemo(() => {
     try {
       return format(result?.gen_sql ?? "");
@@ -82,7 +83,12 @@ export const SearchResult = ({
   if (!isLoading && !result) return null;
 
   const chartInfo = result?.chart_info;
-  const chart = ChartMap[chartInfo?.chartName] ?? ChartMap.Table;
+  const chart = (() => {
+    if (type === "table") {
+      return ChartMap.Table;
+    }
+    return ChartMap[chartInfo?.chartName] ?? ChartMap.Table;
+  })();
   const showError =
     error ||
     result?.code !== 200 ||
@@ -98,6 +104,7 @@ export const SearchResult = ({
         centered
         title="Generated SQL"
         opened={opened}
+        size="lg"
         onClose={() => setOpened(false)}
       >
         <Prism
@@ -166,17 +173,25 @@ export const SearchResult = ({
         })}
       </ScrollArea>
 
-      {result?.gen_sql && (
-        <div className={classes.sql}>
+      <Group position="apart">
+        <Group spacing={1}>
+          <ActionIcon onClick={() => setType("table")}>
+            <IconTableAlias size={14} />
+          </ActionIcon>
+          <ActionIcon onClick={() => setType("chart")}>
+            <IconChartPie size={14} />
+          </ActionIcon>
+        </Group>
+
+        <div>
           <UnstyledButton variant="subtle" onClick={() => setOpened((o) => !o)}>
             <Text size={12} color="dimmed">
               View Generated SQL
             </Text>
           </UnstyledButton>
-
           {code}
         </div>
-      )}
+      </Group>
     </div>
   );
 };
