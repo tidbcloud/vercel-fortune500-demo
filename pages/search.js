@@ -24,7 +24,7 @@ const useStyles = createStyles(() => ({
     justifyContent: "flex-start",
   },
   content: {
-    maxWidth: 1100,
+    maxWidth: 1200,
     width: "100%",
     flex: 1,
     display: "flex",
@@ -124,7 +124,6 @@ export default function Home() {
             <div className={classes.block}><UploadBlock showingResult={showingResult} /></div>
           </div>
         </div>
-
         <footer className={classes.footer}>
           <a
             className={classes.link}
