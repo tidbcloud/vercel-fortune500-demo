@@ -8,6 +8,7 @@ import {
   Modal,
   Group,
   ActionIcon,
+  Stack,
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
 import React, { useMemo, useState } from "react";
@@ -49,7 +50,9 @@ const useStyles = createStyles((theme) => ({
     marginRight: "auto",
     marginTop: 12,
     marginBottom: 4,
-    height: 400,
+    height: "auto",
+    maxHeight: 400,
+    borderRadius: 8,
   },
 }));
 
@@ -161,7 +164,7 @@ export const SearchResult = ({
   });
 
   return (
-    <div className={className}>
+    <Stack className={className} spacing={0}>
       <ScrollArea className={classes.scroll}>
         {React.createElement(chart, {
           chartInfo: chartInfo,
@@ -173,13 +176,19 @@ export const SearchResult = ({
         })}
       </ScrollArea>
 
-      <Group position="apart">
+      <Group position="apart" px={8}>
         <Group spacing={1}>
           <ActionIcon onClick={() => setType("table")}>
-            <IconTableAlias size={14} />
+            <IconTableAlias
+              size={16}
+              color={"table" === type ? "#228be6" : "gray"}
+            />
           </ActionIcon>
           <ActionIcon onClick={() => setType("chart")}>
-            <IconChartPie size={14} />
+            <IconChartPie
+              size={16}
+              color={"chart" === type ? "#228be6" : "gray"}
+            />
           </ActionIcon>
         </Group>
 
@@ -192,6 +201,6 @@ export const SearchResult = ({
           {code}
         </div>
       </Group>
-    </div>
+    </Stack>
   );
 };
