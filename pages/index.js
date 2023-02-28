@@ -47,12 +47,6 @@ const useStyles = createStyles(() => ({
     margin: 24 + 50,
   },
   preview: {
-    width: 558,
-    height: 305,
-    backgroundColor: '#D9D9D9',
-    marginBottom: 24,
-    padding: 24,
-    color: '#FFF',
   },
   content: {
     display: 'flex',
@@ -166,7 +160,14 @@ export default function Home() {
                 />
                 Step 2. Ask questions from it
               </div>
-              <div className={classes.preview}>PLACEHOLDER</div>
+              <div className={classes.preview}>
+                <Image
+                  src="/demo.gif"
+                  alt="demo"
+                  width={500}
+                  height={340}
+                />
+              </div>
             </div>
           </div>
 
