@@ -11,7 +11,7 @@ const useStyles = createStyles(() => ({
   text: {
     color: '#666666',
     fontSize: 16,
-    marginBottom: 18,
+    marginBottom: 12,
  },
   title: {
     color: '#333333',
@@ -41,7 +41,7 @@ support unlimited file size!</div>
         </Modal>
       </div>
       <div className={classes.text}>Upload another data file? </div>
-      <div>
+      <div style={{ marginBottom: 18 }}>
         <Link href="/">
           <Button variant="light">Explore any dataset</Button>
         </Link>
