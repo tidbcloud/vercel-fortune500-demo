@@ -1,13 +1,26 @@
 ## Getting Started
 
-First, create a `.env.local` file in the root folder with given environment variables, you can get them in the setting of chat2query in TiDBCloud's web console:
+First, create a `.env.local` file in the root folder with given environment variables, you can get them in TiDBCloud's web console.
+
+This project relies on TiDB Cloud's Data API service, look at your data api settings, you can find a the data api endpoint like `https://data.tidbcloud.com/api/v1beta/apps/chat2query-[YOUR_DATA_API_ID]/v1/chat2data`, **only copy `YOUR_DATA_API_ID` but not the full url**, to the env file, alongside with `api-key` and the cluster id, like below:
 
 ```env
-TIDBCLOUD_URL=https://data.tidbcloud.com/api/v1beta/apps/[YOUR_DATAAPI_ENDPOINT]/v1/chat2chart
+TIDBCLOUD_API_ID=YOUR_DATA_API_ID
 TIDBCLOUD_API_KEY=YOUR_DATA_API_KEY
-TIDBCLOUD_DB=YOUR_DATABASE_NAME
 TIDBCLOUD_CLUSTER_ID=YOUR_CLUSTER_ID
 ```
+
+Then you can use the Vercel integration or manually inject those variables so this project can talk to your database directly:
+
+```env
+TIDB_HOST=gateway.aws.tidbcloud.com
+TIDB_PORT=4000
+TIDB_USER=USER
+TIDB_PASSWORD=PASSWORD
+TIDB_DATABASE=DB
+```
+
+This can be **skipped** unless you want to dig deeper and change the database scheme design, then you will need to add another variable named `DATABASE_URL`, it's just url composed of those variables above: `mysql://[TIDB_USER]:[TIDB_PASSWORD]@[TIDB_HOST]:[TIDB_PORT]/[TIDB_DATABASE]?pool_timeout=60&sslaccept=accept_invalid_certs`
 
 Install the dependencies:
 
@@ -17,6 +30,12 @@ npm install
 yarn install
 # or preferred
 pnpm install
+```
+
+Generate database client:
+
+```bash
+npx prisma generate
 ```
 
 Run the development server:
@@ -59,7 +78,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftidbcloud%2Fvercel-fortune500-demo&env=TIDBCLOUD_URL,TIDBCLOUD_API_KEY,TIDBCLOUD_DB,TIDBCLOUD_CLUSTER_ID&envDescription=You%20can%20get%20them%20in%20the%20setting%20of%20chat2query%20in%20TiDBCloud's%20web%20console)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftidbcloud%2Fvercel-fortune500-demo&env=TIDBCLOUD_API_ID,TIDBCLOUD_API_KEY,TIDBCLOUD_CLUSTER_ID&envDescription=You%20can%20get%20them%20in%20the%20setting%20of%20chat2query%20in%20TiDBCloud's%20web%20console)
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
@@ -71,9 +90,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 2. Click **Connect to GitHub** and authenticate your GitHub account.
 3. Fill in **Repository name** for your own GitHub repository.
 4. Enter the environment variables:
-    - `TIDBCLOUD_URL`: The TiDB Cloud chart2chart data api url.
+    - `TIDBCLOUD_API_ID`: The TiDB Cloud chart2chart data api id.
     - `TIDBCLOUD_API_KEY`: The TiDB Cloud data api key.
-    - `TIDBCLOUD_DB`: TiDB Cloud Database Name.
     - `TIDBCLOUD_CLUSTER_ID`: TiDB Cloud cluster ID.
 5. Click **Save & Deploy**.
 
