@@ -29,7 +29,7 @@ export const UploadBlock = ({ showingResult }) => {
   const shareHashtag = '#tidbcloud #tidb #aiinsight'
   return (
     <div className={classes.root} style={showingResult ? { marginLeft: 0 } : {}}>
-      <div className={classes.title}>Explore</div>
+      <div className={classes.title} style={showingResult ? { marginTop: 24 } : {}}>Explore</div>
       <div className={classes.text}>Build your own AI Insight portal, to persist your data, 
 support unlimited file size!</div>
       <div style={{ marginBottom: 18 }}>
@@ -60,9 +60,9 @@ support unlimited file size!</div>
           <TwitterIcon size={32} round />
         </TwitterShareButton>
         <FacebookShareButton
-           url={shareURL}
-           quote={shareQuote}
-           hashtag={shareHashtag}
+          url={shareURL}
+          quote={shareQuote}
+          hashtag={shareHashtag}
         >
           <FacebookIcon size={32} round />
         </FacebookShareButton>
