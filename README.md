@@ -20,7 +20,7 @@ TIDB_PASSWORD=PASSWORD
 TIDB_DATABASE=DB
 ```
 
-This can be **skipped** unless you want to dig deeper and change the database scheme design, then you will need to add another variable named `DATABASE_URL`, it's just url composed of those variables above: `mysql://[TIDB_USER]:[TIDB_PASSWORD]@[TIDB_HOST]:[TIDB_PORT]/[TIDB_DATABASE]?pool_timeout=60&sslaccept=accept_invalid_certs`
+Next, it is optional and only if you want to dig deeper and change the database scheme design, then you will need to add another variable named `DATABASE_URL`, it's just url composed of those variables above: `mysql://[TIDB_USER]:[TIDB_PASSWORD]@[TIDB_HOST]:[TIDB_PORT]/[TIDB_DATABASE]?pool_timeout=60&sslaccept=accept_invalid_certs`, then you can sync your local dev database with the remote with `npx prisma db push`.
 
 Install the dependencies:
 
