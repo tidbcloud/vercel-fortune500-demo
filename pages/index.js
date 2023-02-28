@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { Button, createStyles, Modal, Group, Text } from "@mantine/core";
-import { Dropzone, MIME } from '@mantine/dropzone'
+import { Button, createStyles, Modal, Group, Text, Alert } from "@mantine/core";
+import { Dropzone } from '@mantine/dropzone'
 import { config } from "@/config";
 import TitleWidthLogo from '@/components/TitleWithLogo'
 import { IconUpload, IconPhoto, IconX } from '@tabler/icons'
 import { useRouter } from "next/router"
+import { IconAlertCircle } from '@tabler/icons'
 
 const useStyles = createStyles(() => ({
   main: {
@@ -70,6 +71,7 @@ export default function Home() {
   const { classes } = useStyles();
   const [showUpload, setShowUpload] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
   const router = useRouter()
 
   useEffect(() => {
@@ -95,6 +97,7 @@ export default function Home() {
     const reader = new FileReader()
 
     reader.onload = (e) => {
+      setErrMsg('')
 
       const data = {
         filename: files[0].name,
@@ -108,15 +111,16 @@ export default function Home() {
           "Content-Type": "application/json",
         },
       }).then(res => {
-        setUploading(false)
         res.json().then(result => {
-          router.push(`/search?id=${result.data.id}`)
+          if (res.status !== 200) {
+            setErrMsg(result.message)
+          }
+          setUploading(false)
+          if (result?.data?.id) {
+            router.push(`/search?id=${result.data.id}`)
+          }
         })
-      }).catch(res => {
-        setUploading(false)
-        alert(JSON.stringify(res))
       })
-
     }
     reader.readAsText(files[0])
   }
@@ -194,6 +198,7 @@ export default function Home() {
         onClose={() => setShowUpload(false)}
         title="Explore your own dataset!"
       >
+        {errMsg && <Alert icon={<IconAlertCircle size={16} />} color="red" style={{ marginBottom: 24 }}>{errMsg}</Alert>}
         <Dropzone
           onDrop={(files) =>  upload(files)}
           onReject={(files) => console.log('rejected files', files)}
