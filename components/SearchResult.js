@@ -8,7 +8,7 @@ import {
   Modal,
 } from "@mantine/core";
 import { Prism } from "@mantine/prism";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { format } from "sql-formatter";
 import { Typewriter } from "@/components/Typewriter";
 import { ChartMap } from "./ChartMap";
@@ -62,6 +62,13 @@ export const SearchResult = ({
 }) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
+  const sqlCode = useMemo(() => {
+    try {
+      return format(result?.gen_sql ?? "");
+    } catch (e) {
+      return result.gen_sql ?? "";
+    }
+  }, [result]);
 
   if (isLoading) {
     return (
@@ -99,7 +106,7 @@ export const SearchResult = ({
           copiedLabel="Copied"
           copyLabel="Copy"
         >
-          {format(result?.gen_sql ?? "")}
+          {sqlCode}
         </Prism>
       </Modal>
     </>
