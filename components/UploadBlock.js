@@ -1,4 +1,4 @@
-import { Button, createStyles, Modal } from "@mantine/core";
+import { Button, createStyles, Modal, Group } from "@mantine/core";
 import Link from "next/link";
 import React, { useState } from "react";
 import BuildMyOwnAIInsightDialog from "./BuildMyOwnAIInsightDialog";
@@ -58,7 +58,7 @@ export const UploadBlock = ({ showingResult }) => {
         </Link>
       </div>
       <div className={classes.text}>Share this AI Insight!</div>
-      <div>
+      <Group>
         <TwitterShareButton
           url={shareURL}
           quote={shareQuote}
@@ -73,7 +73,7 @@ export const UploadBlock = ({ showingResult }) => {
         >
           <FacebookIcon size={32} round />
         </FacebookShareButton>
-      </div>
+      </Group>
     </div>
   );
 };
