@@ -132,7 +132,7 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
     }
   }, [isLoading]);
 
-  const isError = error || (data && data?.code !== 0);
+  const isError = error || (data && data?.code !== 200);
 
   return (
     <div className={classes.root}>
