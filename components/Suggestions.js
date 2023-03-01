@@ -7,6 +7,12 @@ import { useEffect, useState } from "react";
 import { fetcher } from "@/lib/fetch";
 
 const useStyles = createStyles(() => ({
+  root: {
+    width: 600,
+    "@media (max-width: 700px)": {
+      width: "100%",
+    },
+  },
   container: {
     display: "flex",
     flexDirection: "column",
@@ -93,18 +99,19 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-
-  const LOADING_MSGS = [
-    "Loading suggestions based on your dataset...",
-    "We are calculating and summarizing your dataset...",
-    "We are analyzing your dataset...",
-    "We are preparing your suggested questions...",
-  ]
+const LOADING_MSGS = [
+  "Loading suggestions based on your dataset...",
+  "We are calculating and summarizing your dataset...",
+  "We are analyzing your dataset...",
+  "We are preparing your suggested questions...",
+];
 
 export const Suggestions = ({ showingResult, className, onSelect }) => {
   const { classes } = useStyles();
   const router = useRouter();
-  const [loadingText, setLoadingText] = useState('Calculating your suggested questions...');
+  const [loadingText, setLoadingText] = useState(
+    "Calculating your suggested questions..."
+  );
   const id = router.query.id;
   const { data, isLoading, error } = useSWR(
     id ? `/api/suggest?id=${id}` : null,
@@ -117,13 +124,13 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
   );
   useEffect(() => {
     if (isLoading) {
-      let i = 0
+      let i = 0;
       const interval = setInterval(() => {
-        setLoadingText(LOADING_MSGS[(i++ % LOADING_MSGS.length)])
-      }, 3000)
-      return () => clearInterval(interval)
+        setLoadingText(LOADING_MSGS[i++ % LOADING_MSGS.length]);
+      }, 3000);
+      return () => clearInterval(interval);
     }
-  }, [isLoading])
+  }, [isLoading]);
 
   const isError = error || (data && data?.code !== 0);
 
