@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import Image from "next/image";
@@ -7,6 +7,7 @@ import { Suggestions } from "@/components/Suggestions";
 import { createStyles } from "@mantine/core";
 import { config } from "@/config";
 import { UploadBlock } from "@/components/UploadBlock";
+import { useFullScreen } from "@/lib/hook";
 
 const useStyles = createStyles(() => ({
   main: {
@@ -37,14 +38,19 @@ const useStyles = createStyles(() => ({
       gap: 24,
     },
   },
-  block: {
-  },
+  block: {},
   bottomContent: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
+    gap: 60,
+
+    "@media (max-width: 700px)": {
+      flexDirection: "column",
+      gap: 16,
+    },
   },
   bottomContentWithResult: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   contentWithResult: {
     flexDirection: "row",
@@ -82,19 +88,7 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    function setHeight() {
-      const el = document.querySelector(".main");
-      if (el) {
-        el.style.minHeight = window.innerHeight + "px";
-      }
-    }
-    const deviceWidth = window.matchMedia("(max-width: 700px)");
-    if (deviceWidth.matches) {
-      window.addEventListener("resize", setHeight);
-      setHeight();
-    }
-  }, []);
+  useFullScreen();
 
   return (
     <>
@@ -119,9 +113,21 @@ export default function Home() {
         >
           <Content onSearch={handleSearch} searchValue={question} />
 
-          <div className={clsx(classes.bottomContent, showingResult && classes.bottomContentWithResult)}>
-            <div className={classes.block}><Suggestions showingResult={showingResult} onSelect={handleSearch} /></div>
-            <div className={classes.block}><UploadBlock showingResult={showingResult} /></div>
+          <div
+            className={clsx(
+              classes.bottomContent,
+              showingResult && classes.bottomContentWithResult
+            )}
+          >
+            <div className={clsx(classes.block)}>
+              <Suggestions
+                showingResult={showingResult}
+                onSelect={handleSearch}
+              />
+            </div>
+            <div className={classes.block}>
+              <UploadBlock showingResult={showingResult} />
+            </div>
           </div>
         </div>
         <footer className={classes.footer}>
