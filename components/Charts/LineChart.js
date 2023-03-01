@@ -1,6 +1,18 @@
 import { useMemo } from "react";
 import EChartsReact from "echarts-for-react";
-import { isTimeField, transformTimeData } from "@/lib/utils";
+import {
+  isNumberFiled,
+  isNumeric,
+  isTimeField,
+  transformTimeData,
+} from "@/lib/utils";
+
+function sortDataForXAxis(data, x) {
+  if (isNumberFiled(x) || data.map((i) => i[x]).every((j) => isNumeric(j))) {
+    data.sort((a, b) => Number(a[x]) - Number(b[x]));
+  }
+  return data;
+}
 
 export const LineChart = ({ chartInfo, data, className }) => {
   const {
@@ -9,6 +21,7 @@ export const LineChart = ({ chartInfo, data, className }) => {
   } = chartInfo;
 
   const chartOptions = useMemo(() => {
+    data = sortDataForXAxis(data, x);
     const isTime = isTimeField(x);
     const source = isTime ? transformTimeData(data, x) : data;
 

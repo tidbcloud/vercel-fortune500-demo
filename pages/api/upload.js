@@ -25,7 +25,12 @@ export default async function handler(req, res) {
       }
 
       const columnsSql = columns
-        .map((i, index) => sqlstring.format("?? TEXT", [i || `c${index}`]))
+        .map((i, index) => {
+          return sqlstring.format(
+            `?? ${data.every((row) => isNumeric(row[index])) ? "INT" : "TEXT"}`,
+            [i || `c${index}`]
+          );
+        })
         .join(",");
 
       const db = DATABASE_ENV.database;
@@ -34,6 +39,8 @@ export default async function handler(req, res) {
       const createTableStatement =
         sqlstring.format("CREATE TABLE IF NOT EXISTS ??.?? ", [db, table]) +
         `(${columnsSql})`;
+
+      console.log(createTableStatement);
 
       const insertStatement = sqlstring.format("INSERT INTO ??.?? VALUES ?", [
         db,
