@@ -15,7 +15,12 @@ export default async function handler(req, res) {
       content &&
       typeof content === "string"
     ) {
-      const [columns, data] = await parse(content);
+      let columns, data;
+      try {
+        [columns, data] = await parse(content);
+      } catch (e) {
+        [columns, data] = await parse(content, { delimiter: ";" });
+      }
 
       if (columns.some((i) => isNumeric(i))) {
         // not a valid header
