@@ -65,7 +65,7 @@ export const SearchResult = ({
 }) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
-  const [type, setType] = useState("table");
+  const [type, setType] = useState("chart");
   const sqlCode = useMemo(() => {
     try {
       return format(result?.gen_sql ?? "");
@@ -178,16 +178,16 @@ export const SearchResult = ({
 
       <Group position="apart" px={8}>
         <Group spacing={1}>
-          <ActionIcon onClick={() => setType("table")}>
-            <IconTableAlias
-              size={16}
-              color={"table" === type ? "#228be6" : "gray"}
-            />
-          </ActionIcon>
           <ActionIcon onClick={() => setType("chart")}>
             <IconChartPie
               size={16}
               color={"chart" === type ? "#228be6" : "gray"}
+            />
+          </ActionIcon>
+          <ActionIcon onClick={() => setType("table")}>
+            <IconTableAlias
+              size={16}
+              color={"table" === type ? "#228be6" : "gray"}
             />
           </ActionIcon>
         </Group>
