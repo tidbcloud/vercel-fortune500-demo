@@ -3,7 +3,7 @@ import { createStyles, LoadingOverlay, Alert, Badge } from "@mantine/core";
 import { IconAlertCircle } from '@tabler/icons'
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetcher } from "@/lib/fetch";
 
 const useStyles = createStyles(() => ({
@@ -90,14 +90,19 @@ const useStyles = createStyles(() => ({
   },
 }));
 
+
+  const LOADING_MSGS = [
+    "Loading suggestions based on your dataset...",
+    "We are calculating and summarizing your dataset...",
+    "We are analyzing your dataset...",
+    "We are preparing your suggested questions...",
+  ]
+
 export const Suggestions = ({ showingResult, className, onSelect }) => {
   const { classes } = useStyles();
   const router = useRouter();
-  const [loadingText, setLoadingText] = useState(
-    "Loading suggestions based on your dataset..."
-  );
+  const [loadingText, setLoadingText] = useState('Calculating your suggested questions...');
   const id = router.query.id;
-
   const { data, isLoading, error } = useSWR(
     id ? `/api/suggest?id=${id}` : null,
     fetcher,
@@ -105,14 +110,17 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
       shouldRetryOnError: false,
-      onSuccess() {
-        setLoadingText("Questions based on your own dataset:");
-      },
-      onLoadingSlow() {
-        setLoadingText("Calculating and summarizing...");
-      },
     }
   );
+  useEffect(() => {
+    if (isLoading) {
+      let i = 0
+      const interval = setInterval(() => {
+        setLoadingText(LOADING_MSGS[(i++ % LOADING_MSGS.length)])
+      }, 3000)
+      return () => clearInterval(interval)
+    }
+  }, [isLoading])
 
   return (
     <div className={classes.root}>
