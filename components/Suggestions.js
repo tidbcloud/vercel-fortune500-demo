@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { createStyles, LoadingOverlay, Alert, Badge } from "@mantine/core";
-import { IconAlertCircle } from '@tabler/icons'
+import { IconAlertCircle } from "@tabler/icons";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -31,8 +31,8 @@ const useStyles = createStyles(() => ({
     marginBottom: 18,
   },
   loadingBlock: {
-    width: 600,
-    background: '#DEDEDE',
+    width: "100%",
+    background: "#DEDEDE",
   },
   withResult: {
     flexDirection: "column",
@@ -88,6 +88,9 @@ const useStyles = createStyles(() => ({
       lineHeight: 1.5,
     },
   },
+  isError: {
+    display: "none",
+  },
 }));
 
 
@@ -122,16 +125,29 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
     }
   }, [isLoading])
 
+  const isError = error || data.code !== 0;
+
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.title}>Questions</div>
         {isLoading && <div className={classes.hint}>{loadingText}</div>}
-        {error && <Alert title="Ooops, error occurred" icon={<IconAlertCircle size={16} />} color="red">Failed to load suggestions: {error.message}</Alert>}
+        {(error || data.code !== 0) && (
+          <Alert
+            title="Ooops, error occurred"
+            icon={<IconAlertCircle size={16} />}
+            color="red"
+          >
+            Failed to load suggestions: {error?.message ?? data?.message}
+          </Alert>
+        )}
+
         <div
-          className={clsx(classes.result,
+          className={clsx(
+            classes.result,
             showingResult && classes.withResult,
             isLoading && classes.loadingBlock,
+            isError && classes.isError,
             className
           )}
         >
@@ -144,7 +160,10 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
               rel="noopener noreferrer"
               onClick={() => onSelect?.(v.question)}
             >
-              <div className={classes.questionText}>{v.question} <Badge className={classes.badge}>{v.question_keyword}</Badge></div>
+              <div className={classes.questionText}>
+                {v.question}{" "}
+                <Badge className={classes.badge}>{v.question_keyword}</Badge>
+              </div>
             </a>
           ))}
         </div>

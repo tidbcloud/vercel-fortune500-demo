@@ -3,18 +3,24 @@ import Image from "next/image";
 
 const useStyles = createStyles(() => ({
   main: {
-    display: 'flex',
+    display: "flex",
     width: 424,
-    alignItems: 'center',
+    alignItems: "center",
+
+    "@media (max-width: 700px)": {
+      width: "100%",
+      justifyContent: "center",
+      marginTop: "24px",
+    },
   },
   title: {
     fontSize: 66,
     fontWeight: 600,
   },
-}))
+}));
 
 export default function TitleWidthLogo() {
-  const { classes } = useStyles()
+  const { classes } = useStyles();
 
   return (
     <div className={classes.main}>
@@ -29,5 +35,5 @@ export default function TitleWidthLogo() {
       </div>
       <div className={classes.title}>AI Insight</div>
     </div>
-  )
-};
+  );
+}
