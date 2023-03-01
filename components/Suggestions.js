@@ -125,14 +125,14 @@ export const Suggestions = ({ showingResult, className, onSelect }) => {
     }
   }, [isLoading])
 
-  const isError = error || data.code !== 0;
+  const isError = error || (data && data?.code !== 0);
 
   return (
     <div className={classes.root}>
       <div className={classes.container}>
         <div className={classes.title}>Questions</div>
         {isLoading && <div className={classes.hint}>{loadingText}</div>}
-        {(error || data.code !== 0) && (
+        {isError && (
           <Alert
             title="Ooops, error occurred"
             icon={<IconAlertCircle size={16} />}
