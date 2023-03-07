@@ -1,14 +1,24 @@
 import { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { Button, createStyles, Modal, Group, Text, Alert } from "@mantine/core";
+import {
+  Button,
+  createStyles,
+  Modal,
+  Group,
+  Text,
+  Alert,
+  Stack,
+} from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { config } from "@/config";
-import TitleWithLogo from "@/components/TitleWithLogo";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons";
-import { useRouter } from "next/router";
 import { IconAlertCircle } from "@tabler/icons";
 import { useFullScreen } from "@/lib/hook";
+import { parse } from "@/lib/csv";
+import TitleWithLogo from "@/components/TitleWithLogo";
+import { FilePreview } from "@/components/Preview";
+import { isNumeric } from "@/lib/utils";
 
 const useStyles = createStyles(() => ({
   main: {
@@ -89,44 +99,66 @@ export default function Home() {
   const [showUpload, setShowUpload] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const router = useRouter();
+  const [content, setContent] = useState("");
+  const [filename, setFilename] = useState("");
+  const [columns, setColumns] = useState();
 
   useFullScreen();
 
-  const upload = (files) => {
+  const upload = async (files) => {
     if (!files?.[0]) {
       return;
     }
-    setUploading(true);
+
     const reader = new FileReader();
-
-    reader.onload = (e) => {
+    reader.onload = async () => {
       setErrMsg("");
+      const content = reader.result;
+      let columns, data;
+      try {
+        [columns, data] = await parse(content);
+      } catch (e) {
+        [columns, data] = await parse(content, { delimiter: ";" });
+      }
 
-      const data = {
-        filename: files[0].name,
-        content: e.target.result,
-      };
+      if (columns.some((i) => isNumeric(i))) {
+        setErrMsg("It seems this file does not contain valid header");
+        setUploading(false);
+        return;
+      }
 
-      fetch(`/api/upload`, {
+      setContent(content);
+      setFilename(files[0].name);
+
+      fetch("/api/columns", {
         method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {
-        res.json().then((result) => {
-          if (res.status !== 200) {
-            setErrMsg(result.message);
+        body: JSON.stringify({
+          sample_data: [
+            columns
+              .map((i, index) => ({ [i]: data[0][index] }))
+              .reduce((acc, next) => ({ ...acc, ...next }), {}),
+          ],
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.code !== 200) {
+            setErrMsg(res.message || "Error occurred");
+            return;
           }
+          setColumns(res.columns);
+        })
+        .catch((err) => setErrMsg(err.message || "Error occurred"))
+        .finally(() => {
           setUploading(false);
-          if (result?.data?.id) {
-            router.push(`/search?id=${result.data.id}`);
-          }
         });
-      });
     };
+    reader.onerror = () => {
+      setUploading(false);
+    };
+
     reader.readAsText(files[0]);
+    setUploading(true);
   };
 
   return (
@@ -190,9 +222,7 @@ export default function Home() {
               <Image
                 src="/demo.gif"
                 alt="demo"
-                // width="100%"
                 fill
-                // height={272}
                 style={{ border: `1px solid #DFDFDF`, objectFit: "contain" }}
               />
             </div>
@@ -219,50 +249,65 @@ export default function Home() {
       </main>
 
       <Modal
+        size="xl"
         opened={showUpload}
         onClose={() => setShowUpload(false)}
-        title="Explore your own dataset!"
+        title={
+          <div>
+            <h2>Explore your own dataset!</h2>
+            {columns && (
+              <p>Please give us some information about your column names.</p>
+            )}
+          </div>
+        }
       >
-        {errMsg && (
-          <Alert
-            icon={<IconAlertCircle size={16} />}
-            color="red"
-            style={{ marginBottom: 24 }}
-          >
-            {errMsg}
-          </Alert>
-        )}
-        <Dropzone
-          onDrop={(files) => upload(files)}
-          onReject={(files) => console.log("rejected files", files)}
-          accept={{ "text/csv": [".csv"] }}
-          maxSize={1 * 1024 ** 2}
-          loading={uploading}
-        >
-          <Group
-            position="center"
-            spacing="xl"
-            style={{ minHeight: 220, pointerEvents: "none" }}
-          >
-            <Dropzone.Accept>
-              <IconUpload size={50} stroke={1.5} />
-            </Dropzone.Accept>
-            <Dropzone.Reject>
-              <IconX size={50} stroke={1.5} />
-            </Dropzone.Reject>
-            <Dropzone.Idle>
-              <IconPhoto size={50} stroke={1.5} />
-            </Dropzone.Idle>
-            <div>
-              <Text size="xl" inline>
-                Drag the CSV file here or click to select one CSV file
-              </Text>
-              <Text size="sm" color="dimmed" inline mt={7}>
-                Attach only one file please, do not exceed 1mb
-              </Text>
-            </div>
-          </Group>
-        </Dropzone>
+        <Stack>
+          {errMsg && (
+            <Alert
+              title="Error"
+              icon={<IconAlertCircle size={16} />}
+              color="red"
+            >
+              {errMsg}
+            </Alert>
+          )}
+
+          {columns ? (
+            <FilePreview columns={columns} content={content} name={filename} />
+          ) : (
+            <Dropzone
+              onDrop={(files) => upload(files)}
+              onReject={(files) => console.log("rejected files", files)}
+              accept={{ "text/csv": [".csv"] }}
+              maxSize={1 * 1024 ** 2}
+              loading={uploading}
+            >
+              <Group
+                position="center"
+                spacing="xl"
+                style={{ minHeight: 220, pointerEvents: "none" }}
+              >
+                <Dropzone.Accept>
+                  <IconUpload size={50} stroke={1.5} />
+                </Dropzone.Accept>
+                <Dropzone.Reject>
+                  <IconX size={50} stroke={1.5} />
+                </Dropzone.Reject>
+                <Dropzone.Idle>
+                  <IconPhoto size={50} stroke={1.5} />
+                </Dropzone.Idle>
+                <div>
+                  <Text size="xl" inline>
+                    Drag the CSV file here or click to select one CSV file
+                  </Text>
+                  <Text size="sm" color="dimmed" inline mt={7}>
+                    Attach only one file please, do not exceed 1mb
+                  </Text>
+                </div>
+              </Group>
+            </Dropzone>
+          )}
+        </Stack>
       </Modal>
     </>
   );
