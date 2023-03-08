@@ -35,14 +35,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    let data;
+    let data, _columns;
     try {
-      [, data] = await parse(content);
+      [_columns, data] = await parse(content);
     } catch (e) {
-      [, data] = await parse(content, { delimiter: ";" });
+      [_columns, data] = await parse(content, { delimiter: ";" });
     }
 
-    const columnsSql = columns
+    _columns = _columns.map((i) => columns.find((j) => j.column === i));
+
+    const columnsSql = _columns
       .map((i, index) => {
         return sql.format(
           `?? ${
@@ -79,7 +81,7 @@ export default async function handler(req, res) {
         data: {
           filename,
           table,
-          hash: createHash("md5").update(JSON.stringify(data)).digest("hex"),
+          hash: createHash("md5").update(content).digest("hex"),
         },
       }),
     ]);
