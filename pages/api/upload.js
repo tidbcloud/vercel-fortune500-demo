@@ -1,10 +1,10 @@
 import { createHash } from "crypto";
-import sqlstring from "sqlstring";
+import sql from "sqlstring";
 import { z } from "zod";
 import { generateUniqueName, prisma } from "@/lib/db";
 import { DATABASE_ENV } from "@/config/env";
 import { parse } from "@/lib/csv";
-import { isNumeric } from "@/lib/utils";
+import { isNumeric, isValidDataType } from "@/lib/utils";
 
 const Payload = z.object({
   filename: z.string(),
@@ -44,9 +44,13 @@ export default async function handler(req, res) {
 
     const columnsSql = columns
       .map((i, index) => {
-        return sqlstring.format(
+        return sql.format(
           `?? ${
-            data.every((row) => isNumeric(row[index])) ? "BIGINT" : "TEXT"
+            isValidDataType(i.type)
+              ? i.type
+              : data.every((row) => isNumeric(row[index]))
+              ? "BIGINT"
+              : "TEXT"
           } COMMENT ?`,
           [i.column || `unnamed_${index}`, i.description]
         );
@@ -57,12 +61,12 @@ export default async function handler(req, res) {
     const table = generateUniqueName();
 
     const createTableStatement =
-      sqlstring.format("CREATE TABLE IF NOT EXISTS ??.?? ", [db, table]) +
+      sql.format("CREATE TABLE IF NOT EXISTS ??.?? ", [db, table]) +
       `(${columnsSql})`;
 
     console.log("createTableStatement: ", createTableStatement);
 
-    const insertStatement = sqlstring.format("INSERT INTO ??.?? VALUES ?", [
+    const insertStatement = sql.format("INSERT INTO ??.?? VALUES ?", [
       db,
       table,
       data,
