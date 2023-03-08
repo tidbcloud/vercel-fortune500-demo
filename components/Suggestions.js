@@ -8,7 +8,6 @@ import { fetcher } from "@/lib/fetch";
 
 const useStyles = createStyles(() => ({
   root: {
-    width: 600,
     "@media (max-width: 700px)": {
       width: "100%",
     },
@@ -37,7 +36,7 @@ const useStyles = createStyles(() => ({
     marginBottom: 18,
   },
   loadingBlock: {
-    width: "100%",
+    width: 600,
     background: "#DEDEDE",
   },
   withResult: {
