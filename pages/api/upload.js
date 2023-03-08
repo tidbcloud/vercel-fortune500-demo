@@ -4,7 +4,7 @@ import { z } from "zod";
 import { generateUniqueName, prisma } from "@/lib/db";
 import { DATABASE_ENV } from "@/config/env";
 import { parse } from "@/lib/csv";
-import { isNumeric, isValidDataType } from "@/lib/utils";
+import { isNumeric } from "@/lib/utils";
 
 const Payload = z.object({
   filename: z.string(),
@@ -48,11 +48,7 @@ export default async function handler(req, res) {
       .map((i, index) => {
         return sql.format(
           `?? ${
-            isValidDataType(i.type)
-              ? i.type
-              : data.every((row) => isNumeric(row[index]))
-              ? "BIGINT"
-              : "TEXT"
+            data.every((row) => isNumeric(row[index])) ? "BIGINT" : "TEXT"
           } COMMENT ?`,
           [i.column || `unnamed_${index}`, i.description]
         );
