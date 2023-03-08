@@ -30,7 +30,7 @@ const useStyles = createStyles({
   },
 });
 
-export function FilePreview({ columns, name, content }) {
+export function FilePreview({ columns, name, content, onCancel }) {
   const { classes } = useStyles();
   const ref = useRef(columns);
   const [loading, setLoading] = useState(false);
@@ -99,7 +99,9 @@ export function FilePreview({ columns, name, content }) {
       )}
 
       <Group position="center">
-        <Button variant="default">Cancel</Button>
+        <Button variant="default" onClick={onCancel}>
+          Cancel
+        </Button>
         <Button onClick={onSubmit} loading={loading}>
           {text}
         </Button>

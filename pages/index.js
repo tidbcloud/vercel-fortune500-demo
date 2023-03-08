@@ -273,7 +273,17 @@ export default function Home() {
           )}
 
           {columns ? (
-            <FilePreview columns={columns} content={content} name={filename} />
+            <FilePreview
+              columns={columns}
+              content={content}
+              name={filename}
+              onCancel={() => {
+                setShowUpload(false);
+                setFilename("");
+                setColumns(null);
+                setContent("");
+              }}
+            />
           ) : (
             <Dropzone
               onDrop={(files) => upload(files)}
