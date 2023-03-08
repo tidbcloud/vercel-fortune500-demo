@@ -2,6 +2,7 @@
 export const TIDBCLOUD_ENV = {
   api_id: process.env.TIDBCLOUD_API_ID,
   api_key: process.env.TIDBCLOUD_API_KEY,
+  api_host: process.env.TIDBCLOUD_API_HOST ?? "data.tidbcloud.com",
   cluster_id: process.env.TIDBCLOUD_CLUSTER_ID,
   cluster_db: process.env.TIDB_DATABASE,
 };

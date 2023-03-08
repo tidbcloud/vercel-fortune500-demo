@@ -1,23 +1,32 @@
+import sql from "sqlstring";
 import { chat2chart } from "@/lib/api";
-
-export const config = {
-  runtime: "edge",
-};
+import { prisma } from "@/lib/db";
+import { DATABASE_ENV } from "@/config/env";
 
 export default async function handler(req, res) {
-  const { searchParams } = new URL(req.url);
-  const query = searchParams.get("q");
-  const id = searchParams.get("id");
+  const query = req.query.q;
+  const id = req.query.id;
 
   if (req.method === "GET" && query && id) {
-    const response = await chat2chart(query, id);
-    return new Response(await response.text(), {
-      status: 200,
-      headers: {
-        "content-type": "application/json",
-      },
+    const stmt = sql.format("SHOW FULL COLUMNS FROM ??.??", [
+      DATABASE_ENV.database,
+      id,
+    ]);
+    console.log(stmt);
+
+    const result = await prisma.$queryRawUnsafe(stmt);
+
+    const schema = result.map((i) => ({
+      column: i.Field,
+      type: i.Type,
+      description: i.Comment,
+    }));
+
+    const response = await chat2chart(query, id, {
+      [`${DATABASE_ENV.database}.${id}`]: schema,
     });
+    return res.status(200).json(await response.json());
   }
 
-  return new Response(null, { status: 400 });
+  return res.status(400).end();
 }
