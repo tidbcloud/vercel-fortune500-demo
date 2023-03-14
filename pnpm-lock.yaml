@@ -18,7 +18,7 @@ specifiers:
   prettier: ^2.8.3
   react: 18.2.0
   react-dom: 18.2.0
-  sql-formatter: ^12.0.5
+  sql-formatter: ^12.1.3
   swr: ^2.0.0
 
 dependencies:
@@ -38,7 +38,7 @@ dependencies:
   next: 13.1.2_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  sql-formatter: 12.0.5
+  sql-formatter: 12.1.3
   swr: 2.0.0_react@18.2.0
 
 devDependencies:
@@ -2593,8 +2593,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /sql-formatter/12.0.5:
-    resolution: {integrity: sha512-nKils1bIf99WyDqr7252W6NhHjgJoL2mw7bvWb79uDzVd1xZceZ8zyy05behD92+xJIUzEibNMXwTuDFMwrHyg==}
+  /sql-formatter/12.1.3:
+    resolution: {integrity: sha512-9UnqbunqDVrgyB9A1DLTBH+nzk6GpxTUw7pk9ys07PEF1vADwQN7GmzIWTABcKPOhUmKC6u2lgCI92F2RhdO4g==}
     hasBin: true
     dependencies:
       argparse: 2.0.1
