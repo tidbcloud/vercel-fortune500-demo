@@ -1,25 +1,16 @@
 import { columnMatching } from "@/lib/api";
 
-export const config = {
-  runtime: "edge",
-};
-
-export default async function handler(req) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
-    return new Response("Not found", { status: 404 });
+    return res.status(404).json({ message: "not found" });
   }
 
-  const { sample_data } = await req.json();
+  const { sample_data } = req.body;
 
   if (Array.isArray(sample_data) && sample_data.length > 0) {
     const response = await columnMatching(sample_data);
-    return new Response(await response.text(), {
-      status: 200,
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    return res.status(200).json(await response.json());
   }
 
-  return new Response(null, { status: 400 });
+  return res.status(400).json({ message: "invalid request" });
 }

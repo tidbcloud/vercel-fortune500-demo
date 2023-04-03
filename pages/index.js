@@ -132,6 +132,9 @@ export default function Home() {
 
       fetch("/api/columns", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           sample_data: [
             columns
