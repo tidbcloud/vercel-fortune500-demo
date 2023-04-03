@@ -24,7 +24,7 @@ export default async function handler(req, res) {
       }));
 
       const response = await chat2chart(query, id, {
-        [`${DATABASE_ENV.database}.${id}`]: schema,
+        [id]: schema,
       });
       return res.status(200).json(await response.json());
     } catch (e) {
@@ -32,5 +32,5 @@ export default async function handler(req, res) {
     }
   }
 
-  return res.status(400).end();
+  return res.status(400).json({ message: "invalid request" });
 }
