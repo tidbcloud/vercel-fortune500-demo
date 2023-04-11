@@ -1,7 +1,12 @@
+import { PieChartInfo } from "@/lib/api";
 import EChartsReact from "echarts-for-react";
 import { useMemo } from "react";
 
-export const PieChart = ({ chartInfo, data, className }) => {
+export const PieChart: React.FC<{
+  chartInfo: PieChartInfo;
+  className?: string;
+  data: any[];
+}> = ({ chartInfo, data, className }) => {
   const {
     options: { label, value },
   } = chartInfo;

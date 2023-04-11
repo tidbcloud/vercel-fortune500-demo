@@ -18,17 +18,16 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-export const UploadBlock = ({ showingResult }) => {
+export const UploadBlock: React.FC<{ showingResult: boolean }> = ({
+  showingResult,
+}) => {
   const { classes } = useStyles();
   const [showingDIYBuild, setShowingDIYBuild] = useState(false);
   const shareURL = typeof window !== "undefined" ? window.location.href : "";
   const shareQuote = "AI Insight exploration!";
   const shareHashtag = "#tidbcloud #tidb #aiinsight";
   return (
-    <div
-      className={classes.root}
-      style={showingResult ? { marginLeft: 0 } : {}}
-    >
+    <div style={showingResult ? { marginLeft: 0 } : {}}>
       <div
         className={classes.title}
         style={showingResult ? { marginTop: 24 } : {}}
@@ -61,8 +60,8 @@ export const UploadBlock = ({ showingResult }) => {
       <Group>
         <TwitterShareButton
           url={shareURL}
-          quote={shareQuote}
-          hashtag={shareHashtag}
+          title={shareQuote}
+          hashtags={[shareHashtag]}
         >
           <TwitterIcon size={32} round />
         </TwitterShareButton>

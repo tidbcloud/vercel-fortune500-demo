@@ -1,8 +1,10 @@
-export function isTimeField(name) {
+import type { ColumnInfo } from "./api";
+
+export function isTimeField(name: string): boolean {
   return /date|time|year|month/.test(name);
 }
 
-export function isYearLike(value) {
+export function isYearLike(value: string | number): boolean {
   if (typeof value === "number") {
     return value >= 1970 && value < 2100;
   } else {
@@ -10,7 +12,7 @@ export function isYearLike(value) {
   }
 }
 
-export function transformTimeData(data, field) {
+export function transformTimeData(data: any[], field: string) {
   return data.map((item) => {
     let value = item[field];
     if (isYearLike(value)) {
@@ -20,16 +22,16 @@ export function transformTimeData(data, field) {
   });
 }
 
-export function isNumberFiled(column) {
-  return ["DECIMAL", "INT", "DOUBLE", "BIGINT"].includes(column.data_type);
+export function isNumberFiled(column: string) {
+  return ["DECIMAL", "INT", "DOUBLE", "BIGINT"].includes(column);
 }
 
-export function isNumeric(str) {
+export function isNumeric(str: string) {
   if (typeof str != "string") return false;
-  return !isNaN(str) && !isNaN(parseFloat(str));
+  return !isNaN(str as any) && !isNaN(parseFloat(str));
 }
 
-export function isValidDataType(dataType) {
+export function isValidDataType(dataType: string) {
   const mysqlDataTypes = [
     "INT",
     "FLOAT",

@@ -1,4 +1,4 @@
-export const Logo = ({ className }) => (
+export const Logo: React.FC<{ className?: string }> = ({ className }) => (
   <svg
     className={className}
     width="24"

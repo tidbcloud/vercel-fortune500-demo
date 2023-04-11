@@ -7,6 +7,7 @@ import { SearchResult } from "@/components/SearchResult";
 import { BrandSection } from "@/components/BrandSection";
 import { Input } from "@/components/Input";
 import { fetcher } from "@/lib/fetch";
+import { Chat2chartResponse } from "@/lib/api";
 
 const useStyles = createStyles({
   content: {
@@ -26,14 +27,17 @@ const useStyles = createStyles({
   },
 });
 
-export const Content = ({ onSearch, searchValue }) => {
+export const Content: React.FC<{
+  searchValue: string;
+  onSearch: (v: string) => void;
+}> = ({ onSearch, searchValue }) => {
   const { classes } = useStyles();
   const [loadingText, setLoadingText] = useState("Analyzing question");
   const [query, setQuery] = useState("");
   const router = useRouter();
   const id = router.query.id;
 
-  const { data, isLoading, error } = useSWR(
+  const { data, isLoading, error } = useSWR<Chat2chartResponse>(
     query ? `/api/search?q=${query}${id ? `&id=${id}` : ""}` : null,
     fetcher,
     {
@@ -50,7 +54,7 @@ export const Content = ({ onSearch, searchValue }) => {
   );
 
   const onConfirm = useCallback(
-    (val) => {
+    (val: string) => {
       setQuery(val);
       onSearch(val);
     },

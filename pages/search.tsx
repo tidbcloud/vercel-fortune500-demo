@@ -78,7 +78,7 @@ export default function Home() {
   const [showingResult, setShowingResult] = useState(false);
   const [question, setQuestion] = useState("");
 
-  const handleSearch = useCallback((val) => {
+  const handleSearch = useCallback((val: string) => {
     if (val) {
       setQuestion(val);
       setShowingResult(true);

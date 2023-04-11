@@ -1,8 +1,13 @@
 import EChartsReact from "echarts-for-react";
 import { useMemo } from "react";
 import { isTimeField } from "@/lib/utils";
+import { BarChartInfo } from "@/lib/api";
 
-export const BarChart = ({ chartInfo, data, className }) => {
+export const BarChart: React.FC<{
+  chartInfo: BarChartInfo;
+  className?: string;
+  data: any[];
+}> = ({ chartInfo, data, className }) => {
   const {
     options: { x, y },
   } = chartInfo;
@@ -13,7 +18,7 @@ export const BarChart = ({ chartInfo, data, className }) => {
   const { options, height } = useMemo(() => {
     const xAxisData = data.map((v) => v[x]);
 
-    const makeSeries = function (y) {
+    const makeSeries = function (y: string | string[]): any {
       if (typeof y === "string") {
         return {
           type: "bar",

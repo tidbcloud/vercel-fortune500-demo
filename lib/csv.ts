@@ -1,6 +1,9 @@
-import { parse as _parse } from "csv-parse";
+import { parse as _parse, Options } from "csv-parse";
 
-export function parse(content, options) {
+export function parse(
+  content: string,
+  options?: Options
+): Promise<[any[], any[]]> {
   return new Promise((resolve, reject) => {
     _parse(
       content,
@@ -16,7 +19,7 @@ export function parse(content, options) {
           return;
         }
         const columns = records[0].record;
-        const data = records.slice(1).map((i) => i.record);
+        const data = records.slice(1).map((i: any) => i.record);
         resolve([columns, data]);
       }
     );

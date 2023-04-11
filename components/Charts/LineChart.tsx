@@ -6,15 +6,20 @@ import {
   isTimeField,
   transformTimeData,
 } from "@/lib/utils";
+import { LineChartInfo } from "@/lib/api";
 
-function sortDataForXAxis(data, x) {
+function sortDataForXAxis(data: any[], x: string) {
   if (isNumberFiled(x) || data.map((i) => i[x]).every((j) => isNumeric(j))) {
     data.sort((a, b) => Number(a[x]) - Number(b[x]));
   }
   return data;
 }
 
-export const LineChart = ({ chartInfo, data, className }) => {
+export const LineChart: React.FC<{
+  chartInfo: LineChartInfo;
+  className?: string;
+  data: any[];
+}> = ({ chartInfo, data, className }) => {
   const {
     options: { x, y },
     title,
@@ -25,7 +30,7 @@ export const LineChart = ({ chartInfo, data, className }) => {
     const isTime = isTimeField(x);
     const source = isTime ? transformTimeData(data, x) : data;
 
-    const makeSeries = function (y) {
+    const makeSeries = function (y: string | string[]): any {
       if (typeof y === "string") {
         return {
           type: "line",

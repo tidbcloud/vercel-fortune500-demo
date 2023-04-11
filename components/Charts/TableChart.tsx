@@ -1,5 +1,6 @@
 import { Table, createStyles } from "@mantine/core";
 import { isNumberFiled } from "@/lib/utils";
+import { ColumnInfo } from "@/lib/api";
 
 const useStyles = createStyles({
   table: {
@@ -15,7 +16,12 @@ const useStyles = createStyles({
   },
 });
 
-export const TableChart = ({ data, columns }) => {
+export const TableChart: React.FC<{
+  data: any[];
+  columns: Record<string, ColumnInfo>;
+}> = ({ data, columns }) => {
+  console.log("columns: ", columns);
+  console.log("data: ", data);
   const { classes } = useStyles();
 
   const titles = (
@@ -32,7 +38,9 @@ export const TableChart = ({ data, columns }) => {
     <tr key={index}>
       {Object.entries(element).map(([k, v], i) => (
         <td key={i} className={classes.bodyCell}>
-          {isNumberFiled(columns[k]) ? Number(v).toLocaleString("en-US") : v}
+          {isNumberFiled(columns[k].data_type)
+            ? Number(v).toLocaleString("en-US")
+            : (v as any)}
         </td>
       ))}
     </tr>

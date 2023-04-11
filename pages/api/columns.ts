@@ -1,6 +1,10 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import { columnMatching } from "@/lib/api";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     return res.status(404).json({ message: "not found" });
   }

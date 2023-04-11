@@ -3,6 +3,7 @@ import ShortUniqueId from "short-unique-id";
 import { DATABASE_ENV } from "@/config/env";
 
 // BigInt serialization
+// @ts-ignore
 BigInt.prototype.toJSON = function () {
   return this.toString();
 };

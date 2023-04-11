@@ -4,7 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 const suffix = "......";
 
-export const Typewriter = ({ content, ellipsis }) => {
+export const Typewriter: React.FC<{ content: string; ellipsis?: boolean }> = ({
+  content,
+  ellipsis,
+}) => {
   if (ellipsis) {
     content = content + suffix;
   }
@@ -17,9 +20,9 @@ export const Typewriter = ({ content, ellipsis }) => {
     setIndex(0);
     let id = 0;
 
-    function sleep(ms) {
+    function sleep(ms: number) {
       return new Promise((resolve) => {
-        id = setTimeout(resolve, ms);
+        id = window.setTimeout(resolve, ms);
       });
     }
 

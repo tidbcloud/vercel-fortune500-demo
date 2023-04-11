@@ -11,6 +11,7 @@ import {
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { IconAlertCircle } from "@tabler/icons";
+import { ColumnDescription } from "@/lib/api";
 
 const useStyles = createStyles({
   table: {
@@ -30,7 +31,12 @@ const useStyles = createStyles({
   },
 });
 
-export function FilePreview({ columns, name, content, onCancel }) {
+export const FilePreview: React.FC<{
+  columns: any[];
+  name: string;
+  content: string;
+  onCancel: () => void;
+}> = ({ columns, name, content, onCancel }) => {
   const { classes } = useStyles();
   const ref = useRef(columns);
   const [loading, setLoading] = useState(false);
@@ -38,7 +44,7 @@ export function FilePreview({ columns, name, content, onCancel }) {
   const [text, setText] = useState("Submit");
   const router = useRouter();
 
-  const onChange = useCallback((val, index) => {
+  const onChange = useCallback((val: ColumnDescription, index: number) => {
     ref.current[index] = val;
   }, []);
 
@@ -108,9 +114,17 @@ export function FilePreview({ columns, name, content, onCancel }) {
       </Group>
     </Stack>
   );
-}
+};
 
-function Row({ data, onChange, index }) {
+function Row({
+  data,
+  onChange,
+  index,
+}: {
+  onChange: (v: ColumnDescription, i: number) => void;
+  index: number;
+  data: ColumnDescription;
+}) {
   return (
     <tr key={data.column}>
       <td>{data.column || `unnamed_${index}`}</td>

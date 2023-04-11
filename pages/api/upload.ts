@@ -1,3 +1,4 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import { createHash } from "crypto";
 import sql from "sqlstring";
 import { z } from "zod";
@@ -18,7 +19,10 @@ const Payload = z.object({
   content: z.string(),
 });
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== "POST") {
     return res.status(404).json({ message: "not found" });
   }
@@ -35,14 +39,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    let data, _columns;
+    let data: any[], _columns: any[];
     try {
       [_columns, data] = await parse(content);
     } catch (e) {
       [_columns, data] = await parse(content, { delimiter: ";" });
     }
 
-    _columns = _columns.map((i) => columns.find((j) => j.column === i));
+    _columns = _columns.map((i) => columns.find((j: any) => j.column === i));
 
     const columnsSql = _columns
       .map((i, index) => {
@@ -83,7 +87,7 @@ export default async function handler(req, res) {
     ]);
 
     return res.status(200).json({ message: "success", data: { id: table } });
-  } catch (e) {
+  } catch (e: any) {
     return res.status(400).json({
       message: `Parse error: ${e.message}, please try another file.`,
     });

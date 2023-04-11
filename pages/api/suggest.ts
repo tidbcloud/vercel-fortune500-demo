@@ -1,7 +1,11 @@
+import type { NextApiRequest, NextApiResponse } from "next";
 import { chat2question } from "@/lib/api";
 
-export default async function handler(req, res) {
-  const id = req.query.id;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const id = req.query.id as string;
 
   if (req.method === "GET" && id) {
     const response = await chat2question(id);

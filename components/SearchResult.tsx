@@ -16,6 +16,7 @@ import { format } from "sql-formatter";
 import { Typewriter } from "@/components/Typewriter";
 import clsx from "clsx";
 import { ChartMap } from "./ChartMap";
+import { Chat2chartResponse, ColumnInfo } from "@/lib/api";
 
 const useStyles = createStyles((theme) => ({
   loading: {
@@ -56,13 +57,13 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const SearchResult = ({
-  className,
-  isLoading,
-  loadingText,
-  result,
-  error,
-}) => {
+export const SearchResult: React.FC<{
+  className?: string;
+  isLoading: boolean;
+  loadingText: string;
+  result?: Chat2chartResponse;
+  error: string;
+}> = ({ className, isLoading, loadingText, result, error }) => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
   const [type, setType] = useState("chart");
@@ -70,7 +71,7 @@ export const SearchResult = ({
     try {
       return format(result?.gen_sql ?? "");
     } catch (e) {
-      return result.gen_sql ?? "";
+      return result?.gen_sql ?? "";
     }
   }, [result]);
 
@@ -85,7 +86,7 @@ export const SearchResult = ({
 
   if (!isLoading && !result) return null;
 
-  const chartInfo = result?.chart_info;
+  const chartInfo = result?.chart_info!;
   const chart = (() => {
     if (type === "table") {
       return ChartMap.Table;
@@ -110,12 +111,7 @@ export const SearchResult = ({
         size="lg"
         onClose={() => setOpened(false)}
       >
-        <Prism
-          language="sql"
-          className={classes.code}
-          copiedLabel="Copied"
-          copyLabel="Copy"
-        >
+        <Prism language="sql" copiedLabel="Copied" copyLabel="Copy">
           {sqlCode}
         </Prism>
       </Modal>
@@ -128,17 +124,14 @@ export const SearchResult = ({
         <IconMoodSadSquint />
         <Text>
           {result?.code !== 200
-            ? result.message.endsWith(".")
+            ? result?.message?.endsWith(".")
               ? result.message
-              : result.message + "."
+              : result?.message + "."
             : `Sorry, we couldn't find any thing useful for you, try to tell me more details.`}
 
           {result?.gen_sql && (
             <>
-              <UnstyledButton
-                variant="subtle"
-                onClick={() => setOpened((o) => !o)}
-              >
+              <UnstyledButton onClick={() => setOpened((o) => !o)}>
                 <Text size={16} color="dimmed" ml={2}>
                   View generated SQL.
                 </Text>
@@ -154,19 +147,19 @@ export const SearchResult = ({
   const columnsObj = result?.columns.reduce((acc, next) => {
     acc[next.col] = next;
     return acc;
-  }, {});
+  }, {} as Record<string, ColumnInfo>);
   const rows = result?.rows.map((row) => {
     return row
       .map((i, index) => ({ [result.columns?.[index]?.col]: i }))
       .reduce((acc, next) => {
         return { ...acc, ...next };
-      }, {});
+      }, {} as Record<string, any>);
   });
 
   return (
     <Stack className={className} spacing={0}>
       <ScrollArea className={classes.scroll}>
-        {React.createElement(chart, {
+        {React.createElement(chart as any, {
           chartInfo: chartInfo,
           columns: columnsObj,
           data: rows,
@@ -193,7 +186,7 @@ export const SearchResult = ({
         </Group>
 
         <div>
-          <UnstyledButton variant="subtle" onClick={() => setOpened((o) => !o)}>
+          <UnstyledButton onClick={() => setOpened((o) => !o)}>
             <Text size={12} color="dimmed">
               View Generated SQL
             </Text>

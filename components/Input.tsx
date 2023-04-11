@@ -6,7 +6,8 @@ import {
   Loader,
 } from "@mantine/core";
 import clsx from "clsx";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
+import { useSpeechRecognition } from "@/lib/hook";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -25,7 +26,11 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export const Input = ({ onConfirm, value: _value, className }) => {
+export const Input: React.FC<{
+  value: string;
+  onConfirm: (val: string) => void;
+  className?: string;
+}> = ({ onConfirm, value: _value, className }) => {
   const { classes } = useStyles();
   const [value, setValue] = useState(_value ?? "");
   const { start, data, isLoading } = useSpeechRecognition({
@@ -43,7 +48,7 @@ export const Input = ({ onConfirm, value: _value, className }) => {
     },
   });
 
-  const handleKeyDown = async (e) => {
+  const handleKeyDown = async (e: KeyboardEvent) => {
     if (e.key === "Enter" && value) {
       onConfirm?.(value);
     }
@@ -106,74 +111,3 @@ export const Input = ({ onConfirm, value: _value, className }) => {
     </div>
   );
 };
-
-function useSpeechRecognition({ onError, onSuccess, onNoMatch }) {
-  const recognitionRef = useRef();
-  const [recording, setRecording] = useState(false);
-  const [error, setError] = useState();
-  const [noMatch, setNoMatch] = useState(false);
-  const [result, setResult] = useState("");
-
-  const start = useCallback(() => {
-    if (!recognitionRef.current) {
-      alert(
-        "Your browser is not supporting voice recognition, try with a modern browser like Chrome."
-      );
-      return;
-    }
-    recognitionRef.current.start();
-
-    setRecording(true);
-    setError(undefined);
-    setNoMatch(false);
-    setResult("");
-  }, []);
-
-  useEffect(() => {
-    // https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      return;
-    }
-    const recognition = new SpeechRecognition();
-
-    recognition.continuous = false;
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognitionRef.current = recognition;
-
-    recognition.onspeechend = function () {
-      recognition.stop();
-      setRecording(false);
-    };
-    recognition.onnomatch = function (event) {
-      setNoMatch(true);
-      setRecording(false);
-
-      onNoMatch?.(event);
-    };
-    recognition.onerror = function (event) {
-      setError(event.error);
-      setRecording(false);
-
-      onError?.(event);
-    };
-    recognition.onresult = function (event) {
-      setResult(event.results[0][0].transcript);
-      setRecording(false);
-
-      onSuccess?.(event);
-    };
-  }, []);
-
-  return {
-    start,
-    isLoading: recording,
-    error,
-    noMatch,
-    data: result,
-  };
-}

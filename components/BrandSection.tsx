@@ -1,5 +1,5 @@
 import { createStyles } from "@mantine/core";
-import TitleWithLogo from '@/components/TitleWithLogo'
+import TitleWithLogo from "@/components/TitleWithLogo";
 
 const useStyles = createStyles({
   root: {
@@ -24,7 +24,9 @@ const useStyles = createStyles({
   },
 });
 
-export const BrandSection = ({ onClick }) => {
+export const BrandSection: React.FC<{ onClick: () => void }> = ({
+  onClick,
+}) => {
   const { classes } = useStyles();
   return (
     <div className={classes.root}>

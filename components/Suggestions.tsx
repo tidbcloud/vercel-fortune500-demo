@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { fetcher } from "@/lib/fetch";
+import type { Chat2questionResponse } from "@/lib/api";
 
 const useStyles = createStyles(() => ({
   root: {
@@ -105,14 +106,18 @@ const LOADING_MSGS = [
   "We are preparing your suggested questions...",
 ];
 
-export const Suggestions = ({ showingResult, className, onSelect }) => {
+export const Suggestions: React.FC<{
+  showingResult: boolean;
+  className?: string;
+  onSelect?: (val: string) => void;
+}> = ({ showingResult, className, onSelect }) => {
   const { classes } = useStyles();
   const router = useRouter();
   const [loadingText, setLoadingText] = useState(
     "Calculating your suggested questions..."
   );
   const id = router.query.id;
-  const { data, isLoading, error } = useSWR(
+  const { data, isLoading, error } = useSWR<Chat2questionResponse>(
     id ? `/api/suggest?id=${id}` : null,
     fetcher,
     {
