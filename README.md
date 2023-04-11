@@ -56,7 +56,7 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 ## Basic Auth
 
-If you want to deploy your own clone and also protect the page from being visited by the public, we also provided a simple basic access authentication solution. You'll need to add two more environment variables in your `.env.local` and the Vercel dashboard. Don't use a simple passphrase like below, replace `admin` with your own one: 
+If you want to deploy your own clone and also protect the page from being visited by the public, we also provided a simple basic access authentication solution. You'll need to add two more environment variables in your `.env.local` and the Vercel dashboard. Don't use a simple passphrase like below, replace `admin` with your own one:
 
 ```env
 BASIC_AUTH_USER=admin
@@ -90,8 +90,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 2. Click **Connect to GitHub** and authenticate your GitHub account.
 3. Fill in **Repository name** for your own GitHub repository.
 4. Enter the environment variables:
-    - `TIDBCLOUD_API_ID`: The TiDB Cloud chart2chart data api id.
-    - `TIDBCLOUD_API_KEY`: The TiDB Cloud data api key.
-    - `TIDBCLOUD_CLUSTER_ID`: TiDB Cloud cluster ID.
+   - `TIDBCLOUD_API_ID`: The TiDB Cloud chart2chart data api id.
+   - `TIDBCLOUD_API_KEY`: The TiDB Cloud data api key.
+   - `TIDBCLOUD_CLUSTER_ID`: TiDB Cloud cluster ID.
 5. Click **Save & Deploy**.
-
