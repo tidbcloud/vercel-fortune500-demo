@@ -64,7 +64,7 @@ export const Input: React.FC<{
       setValue(data);
       onConfirm(data);
     }
-  }, [data]);
+  }, [data, onConfirm]);
 
   return (
     <div className={clsx(classes.root, className)}>

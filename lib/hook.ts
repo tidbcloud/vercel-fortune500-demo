@@ -1,3 +1,4 @@
+import { useMemoizedFn, useMount } from "ahooks";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export function useFullScreen() {
@@ -33,7 +34,7 @@ export function useSpeechRecognition({
   const [noMatch, setNoMatch] = useState(false);
   const [result, setResult] = useState("");
 
-  const start = useCallback(() => {
+  const start = useMemoizedFn(() => {
     if (!recognitionRef.current) {
       alert(
         "Your browser is not supporting voice recognition, try with a modern browser like Chrome."
@@ -46,9 +47,9 @@ export function useSpeechRecognition({
     setError(undefined);
     setNoMatch(false);
     setResult("");
-  }, []);
+  });
 
-  useEffect(() => {
+  useMount(() => {
     // https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -56,12 +57,10 @@ export function useSpeechRecognition({
       return;
     }
     const recognition = new SpeechRecognition();
-
     recognition.continuous = false;
     recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
-
     recognitionRef.current = recognition;
 
     recognition.onspeechend = function () {
@@ -71,22 +70,19 @@ export function useSpeechRecognition({
     recognition.onnomatch = function (event) {
       setNoMatch(true);
       setRecording(false);
-
       onNoMatch?.(event);
     };
     recognition.onerror = function (event) {
       setError(event.error);
       setRecording(false);
-
       onError?.(event);
     };
     recognition.onresult = function (event) {
       setResult(event.results[0][0].transcript);
       setRecording(false);
-
       onSuccess?.(event);
     };
-  }, []);
+  });
 
   return {
     start,

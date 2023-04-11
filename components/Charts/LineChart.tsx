@@ -26,9 +26,9 @@ export const LineChart: React.FC<{
   } = chartInfo;
 
   const chartOptions = useMemo(() => {
-    data = sortDataForXAxis(data, x);
+    let _data = sortDataForXAxis(data, x);
     const isTime = isTimeField(x);
-    const source = isTime ? transformTimeData(data, x) : data;
+    const source = isTime ? transformTimeData(_data, x) : _data;
 
     const makeSeries = function (y: string | string[]): any {
       if (typeof y === "string") {
