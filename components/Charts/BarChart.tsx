@@ -1,7 +1,7 @@
-import EChartsReact from "echarts-for-react";
 import { useMemo } from "react";
 import { isTimeField } from "@/lib/utils";
 import { BarChartInfo } from "@/lib/api";
+import { EChartsReact } from "./ReactEChartsCore";
 
 export const BarChart: React.FC<{
   chartInfo: BarChartInfo;

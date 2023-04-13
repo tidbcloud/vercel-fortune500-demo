@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import EChartsReact from "echarts-for-react";
 import {
   isNumberFiled,
   isNumeric,
@@ -7,6 +6,7 @@ import {
   transformTimeData,
 } from "@/lib/utils";
 import { LineChartInfo } from "@/lib/api";
+import { EChartsReact } from "./ReactEChartsCore";
 
 function sortDataForXAxis(data: any[], x: string) {
   if (isNumberFiled(x) || data.map((i) => i[x]).every((j) => isNumeric(j))) {
