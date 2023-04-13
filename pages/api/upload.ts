@@ -38,6 +38,25 @@ export default async function handler(
     return res.status(400).json({ message: "invalid request" });
   }
 
+  const hash = createHash("md5").update(content).digest("hex");
+
+  try {
+    const row = await prisma.file.findFirst({
+      where: {
+        hash,
+      },
+    });
+
+    if (row) {
+      console.log("file exist, skip...", row);
+      return res
+        .status(200)
+        .json({ message: "success", data: { id: row.table } });
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
   try {
     let data: any[], _columns: any[];
     try {
@@ -81,7 +100,7 @@ export default async function handler(
         data: {
           filename,
           table,
-          hash: createHash("md5").update(content).digest("hex"),
+          hash,
         },
       }),
     ]);
