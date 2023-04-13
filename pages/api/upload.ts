@@ -7,7 +7,7 @@ import { DATABASE_ENV } from "@/config/env";
 import { parse } from "@/lib/csv";
 import { isNumeric } from "@/lib/utils";
 
-const Payload = z.object({
+const UploadFileBody = z.object({
   filename: z.string(),
   columns: z
     .object({
@@ -33,7 +33,7 @@ export default async function handler(
   console.log("columns: ", columns);
 
   try {
-    Payload.parse(req.body);
+    UploadFileBody.parse(req.body);
   } catch (e) {
     return res.status(400).json({ message: "invalid request" });
   }
@@ -71,7 +71,8 @@ export default async function handler(
       .map((i, index) => {
         return sql.format(
           `?? ${
-            data.every((row) => isNumeric(row[index])) ? "BIGINT" : "TEXT"
+            i.type ||
+            (data.every((row) => isNumeric(row[index])) ? "BIGINT" : "TEXT")
           } COMMENT ?`,
           [i.column || `unnamed_${index}`, i.description]
         );
@@ -105,7 +106,7 @@ export default async function handler(
       }),
     ]);
 
-    return res.status(200).json({ message: "success", data: { id: table } });
+    return res.status(200).json({ message: "ok", data: { id: table } });
   } catch (e: any) {
     return res.status(400).json({
       message: `Parse error: ${e.message}, please try another file.`,

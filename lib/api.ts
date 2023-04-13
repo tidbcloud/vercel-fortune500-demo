@@ -18,14 +18,17 @@ export interface Chat2questionResponse {
 }
 
 export function chat2question(table: string) {
+  const payload = {
+    cluster_id: TIDBCLOUD_ENV.cluster_id,
+    database: TIDBCLOUD_ENV.cluster_db,
+    question_num: 4,
+    tables: [table],
+  };
+
+  console.log("fetching chat2question with payload: ", payload);
   return fetch(`${api}/chat2question`, {
     method: "POST",
-    body: JSON.stringify({
-      cluster_id: TIDBCLOUD_ENV.cluster_id,
-      database: TIDBCLOUD_ENV.cluster_db,
-      question_num: 4,
-      tables: [table],
-    }),
+    body: JSON.stringify(payload),
     headers,
   });
 }
@@ -131,4 +134,9 @@ export function columnMatching(sample_data: any[]) {
     }),
     headers,
   });
+}
+
+export interface GetColumnsDescriptionResponse {
+  message: string;
+  data: ColumnDescription[];
 }

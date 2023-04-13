@@ -1,5 +1,3 @@
-import type { ColumnInfo } from "./api";
-
 export function isTimeField(name: string): boolean {
   return /date|time|year|month/.test(name);
 }
@@ -48,3 +46,7 @@ export function isValidDataType(dataType: string) {
     mysqlDataTypes.includes(dataType.toUpperCase()) || regex.test(dataType)
   );
 }
+
+export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+export const range = (n: number) => Array.from({ length: n }).map((_, i) => i);

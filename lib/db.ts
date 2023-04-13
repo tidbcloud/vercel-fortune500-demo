@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import ShortUniqueId from "short-unique-id";
 import { DATABASE_ENV } from "@/config/env";
+import sql from "sqlstring";
+import { ColumnDescription } from "./api";
 
 // BigInt serialization
 // @ts-ignore
@@ -24,3 +26,20 @@ export const generateUniqueName = () => {
   // with a timestamp
   return "u" + uid.stamp(16);
 };
+
+export async function getColumnDescriptions(id: string) {
+  const stmt = sql.format("SHOW FULL COLUMNS FROM ??.??", [
+    DATABASE_ENV.database,
+    id,
+  ]);
+  console.log(stmt);
+
+  const result: any[] = await prisma.$queryRawUnsafe(stmt);
+  const schema: ColumnDescription[] = result.map((i) => ({
+    column: i.Field,
+    type: i.Type,
+    description: i.Comment,
+  }));
+
+  return schema;
+}

@@ -84,7 +84,15 @@ export const SearchResult: React.FC<{
     );
   }
 
-  if (!isLoading && !result) return null;
+  if (!isLoading && !result) {
+    return (
+      <Stack>
+        <Text color="dimmed" size={14}>
+          Start explore your dataset by ask anything.
+        </Text>
+      </Stack>
+    );
+  }
 
   const chartInfo = result?.chart_info!;
   const chart = (() => {
@@ -169,7 +177,16 @@ export const SearchResult: React.FC<{
         })}
       </ScrollArea>
 
-      <Group position="apart" px={8}>
+      <Group sx={{ position: "absolute", right: 0, top: 0 }}>
+        <div>
+          <UnstyledButton onClick={() => setOpened((o) => !o)}>
+            <Text size={12} color="dimmed">
+              View Generated SQL
+            </Text>
+          </UnstyledButton>
+          {code}
+        </div>
+
         <Group spacing={1}>
           <ActionIcon onClick={() => setType("chart")}>
             <IconChartPie
@@ -184,15 +201,6 @@ export const SearchResult: React.FC<{
             />
           </ActionIcon>
         </Group>
-
-        <div>
-          <UnstyledButton onClick={() => setOpened((o) => !o)}>
-            <Text size={12} color="dimmed">
-              View Generated SQL
-            </Text>
-          </UnstyledButton>
-          {code}
-        </div>
       </Group>
     </Stack>
   );

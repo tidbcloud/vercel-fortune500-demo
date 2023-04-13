@@ -3,15 +3,13 @@ import {
   Input,
   createStyles,
   ScrollArea,
-  Stack,
-  Button,
-  Group,
-  Alert,
+  Skeleton,
+  Loader,
 } from "@mantine/core";
-import { useCallback, useRef, useState } from "react";
-import { useRouter } from "next/router";
-import { IconAlertCircle } from "@tabler/icons";
 import { ColumnDescription } from "@/lib/api";
+import { range } from "@/lib/utils";
+import { useMemoizedFn } from "ahooks";
+import { useRef } from "react";
 
 const useStyles = createStyles({
   table: {
@@ -32,57 +30,31 @@ const useStyles = createStyles({
 });
 
 export const FilePreview: React.FC<{
-  columns: any[];
-  name: string;
-  content: string;
-  onCancel: () => void;
-}> = ({ columns, name, content, onCancel }) => {
+  columns?: ColumnDescription[];
+  onChange?: (columns: ColumnDescription[]) => void;
+  onRowChange?: (column: ColumnDescription) => void;
+  loading?: boolean;
+}> = ({ columns, onChange, loading, onRowChange }) => {
   const { classes } = useStyles();
-  const ref = useRef(columns);
-  const [loading, setLoading] = useState(false);
-  const [err, setError] = useState("");
-  const [text, setText] = useState("Submit");
-  const router = useRouter();
 
-  const onChange = useCallback((val: ColumnDescription, index: number) => {
-    ref.current[index] = val;
-  }, []);
+  const handleChange = useMemoizedFn(
+    (val: ColumnDescription, index: number) => {
+      if (columns) {
+        onChange?.([
+          ...columns.slice(0, index),
+          val,
+          ...columns.slice(index + 1),
+        ]);
 
-  const onSubmit = () => {
-    setLoading(true);
-    setError("");
-    fetch(`/api/upload`, {
-      method: "POST",
-      body: JSON.stringify({
-        filename: name,
-        columns: columns,
-        content: content,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res?.data?.id) {
-          setText("Redirecting...");
-          return router.push(`/search?id=${res.data.id}`);
-        } else {
-          throw new Error(res.message);
-        }
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+        onRowChange?.(val);
+      }
+    }
+  );
 
   return (
-    <Stack>
+    <div>
       <ScrollArea h={600}>
-        <Table withBorder cellSpacing={0} className={classes.table}>
+        <Table cellSpacing={0} className={classes.table}>
           <thead>
             <tr>
               <th>Column</th>
@@ -91,30 +63,42 @@ export const FilePreview: React.FC<{
             </tr>
           </thead>
           <tbody>
-            {columns.map((c, index) => (
-              <Row key={c.column} data={c} index={index} onChange={onChange} />
-            ))}
+            {columns
+              ? columns.map((c, index) => (
+                  <Row
+                    key={c.column}
+                    data={c}
+                    index={index}
+                    onChange={handleChange}
+                  />
+                ))
+              : range(8).map((i) => <RowPlaceholder key={i} />)}
           </tbody>
         </Table>
       </ScrollArea>
 
-      {err && (
-        <Alert title="Error" color="red" icon={<IconAlertCircle size={16} />}>
-          {err}
-        </Alert>
+      {loading && (
+        <Loader size="xs" sx={{ position: "absolute", top: 5, right: 0 }} />
       )}
-
-      <Group position="center">
-        <Button variant="default" onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button onClick={onSubmit} loading={loading}>
-          {text}
-        </Button>
-      </Group>
-    </Stack>
+    </div>
   );
 };
+
+function RowPlaceholder() {
+  return (
+    <tr>
+      <td>
+        <Skeleton height={36} />
+      </td>
+      <td>
+        <Skeleton height={36} />
+      </td>
+      <td>
+        <Skeleton height={36} />
+      </td>
+    </tr>
+  );
+}
 
 function Row({
   data,
@@ -125,8 +109,9 @@ function Row({
   index: number;
   data: ColumnDescription;
 }) {
+  const isEditedRef = useRef(false);
   return (
-    <tr key={data.column}>
+    <tr>
       <td>{data.column || `unnamed_${index}`}</td>
       <td>{data.type.toUpperCase()}</td>
       <td>
@@ -139,8 +124,13 @@ function Row({
           })}
           type="text"
           defaultValue={data.description}
-          onChange={(e) => {
-            onChange({ ...data, description: e.target.value }, index);
+          onBlur={(e) => {
+            if (isEditedRef.current) {
+              onChange({ ...data, description: e.target.value }, index);
+            }
+          }}
+          onChange={() => {
+            isEditedRef.current = true;
           }}
         />
       </td>
