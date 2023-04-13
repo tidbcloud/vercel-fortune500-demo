@@ -19,6 +19,7 @@
     "@sentry/nextjs": "^7.47.0",
     "@tabler/icons": "^1.119.0",
     "@vercel/analytics": "^0.1.8",
+    "ahooks": "^3.7.6",
     "clsx": "^1.2.1",
     "csv-parse": "^5.3.5",
     "echarts": "^5.4.1",
@@ -45,5 +46,13 @@
     "fetch-to-curl": "^0.6.0",
     "prettier": "^2.8.3",
     "prisma": "^4.10.1"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "webpack",
+        "@babel/*"
+      ]
+    }
   }
 }
