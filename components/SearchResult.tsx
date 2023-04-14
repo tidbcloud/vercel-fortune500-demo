@@ -52,7 +52,6 @@ const useStyles = createStyles((theme) => ({
     marginTop: 12,
     marginBottom: 4,
     height: "auto",
-    maxHeight: 400,
     borderRadius: 8,
   },
 }));
@@ -166,7 +165,7 @@ export const SearchResult: React.FC<{
 
   return (
     <Stack className={className} spacing={0}>
-      <ScrollArea className={classes.scroll}>
+      <ScrollArea className={classes.scroll} h={500}>
         {React.createElement(chart as any, {
           chartInfo: chartInfo,
           columns: columnsObj,

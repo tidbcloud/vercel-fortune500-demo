@@ -53,7 +53,7 @@ export const FilePreview: React.FC<{
 
   return (
     <div>
-      <ScrollArea h={600}>
+      <ScrollArea h={500}>
         <Table cellSpacing={0} className={classes.table}>
           <thead>
             <tr>
