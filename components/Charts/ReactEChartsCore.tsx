@@ -80,5 +80,5 @@ echarts.use([
 ]);
 
 export const EChartsReact: React.FC<EChartsReactProps> = (options) => (
-  <ReactEChartsCore echarts={echarts} lazyUpdate showLoading {...options} />
+  <ReactEChartsCore echarts={echarts} lazyUpdate {...options} />
 );
