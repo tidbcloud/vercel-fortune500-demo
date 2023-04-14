@@ -17,7 +17,7 @@ export default function Home() {
 
   const onSuccess = useMemoizedFn((id: string) => {
     setSubmitButtonText("Redirecting...");
-    router.push(`/search?id=${id}`);
+    router.push(`/search/${id}`);
   });
 
   return (
