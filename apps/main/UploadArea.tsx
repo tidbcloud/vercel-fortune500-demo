@@ -4,10 +4,11 @@ import { IconUpload, IconPhoto, IconX } from "@tabler/icons";
 import { IconAlertCircle } from "@tabler/icons";
 import { useMemoizedFn, useUnmount } from "ahooks";
 import React, { useState } from "react";
+import { snakeCase } from "lodash-es";
 import { isNumeric } from "@/lib/utils";
 import { parse } from "@/lib/csv";
 import { FilePreview } from "@/components/Preview";
-import { ColumnDescription } from "@/lib/api";
+import type { ColumnDescription, ColumnMatchingResponse } from "@/lib/api";
 
 export const UploadArea: React.FC<{
   onSuccess?: (id: string) => void;
@@ -60,12 +61,14 @@ export const UploadArea: React.FC<{
         }),
       })
         .then((res) => res.json())
-        .then((res) => {
+        .then((res: ColumnMatchingResponse) => {
           if (res.code !== 200) {
             setErrMsg(res.message || "Error occurred");
             return;
           }
-          setColumns(res.columns);
+          setColumns(
+            res.columns.map((i) => ({ ...i, column: snakeCase(i.column) }))
+          );
         })
         .catch((err) => setErrMsg(err.message || "Error occurred"))
         .finally(() => {

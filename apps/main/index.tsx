@@ -46,7 +46,7 @@ export default function Home() {
           </a>
         </Text>
 
-        <img src="https://placehold.co/800x480" alt="" />
+        <Image src="/demo.gif" height={360} width={800} alt="" />
       </Stack>
 
       <Modal
