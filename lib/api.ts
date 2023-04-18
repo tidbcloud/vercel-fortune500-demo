@@ -17,12 +17,13 @@ export interface Chat2questionResponse {
   }>;
 }
 
-export function chat2question(table: string) {
+export function chat2question(table: string, isAsync?: boolean) {
   const payload = {
     cluster_id: TIDBCLOUD_ENV.cluster_id,
     database: TIDBCLOUD_ENV.cluster_db,
     question_num: 4,
     tables: [table],
+    async: isAsync,
   };
 
   console.log("fetching chat2question with payload: ", payload);
@@ -139,4 +140,16 @@ export function columnMatching(sample_data: any[]) {
 export interface GetColumnsDescriptionResponse {
   message: string;
   data: ColumnDescription[];
+}
+
+export enum BotType {
+  chat2question = "chat2question",
+  data2columnMatching = "data2columnMatching",
+}
+
+export function polling(type: BotType, id: string) {
+  return fetch(`${api}/streaming?bot_type=${type}&job_id=${id}`, {
+    method: "GET",
+    headers,
+  });
 }

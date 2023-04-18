@@ -9,7 +9,8 @@ import {
   Divider,
 } from "@mantine/core";
 import { IconAlertCircle, IconArrowRight } from "@tabler/icons";
-import useSWR from "swr";
+import useSWRSubscription from "swr/subscription";
+import type { SWRSubscriptionOptions } from "swr/subscription";
 import { useRouter } from "next/router";
 import { useMemoizedFn } from "ahooks";
 import {
@@ -19,9 +20,7 @@ import {
   FacebookIcon,
 } from "react-share";
 import { useState } from "react";
-import { fetcher } from "@/lib/fetch";
-import type { Chat2questionResponse } from "@/lib/api";
-import { capitalize } from "@/lib/utils";
+import { camelCase, upperFirst } from "lodash-es";
 import { UploadArea } from "../main/UploadArea";
 import { SelfHostInstruction } from "./SelfHostInstruction";
 
@@ -32,17 +31,22 @@ export const Suggestions: React.FC<{
   const [selfHostModal, setSelfHostModal] = useState(false);
   const router = useRouter();
   const id = router.query.id;
-  const { data, isLoading, error } = useSWR<Chat2questionResponse>(
+  const { data, error } = useSWRSubscription(
     id ? `/api/suggest?id=${id}` : null,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      shouldRetryOnError: false,
+    (key, { next }: SWRSubscriptionOptions<any, Error>) => {
+      const sseSource = new EventSource(key);
+      sseSource.onmessage = (e) => {
+        next(null, JSON.parse(e.data));
+      };
+      sseSource.onerror = (e) => {
+        next(new Error("An error occurred while attempting to connect"));
+      };
+
+      return () => sseSource.close();
     }
   );
 
-  const isError = error || (data && data?.code !== 200);
+  const isError = error || (data?.code && data.code > 200);
   const shareURL = typeof window !== "undefined" ? window.location.href : "";
   const shareQuote = "AI Insight exploration!";
   const shareHashtags = ["tidbcloud", "tidb", "aiinsight"];
@@ -74,31 +78,33 @@ export const Suggestions: React.FC<{
             </Alert>
           )}
 
-          {isLoading
-            ? [1, 2, 3, 4].map((i) => (
-                <Stack key={i} spacing={4}>
-                  <Skeleton height={28} width={80} />
-                  <Skeleton height={14} />
-                  <Skeleton height={14} width="90%" />
-                </Stack>
-              ))
-            : data?.questions?.map((v) => (
-                <Stack
-                  key={v.question}
-                  onClick={() => onSelect?.(v.question)}
-                  spacing={4}
-                  sx={{ cursor: "pointer" }}
-                >
-                  <h2>
-                    <Group spacing={4}>
-                      {capitalize(v.question_keyword)} <IconArrowRight />
-                    </Group>
-                  </h2>
-                  <Text sx={{ opacity: 0.6, lineHeight: "1.5" }} size={14}>
-                    {v.question}
-                  </Text>
-                </Stack>
-              ))}
+          {[0, 1, 2, 3].map((i) => {
+            const q = data?.result?.questions?.[i];
+            return q?.question && q?.question_keyword ? (
+              <Stack
+                key={q.question}
+                onClick={() => onSelect?.(q.question)}
+                spacing={4}
+                sx={{ cursor: "pointer" }}
+              >
+                <h2>
+                  <Group spacing={4}>
+                    {upperFirst(camelCase(q.question_keyword))}{" "}
+                    <IconArrowRight />
+                  </Group>
+                </h2>
+                <Text sx={{ opacity: 0.6, lineHeight: "1.5" }} size={14}>
+                  {q.question}
+                </Text>
+              </Stack>
+            ) : (
+              <Stack key={i} spacing={4}>
+                <Skeleton height={28} width={80} />
+                <Skeleton height={14} />
+                <Skeleton height={14} width="90%" />
+              </Stack>
+            );
+          })}
         </Stack>
       </Stack>
 
