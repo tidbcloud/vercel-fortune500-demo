@@ -9,8 +9,7 @@ import {
   Divider,
 } from "@mantine/core";
 import { IconAlertCircle, IconArrowRight } from "@tabler/icons";
-import useSWRSubscription from "swr/subscription";
-import type { SWRSubscriptionOptions } from "swr/subscription";
+import useSWR from "swr";
 import { useRouter } from "next/router";
 import { useMemoizedFn } from "ahooks";
 import {
@@ -23,6 +22,7 @@ import { useState } from "react";
 import { camelCase, upperFirst } from "lodash-es";
 import { UploadArea } from "../main/UploadArea";
 import { SelfHostInstruction } from "./SelfHostInstruction";
+import { fetcher } from "@/lib/fetch";
 
 export const Suggestions: React.FC<{
   onSelect?: (val: string) => void;
@@ -31,18 +31,24 @@ export const Suggestions: React.FC<{
   const [selfHostModal, setSelfHostModal] = useState(false);
   const router = useRouter();
   const id = router.query.id;
-  const { data, error } = useSWRSubscription(
-    id ? `/api/suggest?id=${id}` : null,
-    (key, { next }: SWRSubscriptionOptions<any, Error>) => {
-      const sseSource = new EventSource(key);
-      sseSource.onmessage = (e) => {
-        next(null, JSON.parse(e.data));
-      };
-      sseSource.onerror = (e) => {
-        next(new Error("An error occurred while attempting to connect"));
-      };
 
-      return () => sseSource.close();
+  const { data: jobData, error } = useSWR(
+    id ? `/api/suggest?id=${id}` : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      shouldRetryOnError: false,
+    }
+  );
+
+  const { data } = useSWR(
+    id && jobData?.job_id
+      ? `/api/suggest?id=${id}&jid=${jobData.job_id}`
+      : null,
+    fetcher,
+    {
+      refreshInterval: (data) => (data?.status === 2 ? 0 : 100),
     }
   );
 
