@@ -2,12 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { createHash } from "crypto";
 import sql from "sqlstring";
 import { z } from "zod";
+import { snakeCase } from "lodash-es";
 import { generateUniqueName, prisma } from "@/lib/db";
 import { DATABASE_ENV } from "@/config/env";
 import { parse } from "@/lib/csv";
 import { isNumeric } from "@/lib/utils";
+import type { ColumnDescription } from "@/lib/api";
 
-const Payload = z.object({
+const UploadFileBody = z.object({
   filename: z.string(),
   columns: z
     .object({
@@ -33,9 +35,28 @@ export default async function handler(
   console.log("columns: ", columns);
 
   try {
-    Payload.parse(req.body);
+    UploadFileBody.parse(req.body);
   } catch (e) {
     return res.status(400).json({ message: "invalid request" });
+  }
+
+  const hash = createHash("md5").update(content).digest("hex");
+
+  try {
+    const row = await prisma.file.findFirst({
+      where: {
+        hash,
+      },
+    });
+
+    if (row) {
+      console.log("file exist, skip...", row);
+      return res
+        .status(200)
+        .json({ message: "success", data: { id: row.table } });
+    }
+  } catch (e) {
+    console.error(e);
   }
 
   try {
@@ -46,9 +67,11 @@ export default async function handler(
       [_columns, data] = await parse(content, { delimiter: ";" });
     }
 
-    _columns = _columns.map((i) => columns.find((j: any) => j.column === i));
+    const sortedColumns: ColumnDescription[] = _columns.map((i) =>
+      columns.find((j: ColumnDescription) => j.column === snakeCase(i))
+    );
 
-    const columnsSql = _columns
+    const columnsSql = sortedColumns
       .map((i, index) => {
         return sql.format(
           `?? ${
@@ -71,8 +94,18 @@ export default async function handler(
     const insertStatement = sql.format("INSERT INTO ??.?? VALUES ?", [
       db,
       table,
-      data,
+      data.map((row) =>
+        row.map((v: string, i: number) =>
+          sortedColumns[i].type.toLowerCase().includes("int")
+            ? isNaN(Number(v))
+              ? null
+              : Number(v)
+            : v
+        )
+      ),
     ]);
+
+    console.log("insertStatement:", insertStatement);
 
     await prisma.$transaction([
       prisma.$executeRawUnsafe(createTableStatement),
@@ -81,12 +114,12 @@ export default async function handler(
         data: {
           filename,
           table,
-          hash: createHash("md5").update(content).digest("hex"),
+          hash,
         },
       }),
     ]);
 
-    return res.status(200).json({ message: "success", data: { id: table } });
+    return res.status(200).json({ message: "ok", data: { id: table } });
   } catch (e: any) {
     return res.status(400).json({
       message: `Parse error: ${e.message}, please try another file.`,

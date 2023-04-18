@@ -1,39 +1,26 @@
-import { createStyles } from "@mantine/core";
+import { Group, Text } from "@mantine/core";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useMemoizedFn } from "ahooks";
 
-const useStyles = createStyles(() => ({
-  main: {
-    display: "flex",
-    width: 424,
-    alignItems: "center",
-
-    "@media (max-width: 700px)": {
-      width: "100%",
-      justifyContent: "center",
-      marginTop: "24px",
-    },
-  },
-  title: {
-    fontSize: 66,
-    fontWeight: 600,
-  },
-}));
-
-export default function TitleWidthLogo() {
-  const { classes } = useStyles();
-
+export const TitleWithLogo: React.FC = () => {
+  const router = useRouter();
+  const onClick = useMemoizedFn(() => {
+    router.push("/");
+  });
   return (
-    <div className={classes.main}>
-      <div className="test">
-        <Image
-          src="/ai.svg"
-          alt="TiDB Cloud Logo"
-          width={100}
-          height={100}
-          priority
-        />
-      </div>
-      <div className={classes.title}>AI Insight</div>
-    </div>
+    <Group>
+      <Image
+        src="/ai.svg"
+        alt="TiDB Cloud Logo"
+        width={36}
+        height={36}
+        priority
+      />
+
+      <Text fw={600} size={26} onClick={onClick} sx={{ cursor: "pointer" }}>
+        AI Insight
+      </Text>
+    </Group>
   );
-}
+};

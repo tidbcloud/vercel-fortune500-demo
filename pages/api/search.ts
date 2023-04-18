@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import sql from "sqlstring";
-import { ColumnDescription, chat2chart } from "@/lib/api";
-import { prisma } from "@/lib/db";
-import { DATABASE_ENV } from "@/config/env";
+import { chat2chart } from "@/lib/api";
+import { getColumnDescriptions } from "@/lib/db";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,20 +11,7 @@ export default async function handler(
 
   if (req.method === "GET" && query && id) {
     try {
-      const stmt = sql.format("SHOW FULL COLUMNS FROM ??.??", [
-        DATABASE_ENV.database,
-        id,
-      ]);
-      console.log(stmt);
-
-      const result: any[] = await prisma.$queryRawUnsafe(stmt);
-
-      const schema: ColumnDescription[] = result.map((i) => ({
-        column: i.Field,
-        type: i.Type,
-        description: i.Comment,
-      }));
-
+      const schema = await getColumnDescriptions(id);
       const response = await chat2chart(query, id, {
         [id]: schema,
       });

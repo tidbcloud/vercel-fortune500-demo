@@ -1,6 +1,6 @@
 import { PieChartInfo } from "@/lib/api";
-import EChartsReact from "echarts-for-react";
 import { useMemo } from "react";
+import { EChartsReact } from "./ReactEChartsCore";
 
 export const PieChart: React.FC<{
   chartInfo: PieChartInfo;

@@ -6,7 +6,6 @@ const useStyles = createStyles({
   table: {
     borderRadius: 8,
     borderCollapse: "initial",
-    overflow: "hidden",
   },
   headCell: {
     height: 50,
@@ -20,8 +19,6 @@ export const TableChart: React.FC<{
   data: any[];
   columns: Record<string, ColumnInfo>;
 }> = ({ data, columns }) => {
-  console.log("columns: ", columns);
-  console.log("data: ", data);
   const { classes } = useStyles();
 
   const titles = (

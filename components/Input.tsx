@@ -11,11 +11,7 @@ import { useSpeechRecognition } from "@/lib/hook";
 
 const useStyles = createStyles((theme) => ({
   root: {
-    position: "relative",
-    alignSelf: "center",
     width: "100%",
-    maxWidth: 768,
-    flexBasis: "100%",
   },
   withResult: {
     alignSelf: "flex-start",
@@ -64,7 +60,7 @@ export const Input: React.FC<{
       setValue(data);
       onConfirm(data);
     }
-  }, [data]);
+  }, [data, onConfirm]);
 
   return (
     <div className={clsx(classes.root, className)}>
