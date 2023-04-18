@@ -24,8 +24,8 @@ export function isNumberFiled(column: string) {
   return ["DECIMAL", "INT", "DOUBLE", "BIGINT"].includes(column);
 }
 
-export function isNumeric(str: string) {
-  if (typeof str != "string") return false;
+export function isNumeric(str: string | number) {
+  if (typeof str !== "string") return false;
   return !isNaN(str as any) && !isNaN(parseFloat(str));
 }
 
@@ -46,7 +46,5 @@ export function isValidDataType(dataType: string) {
     mysqlDataTypes.includes(dataType.toUpperCase()) || regex.test(dataType)
   );
 }
-
-export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 export const range = (n: number) => Array.from({ length: n }).map((_, i) => i);
