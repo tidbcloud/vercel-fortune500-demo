@@ -46,7 +46,13 @@ export default function Home() {
           </a>
         </Text>
 
-        <Image src="/demo.gif" height={360} width={800} alt="" />
+        <Image
+          src="/demo.gif"
+          height={360}
+          width={800}
+          alt=""
+          className="demo-image"
+        />
       </Stack>
 
       <Modal
