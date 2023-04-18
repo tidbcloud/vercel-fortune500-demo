@@ -29,7 +29,7 @@ const useStyles = createStyles({
 });
 
 export const FilePreview: React.FC<{
-  columns: ColumnDescription[];
+  columns?: ColumnDescription[];
   onChange?: (columns: ColumnDescription[]) => void;
   onRowChange?: (column: ColumnDescription) => void;
   loading?: boolean;
@@ -50,6 +50,9 @@ export const FilePreview: React.FC<{
     }
   );
 
+  if (!columns) {
+    return <Loader size="xs" />;
+  }
   return (
     <div>
       <ScrollArea h={500}>
