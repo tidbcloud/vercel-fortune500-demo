@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import sql from "sqlstring";
-import { columnMatching } from "@/lib/api";
+import { BotType, columnMatching, polling } from "@/lib/api";
 import { getColumnDescriptions, prisma } from "@/lib/db";
 import { z, ZodError } from "zod";
 
@@ -35,10 +35,13 @@ async function getColumnMatchingFromDataService(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { sample_data } = req.body;
-
-  if (Array.isArray(sample_data) && sample_data.length > 0) {
-    const response = await columnMatching(sample_data);
+  const { sample_data, async: isAsync, job_id } = req.body;
+  if (job_id) {
+    console.log("getColumnMatchingFromDataService:", job_id);
+    const response = await polling(BotType.data2columnMatching, job_id);
+    return res.status(200).json(await response.json());
+  } else if (Array.isArray(sample_data) && sample_data.length > 0) {
+    const response = await columnMatching(sample_data, isAsync);
     return res.status(200).json(await response.json());
   }
 

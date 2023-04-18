@@ -7,7 +7,6 @@ import {
   Loader,
 } from "@mantine/core";
 import { ColumnDescription } from "@/lib/api";
-import { range } from "@/lib/utils";
 import { useMemoizedFn } from "ahooks";
 import { useRef } from "react";
 
@@ -30,7 +29,7 @@ const useStyles = createStyles({
 });
 
 export const FilePreview: React.FC<{
-  columns?: ColumnDescription[];
+  columns: ColumnDescription[];
   onChange?: (columns: ColumnDescription[]) => void;
   onRowChange?: (column: ColumnDescription) => void;
   loading?: boolean;
@@ -63,16 +62,18 @@ export const FilePreview: React.FC<{
             </tr>
           </thead>
           <tbody>
-            {columns
-              ? columns.map((c, index) => (
-                  <Row
-                    key={c.column}
-                    data={c}
-                    index={index}
-                    onChange={handleChange}
-                  />
-                ))
-              : range(8).map((i) => <RowPlaceholder key={i} />)}
+            {columns.map((c, index) =>
+              c.isLoading ? (
+                <RowPlaceholder key={index} />
+              ) : (
+                <Row
+                  key={c.column}
+                  data={c}
+                  index={index}
+                  onChange={handleChange}
+                />
+              )
+            )}
           </tbody>
         </Table>
       </ScrollArea>

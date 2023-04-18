@@ -3,12 +3,14 @@ import { Dropzone } from "@mantine/dropzone";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons";
 import { IconAlertCircle } from "@tabler/icons";
 import { useMemoizedFn, useUnmount } from "ahooks";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { snakeCase } from "lodash-es";
 import { isNumeric } from "@/lib/utils";
 import { parse } from "@/lib/csv";
 import { FilePreview } from "@/components/Preview";
 import type { ColumnDescription, ColumnMatchingResponse } from "@/lib/api";
+import useSWR from "swr";
+import { fetcher } from "@/lib/fetch";
 
 export const UploadArea: React.FC<{
   onSuccess?: (id: string) => void;
@@ -21,6 +23,36 @@ export const UploadArea: React.FC<{
   const [content, setContent] = useState("");
   const [filename, setFilename] = useState("");
   const [columns, setColumns] = useState<ColumnDescription[] | null>();
+  const [jobId, setJobId] = useState("");
+
+  const { data } = useSWR(
+    jobId ? "/api/columns" : null,
+    (key) =>
+      fetcher(key, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ job_id: jobId }),
+      }),
+    {
+      refreshInterval: (data) => (data?.status === 2 ? 0 : 200),
+    }
+  );
+
+  useEffect(() => {
+    if (data?.result?.columns) {
+      setColumns((prev) =>
+        data.result.columns
+          .map((i: ColumnDescription) => ({
+            ...i,
+            column: snakeCase(i.column),
+            isLoading: !i.column || !i.type,
+          }))
+          .concat(prev?.slice(data.result.columns.length))
+      );
+    }
+  }, [data]);
 
   const onUpload = useMemoizedFn(async (files: File[]) => {
     if (!files?.[0]) {
@@ -44,6 +76,14 @@ export const UploadArea: React.FC<{
         return;
       }
 
+      setColumns(
+        columns.map((i) => ({
+          column: snakeCase(i),
+          type: "",
+          description: "",
+          isLoading: true,
+        }))
+      );
       setContent(content);
       setFilename(files[0].name);
 
@@ -53,6 +93,7 @@ export const UploadArea: React.FC<{
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          async: true,
           sample_data: [
             columns
               .map((i, index) => ({ [i]: data[0][index] }))
@@ -66,9 +107,7 @@ export const UploadArea: React.FC<{
             setErrMsg(res.message || "Error occurred");
             return;
           }
-          setColumns(
-            res.columns.map((i) => ({ ...i, column: snakeCase(i.column) }))
-          );
+          setJobId(res.job_id ?? "");
         })
         .catch((err) => setErrMsg(err.message || "Error occurred"))
         .finally(() => {
@@ -135,7 +174,10 @@ export const UploadArea: React.FC<{
             <Button variant="default" onClick={onCancel}>
               Cancel
             </Button>
-            <Button onClick={onSubmit} loading={submitting}>
+            <Button
+              onClick={onSubmit}
+              loading={submitting || columns.some((i) => i.isLoading)}
+            >
               {confirmText}
             </Button>
           </Group>

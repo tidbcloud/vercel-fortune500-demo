@@ -100,6 +100,7 @@ export interface ColumnDescription {
   column: string;
   type: string;
   description: string;
+  isLoading?: boolean;
 }
 
 export function chat2chart(
@@ -125,13 +126,15 @@ export interface ColumnMatchingResponse {
   columns: ColumnDescription[];
   cost_time: string;
   message: string;
+  job_id?: string;
 }
 
-export function columnMatching(sample_data: any[]) {
+export function columnMatching(sample_data: any[], isAsync?: boolean) {
   return fetch(`${api}/data2column-match`, {
     method: "POST",
     body: JSON.stringify({
       sample_data,
+      async: isAsync,
     }),
     headers,
   });
