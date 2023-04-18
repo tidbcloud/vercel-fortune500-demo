@@ -104,7 +104,6 @@ export const Content: React.FC<{
       <Tabs
         value={tab}
         onTabChange={(val) => setTab(val as any)}
-        variant="outline"
         sx={{ position: "relative" }}
       >
         <Tabs.List>

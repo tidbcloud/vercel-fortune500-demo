@@ -37,11 +37,10 @@ export default function SearchPage() {
         width: "80%",
         maxWidth: 1400,
         margin: "auto",
-        gap: 32,
+        gap: 48,
       }}
     >
       <Content onSearch={handleSearch} searchValue={question} />
-
       <Suggestions onSelect={handleSearch} />
     </Flex>
   );
