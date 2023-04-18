@@ -15,25 +15,12 @@ export default async function handler(
 
 async function getQuestionSuggest(req: NextApiRequest, res: NextApiResponse) {
   const id = req.query.id as string;
-
-  const response = await chat2question(id, true);
-  const { job_id } = await response.json();
-  console.log("chat2question job_id:", job_id);
-
-  res.setHeader("Cache-Control", "no-cache, no-transform");
-  res.setHeader("connection", "keep-alive");
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("X-Accel-Buffering", "no");
-  res.setHeader("Content-Encoding", "none");
-
-  while (true) {
-    let response = await polling(BotType.chat2question, job_id);
-    response = await response.json();
-    console.log("get response", response);
-    res.write(`data: ${JSON.stringify(response)}\n\n`);
-
-    if (response.status === 2) {
-      break;
-    }
+  const jid = req.query.jid as string;
+  if (!jid) {
+    const response = await chat2question(id, true);
+    return res.status(200).json(await response.json());
+  } else {
+    const response = await polling(BotType.chat2question, jid);
+    return res.status(200).json(await response.json());
   }
 }
