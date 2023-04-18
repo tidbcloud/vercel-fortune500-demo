@@ -8,6 +8,17 @@
   flex-direction: column;
 }
 
+@media (max-width: 700px) {
+  .content {
+    padding: 32px;
+  }
+
+  .demo-image {
+    width: 100%;
+    height: auto;
+  }
+}
+
 .content {
   max-width: 850px;
   margin: auto;
