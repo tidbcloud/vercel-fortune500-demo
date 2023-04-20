@@ -175,6 +175,7 @@ export const Suggestions: React.FC<{
         onClose={() => setUploadModal(false)}
         size="xl"
         title={<h4>Upload</h4>}
+        centered
       >
         <UploadArea onSuccess={onSuccess} onCancel={onCancel} />
       </Modal>

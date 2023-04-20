@@ -60,6 +60,7 @@ export default function Home() {
         opened={showUpload}
         onClose={() => setShowUpload(false)}
         title={<h4>Upload</h4>}
+        centered
       >
         <UploadArea
           confirmText={submitButtonText}
