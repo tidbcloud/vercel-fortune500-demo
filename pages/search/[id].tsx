@@ -1,6 +1,11 @@
 import Head from "next/head";
 import { config } from "@/config";
-import SearchPage from "@/apps/search";
+import dynamic from "next/dynamic";
+
+const SearchPage = dynamic(() => import("@/apps/search"), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 export default function Home() {
   return (
