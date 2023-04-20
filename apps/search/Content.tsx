@@ -105,6 +105,7 @@ export const Content: React.FC<{
         value={tab}
         onTabChange={(val) => setTab(val as any)}
         sx={{ position: "relative" }}
+        styles={{ tabsList: { display: "inline-flex" } }}
       >
         <Tabs.List>
           <Tabs.Tab value="columns">Dataset Details</Tabs.Tab>

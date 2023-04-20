@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import sql from "sqlstring";
 import { BotType, columnMatching, polling } from "@/lib/api";
 import { getColumnDescriptions, prisma } from "@/lib/db";
 import { z, ZodError } from "zod";
@@ -26,7 +25,11 @@ async function getCurrentColumnDescriptions(
   const id = req.query.id;
   if (id && typeof id === "string") {
     const schema = await getColumnDescriptions(id);
-    return res.status(200).json({ message: "ok", data: schema });
+    if (schema) {
+      return res.status(200).json({ message: "ok", data: schema });
+    } else {
+      return res.status(404).json({ message: "not found" });
+    }
   }
   return res.status(400).json({ message: "invalid request" });
 }
@@ -67,15 +70,28 @@ async function editColumnDescriptions(
       .status(400)
       .json({ message: (e as ZodError).format()._errors.join() });
   }
-  const { column, id: table, type, description } = req.body;
+  const {
+    column,
+    id: table,
+    type,
+    description,
+  } = req.body as z.infer<typeof editColumnDescriptionBody>;
 
-  const editColumnSql = sql.format(
-    `ALTER TABLE ?? MODIFY COLUMN ?? ${type} COMMENT ?`,
-    [table, column, description]
-  );
+  const prevDescriptiona = await getColumnDescriptions(table);
+  if (!prevDescriptiona) {
+    return res.status(200).json({ message: "not found" });
+  }
 
-  console.log("editColumnSql: ", editColumnSql);
+  const i = prevDescriptiona.findIndex((i) => i.column === column);
+  prevDescriptiona[i] = { column, type, description };
+  await prisma.file.update({
+    where: {
+      table,
+    },
+    data: {
+      structure: JSON.stringify(prevDescriptiona),
+    },
+  });
 
-  await prisma.$executeRawUnsafe(editColumnSql);
   return res.status(200).json({ message: "ok" });
 }

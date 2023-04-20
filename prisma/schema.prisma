@@ -8,10 +8,11 @@ datasource db {
 }
 
 model File {
-  id       Int    @id @default(autoincrement())
-  filename String
-  table    String
-  hash     String
+  id        Int    @id @default(autoincrement())
+  filename  String
+  table     String @unique
+  hash      String
+  structure Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

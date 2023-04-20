@@ -3,11 +3,13 @@ import Image from "next/image";
 import { Button, Modal, Text, Stack } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useMemoizedFn } from "ahooks";
+import { TitleWithLogo } from "@/components/TitleWithLogo";
+import { Footer } from "@/components/Footer";
 import { UploadArea } from "./UploadArea";
 
 export default function Home() {
   const [showUpload, setShowUpload] = useState(false);
-  const [submitButtonText, setSubmitButtonText] = useState("Submit");
+  const [submitButtonText, setSubmitButtonText] = useState("Start Exploring");
 
   const router = useRouter();
 
@@ -22,6 +24,9 @@ export default function Home() {
 
   return (
     <>
+      <header className="header">
+        <TitleWithLogo />
+      </header>
       <Stack className="content" align="center">
         <Text size={50} fw={700}>
           Explore your dataset
@@ -54,12 +59,13 @@ export default function Home() {
           className="demo-image"
         />
       </Stack>
-
+      <Footer className="footer" />
       <Modal
         size="xl"
         opened={showUpload}
         onClose={() => setShowUpload(false)}
         title={<h4>Upload</h4>}
+        centered
       >
         <UploadArea
           confirmText={submitButtonText}

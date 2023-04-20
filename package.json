@@ -15,7 +15,7 @@
     "@mantine/hooks": "^5.10.5",
     "@mantine/prism": "^5.10.5",
     "@next/font": "13.1.2",
-    "@prisma/client": "^4.10.1",
+    "@prisma/client": "^4.13.0",
     "@sentry/nextjs": "^7.47.0",
     "@tabler/icons": "^1.119.0",
     "@vercel/analytics": "^0.1.8",
@@ -48,7 +48,7 @@
     "@types/sqlstring": "^2.3.0",
     "fetch-to-curl": "^0.6.0",
     "prettier": "^2.8.3",
-    "prisma": "^4.10.1"
+    "prisma": "^4.13.0"
   },
   "pnpm": {
     "peerDependencyRules": {

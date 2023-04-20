@@ -48,6 +48,7 @@ export const Suggestions: React.FC<{
       : null,
     fetcher,
     {
+      revalidateOnFocus: false,
       refreshInterval: (data) => (data?.status === 2 ? 0 : 100),
     }
   );
@@ -165,6 +166,7 @@ export const Suggestions: React.FC<{
         }
         padding={0}
         withCloseButton={false}
+        centered
       >
         <Divider />
         <SelfHostInstruction />
@@ -175,6 +177,7 @@ export const Suggestions: React.FC<{
         onClose={() => setUploadModal(false)}
         size="xl"
         title={<h4>Upload</h4>}
+        centered
       >
         <UploadArea onSuccess={onSuccess} onCancel={onCancel} />
       </Modal>

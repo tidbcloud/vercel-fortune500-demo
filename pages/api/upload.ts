@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { createHash } from "crypto";
 import sql from "sqlstring";
 import { z } from "zod";
-import { snakeCase } from "lodash-es";
-import { generateUniqueName, prisma } from "@/lib/db";
+import { omit, snakeCase } from "lodash-es";
+import { generateUniqueName, prisma, Prisma } from "@/lib/db";
 import { DATABASE_ENV } from "@/config/env";
 import { parse } from "@/lib/csv";
 import { isNumeric } from "@/lib/utils";
@@ -29,16 +29,18 @@ export default async function handler(
     return res.status(404).json({ message: "not found" });
   }
 
-  const { filename, columns, content } = req.body;
-
-  console.log("filename", filename);
-  console.log("columns: ", columns);
-
   try {
     UploadFileBody.parse(req.body);
   } catch (e) {
     return res.status(400).json({ message: "invalid request" });
   }
+
+  const { filename, columns, content } = req.body as z.infer<
+    typeof UploadFileBody
+  >;
+
+  console.log("filename", filename);
+  console.log("columns: ", columns);
 
   const hash = createHash("md5").update(content).digest("hex");
 
@@ -51,6 +53,18 @@ export default async function handler(
 
     if (row) {
       console.log("file exist, skip...", row);
+
+      await prisma.file.update({
+        where: {
+          id: row.id,
+        },
+        data: {
+          structure: columns.map((i) => ({
+            ...i,
+            column: snakeCase(i.column),
+          })),
+        },
+      });
       return res
         .status(200)
         .json({ message: "success", data: { id: row.table } });
@@ -60,18 +74,18 @@ export default async function handler(
   }
 
   try {
-    let data: any[], _columns: any[];
+    let data: any[], _columns: string[];
     try {
       [_columns, data] = await parse(content);
     } catch (e) {
       [_columns, data] = await parse(content, { delimiter: ";" });
     }
 
-    const sortedColumns: ColumnDescription[] = _columns.map((i) =>
-      columns.find((j: ColumnDescription) => j.column === snakeCase(i))
+    const normalizedColumns: ColumnDescription[] = _columns.map(
+      (i) => columns.find((j: ColumnDescription) => j.column === snakeCase(i))!
     );
 
-    const columnsSql = sortedColumns
+    const columnsSql = normalizedColumns
       .map((i, index) => {
         return sql.format(
           `?? ${
@@ -96,7 +110,7 @@ export default async function handler(
       table,
       data.map((row) =>
         row.map((v: string, i: number) =>
-          sortedColumns[i].type.toLowerCase().includes("int")
+          normalizedColumns[i].type.toLowerCase().includes("int")
             ? isNaN(Number(v))
               ? null
               : Number(v)
@@ -106,6 +120,7 @@ export default async function handler(
     ]);
 
     console.log("insertStatement:", insertStatement);
+    console.log("normalizedColumns:", normalizedColumns);
 
     await prisma.$transaction([
       prisma.$executeRawUnsafe(createTableStatement),
@@ -115,6 +130,9 @@ export default async function handler(
           filename,
           table,
           hash,
+          structure: normalizedColumns.map((i) =>
+            omit(i, "isLoading")
+          ) as Prisma.JsonArray,
         },
       }),
     ]);
