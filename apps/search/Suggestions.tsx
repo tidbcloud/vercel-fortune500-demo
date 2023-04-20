@@ -48,6 +48,7 @@ export const Suggestions: React.FC<{
       : null,
     fetcher,
     {
+      revalidateOnFocus: false,
       refreshInterval: (data) => (data?.status === 2 ? 0 : 100),
     }
   );
@@ -165,6 +166,7 @@ export const Suggestions: React.FC<{
         }
         padding={0}
         withCloseButton={false}
+        centered
       >
         <Divider />
         <SelfHostInstruction />

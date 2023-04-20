@@ -36,6 +36,7 @@ export const UploadArea: React.FC<{
         body: JSON.stringify({ job_id: jobId }),
       }),
     {
+      revalidateOnFocus: false,
       refreshInterval: (data) => (data?.status === 2 ? 0 : 200),
     }
   );

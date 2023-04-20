@@ -12,10 +12,14 @@ export default async function handler(
   if (req.method === "GET" && query && id) {
     try {
       const schema = await getColumnDescriptions(id);
-      const response = await chat2chart(query, id, {
-        [id]: schema,
-      });
-      return res.status(200).json(await response.json());
+      if (schema) {
+        const response = await chat2chart(query, id, {
+          [id]: schema,
+        });
+        return res.status(200).json(await response.json());
+      } else {
+        return res.status(404).json({ message: "not found" });
+      }
     } catch (e: any) {
       return res.status(500).json({ message: e.message });
     }
