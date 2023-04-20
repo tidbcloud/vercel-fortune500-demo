@@ -26,9 +26,9 @@ export const UploadArea: React.FC<{
   const [jobId, setJobId] = useState("");
 
   const { data } = useSWR(
-    jobId ? "/api/columns" : null,
+    jobId ? ["/api/columns", jobId] : null,
     (key) =>
-      fetcher(key, {
+      fetcher(key[0], {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,6 +53,13 @@ export const UploadArea: React.FC<{
       );
     }
   }, [data]);
+
+  const clear = useMemoizedFn(() => {
+    setFilename("");
+    setColumns(null);
+    setContent("");
+    setErrMsg("");
+  });
 
   const onUpload = useMemoizedFn(async (files: File[]) => {
     if (!files?.[0]) {
@@ -152,12 +159,7 @@ export const UploadArea: React.FC<{
       });
   });
 
-  useUnmount(() => {
-    setFilename("");
-    setColumns(null);
-    setContent("");
-    setErrMsg("");
-  });
+  useUnmount(clear);
 
   return (
     <Stack>
