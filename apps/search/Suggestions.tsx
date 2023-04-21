@@ -179,7 +179,11 @@ export const Suggestions: React.FC<{
         title={<h4>Upload</h4>}
         centered
       >
-        <UploadArea onSuccess={onSuccess} onCancel={onCancel} />
+        <UploadArea
+          onSuccess={onSuccess}
+          onCancel={onCancel}
+          confirmText="Start Exploring"
+        />
       </Modal>
     </Stack>
   );
