@@ -25,7 +25,7 @@ import { SelfHostInstruction } from "./SelfHostInstruction";
 import { fetcher } from "@/lib/fetch";
 
 export const Suggestions: React.FC<{
-  onSelect?: (val: string) => void;
+  onSelect: (val: string) => void;
 }> = ({ onSelect }) => {
   const [uploadModal, setUploadModal] = useState(false);
   const [selfHostModal, setSelfHostModal] = useState(false);
@@ -63,6 +63,7 @@ export const Suggestions: React.FC<{
   });
 
   const onSuccess = useMemoizedFn((id: string) => {
+    onSelect("");
     setUploadModal(false);
     router.push(`/search/${id}`);
   });
@@ -90,7 +91,7 @@ export const Suggestions: React.FC<{
             return q?.question && q?.question_keyword ? (
               <Stack
                 key={q.question}
-                onClick={() => onSelect?.(q.question)}
+                onClick={() => onSelect(q.question)}
                 spacing={4}
                 sx={{ cursor: "pointer" }}
               >

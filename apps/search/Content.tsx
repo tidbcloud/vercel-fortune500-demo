@@ -94,6 +94,8 @@ export const Content: React.FC<{
   useEffect(() => {
     if (searchValue) {
       setTab("result");
+    } else {
+      setTab("columns");
     }
   }, [searchValue]);
 
