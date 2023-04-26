@@ -53,6 +53,8 @@ export const Suggestions: React.FC<{
     }
   );
 
+  const isGeneratingQuestion = !data || data.status === 1;
+
   const isError = error || (data?.code && data.code > 200);
   const shareURL = typeof window !== "undefined" ? window.location.href : "";
   const shareQuote = "AI Insight exploration!";
@@ -76,6 +78,12 @@ export const Suggestions: React.FC<{
         </Text>
 
         <Stack spacing={24}>
+          {isGeneratingQuestion && (
+            <Text size={14} color="dimmed">
+              Generating questions you may be interested based on your
+              dataset...
+            </Text>
+          )}
           {isError && (
             <Alert
               title="Ooops, error occurred"

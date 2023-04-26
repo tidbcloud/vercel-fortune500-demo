@@ -64,7 +64,7 @@ export default function Home() {
         size="xl"
         opened={showUpload}
         onClose={() => setShowUpload(false)}
-        title={<h4>Upload</h4>}
+        title={<h4>Upload your dataset</h4>}
         centered
       >
         <UploadArea
