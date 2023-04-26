@@ -1,9 +1,9 @@
-import { Button, Group, Text, Alert, Stack } from "@mantine/core";
+import { Button, Group, Text, Alert, Stack, Loader } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons";
 import { IconAlertCircle } from "@tabler/icons";
 import { useMemoizedFn, useUnmount } from "ahooks";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { snakeCase } from "lodash-es";
 import { isNumeric } from "@/lib/utils";
 import { parse } from "@/lib/csv";
@@ -40,6 +40,12 @@ export const UploadArea: React.FC<{
       refreshInterval: (data) => (data?.status === 2 ? 0 : 200),
     }
   );
+
+  const isGeneratingDescription = useMemo(() => {
+    return columns?.some((i) => i.isLoading);
+  }, [columns]);
+  const isDescriptionGenerated =
+    !!columns && columns.length > 0 && !isGeneratingDescription;
 
   useEffect(() => {
     if (data?.result?.columns) {
@@ -164,6 +170,21 @@ export const UploadArea: React.FC<{
 
   return (
     <Stack>
+      {isGeneratingDescription && (
+        <Group>
+          <Loader size="xs" color="gray" />
+          <Text size={14} color="dimmed">
+            The AI system is generating descriptions for your data fields, which
+            can be reviewed and supplemented later
+          </Text>
+        </Group>
+      )}
+      {isDescriptionGenerated && (
+        <Text size={14} color="dimmed">
+          Please take a moment to review the data field descriptions below as
+          this improves the AI&apos;s understanding of your dataset.
+        </Text>
+      )}
       {errMsg && (
         <Alert title="Error" icon={<IconAlertCircle size={16} />} color="red">
           {errMsg}
@@ -179,7 +200,8 @@ export const UploadArea: React.FC<{
             </Button>
             <Button
               onClick={onSubmit}
-              loading={submitting || columns.some((i) => i.isLoading)}
+              loading={submitting}
+              disabled={isGeneratingDescription}
             >
               {confirmText}
             </Button>
