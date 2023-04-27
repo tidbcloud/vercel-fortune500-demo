@@ -174,8 +174,8 @@ export const UploadArea: React.FC<{
         <Group>
           <Loader size="xs" color="gray" />
           <Text size={14} color="dimmed">
-            The AI system is generating descriptions for your data fields, which
-            can be reviewed and supplemented later
+            AI is currently parsing your dataset for more effective data
+            exploration.
           </Text>
         </Group>
       )}
