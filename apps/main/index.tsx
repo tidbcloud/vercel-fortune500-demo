@@ -6,6 +6,7 @@ import { useMemoizedFn } from "ahooks";
 import { TitleWithLogo } from "@/components/TitleWithLogo";
 import { Footer } from "@/components/Footer";
 import { UploadArea } from "./UploadArea";
+import { eventTracking } from "@/lib/mixpanel";
 
 export default function Home() {
   const [showUpload, setShowUpload] = useState(false);
@@ -14,10 +15,12 @@ export default function Home() {
   const router = useRouter();
 
   const onCancel = useMemoizedFn(() => {
+    eventTracking("Cancel on Upload Dataset");
     setShowUpload(false);
   });
 
   const onSuccess = useMemoizedFn((id: string) => {
+    eventTracking("Success on Upload Dataset");
     setSubmitButtonText("Redirecting...");
     router.push(`/search/${id}`);
   });
@@ -37,6 +40,7 @@ export default function Home() {
         <Button
           leftIcon={<Image src="/star.svg" height={16} width={16} alt="" />}
           onClick={() => setShowUpload(true)}
+          data-mp-event="Click Explore Dataset Button"
         >
           Explore any dataset
         </Button>
@@ -46,6 +50,7 @@ export default function Home() {
             href="https://fortune500.vercel.app/"
             target="_blank"
             rel="noreferrer"
+            data-mp-event="Click Explore fortune 500 Q&A Link"
           >
             Explore fortune 500 Q&A
           </a>

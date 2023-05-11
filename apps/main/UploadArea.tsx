@@ -5,12 +5,13 @@ import { IconAlertCircle } from "@tabler/icons";
 import { useMemoizedFn, useUnmount } from "ahooks";
 import React, { useEffect, useMemo, useState } from "react";
 import { snakeCase } from "lodash-es";
+import useSWR from "swr";
 import { isNumeric } from "@/lib/utils";
 import { parse } from "@/lib/csv";
 import { FilePreview } from "@/components/Preview";
 import type { ColumnDescription, ColumnMatchingResponse } from "@/lib/api";
-import useSWR from "swr";
 import { fetcher } from "@/lib/fetch";
+import { eventTracking } from "@/lib/mixpanel";
 
 export const UploadArea: React.FC<{
   onSuccess?: (id: string) => void;
@@ -38,6 +39,16 @@ export const UploadArea: React.FC<{
     {
       revalidateOnFocus: false,
       refreshInterval: (data) => (data?.status === 2 ? 0 : 200),
+      onSuccess(data) {
+        if (data?.status === 2) {
+          eventTracking("Polling Column Description Finish");
+        } else {
+          eventTracking("Polling Column Description Ongoing");
+        }
+      },
+      onError(error) {
+        eventTracking("Polling Column Description Error", { error });
+      },
     }
   );
 
@@ -69,6 +80,7 @@ export const UploadArea: React.FC<{
   });
 
   const onUpload = useMemoizedFn(async (files: File[]) => {
+    eventTracking("Dropped File on Upload Area");
     if (!files?.[0]) {
       return;
     }
@@ -101,6 +113,8 @@ export const UploadArea: React.FC<{
       setContent(content);
       setFilename(files[0].name);
 
+      eventTracking("Start Fetching Column Description");
+
       fetch("/api/columns", {
         method: "POST",
         headers: {
@@ -118,12 +132,21 @@ export const UploadArea: React.FC<{
         .then((res) => res.json())
         .then((res: ColumnMatchingResponse) => {
           if (res.code !== 200) {
+            eventTracking("Fetch Column Description Failed", {
+              message: res.message,
+            });
             setErrMsg(res.message || "Error occurred");
             return;
           }
           setJobId(res.job_id ?? "");
         })
-        .catch((err) => setErrMsg(err.message || "Error occurred"))
+        .catch((err) => {
+          const message = err.message || "Error occurred";
+          eventTracking("Fetch Column Description Failed", {
+            message,
+          });
+          setErrMsg(message);
+        })
         .finally(() => {
           setUploading(false);
         });
@@ -153,12 +176,15 @@ export const UploadArea: React.FC<{
       .then((res) => res.json())
       .then((res) => {
         if (res?.data?.id) {
+          eventTracking("Upload File Success", { id: res.data.id });
           onSuccess?.(res.data.id);
         } else {
+          eventTracking("Upload File Failed", { message: res.message });
           throw new Error(res.message);
         }
       })
       .catch((err) => {
+        eventTracking("Upload File Failed", { message: err.message });
         setErrMsg(err.message);
       })
       .finally(() => {
@@ -195,13 +221,18 @@ export const UploadArea: React.FC<{
           <FilePreview columns={columns} onChange={(c) => setColumns(c)} />
 
           <Group position="center">
-            <Button variant="default" onClick={onCancel}>
+            <Button
+              variant="default"
+              onClick={onCancel}
+              data-mp-event="Click Cancel Upload Button"
+            >
               Cancel
             </Button>
             <Button
               onClick={onSubmit}
               loading={submitting}
               disabled={isGeneratingDescription}
+              data-mp-event="Click Submit Upload Button"
             >
               {confirmText}
             </Button>
@@ -210,7 +241,12 @@ export const UploadArea: React.FC<{
       ) : (
         <Dropzone
           onDrop={(files) => onUpload(files)}
-          onReject={(files) => console.log("rejected files", files)}
+          onReject={(files) => {
+            eventTracking("Rejected when Upload File");
+          }}
+          onClick={() => {
+            eventTracking("Click on Upload File Dropzone");
+          }}
           accept={{ "text/csv": [".csv"] }}
           maxSize={1024 ** 2}
           loading={uploading}

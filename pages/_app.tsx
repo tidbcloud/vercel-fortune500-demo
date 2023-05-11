@@ -1,12 +1,17 @@
 import type { AppProps } from "next/app";
-import { Analytics } from "@vercel/analytics/react";
 import { MantineProvider } from "@mantine/core";
+import { enableAutoClickTracking } from "@/lib/mixpanel";
 
 // use pure css for fast initial page rendering
 import "@/styles/globals.css";
 import "@/styles/main.css";
+import { useEffect } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    return enableAutoClickTracking();
+  }, []);
+
   return (
     <>
       <MantineProvider
@@ -18,7 +23,6 @@ export default function App({ Component, pageProps }: AppProps) {
       >
         <Component {...pageProps} />
       </MantineProvider>
-      <Analytics />
     </>
   );
 }

@@ -8,6 +8,7 @@ export const Footer: React.FC<{ className?: string }> = ({ className }) => {
         href="https://tidbcloud.com/?utm_source=smartchart&utm_medium=referral"
         target="_blank"
         rel="noopener noreferrer"
+        data-mp-event="Click TiDB Cloud Site Link"
       >
         Powered by{" "}
         <Image
