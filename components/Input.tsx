@@ -8,6 +8,7 @@ import {
 import clsx from "clsx";
 import { KeyboardEvent, useEffect, useState } from "react";
 import { useSpeechRecognition } from "@/lib/hook";
+import { eventTracking } from "@/lib/mixpanel";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -68,7 +69,10 @@ export const Input: React.FC<{
         size="xl"
         radius="xl"
         value={value}
-        onFocus={(e) => e.target.select()}
+        onFocus={(e) => {
+          eventTracking("Focus on Search Input");
+          e.target.select();
+        }}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={"Ask anything..."}
@@ -82,6 +86,7 @@ export const Input: React.FC<{
               <IconMicrophone
                 className={classes.icon}
                 onClick={() => {
+                  eventTracking("Click on Microphone Icon in Search Input");
                   start();
                 }}
               />
@@ -89,6 +94,7 @@ export const Input: React.FC<{
             <IconSend
               className={classes.icon}
               onClick={() => {
+                eventTracking("Click on Send Icon in Search Input");
                 onConfirm?.(value);
               }}
             />

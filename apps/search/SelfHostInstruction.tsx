@@ -14,6 +14,7 @@ export const SelfHostInstruction: React.FC = () => {
             href="https://tidbcloud.com/"
             target="_blank"
             rel="noopener noreferrer"
+            data-mp-event="Click Sign Up TiDB Cloud Link"
           >
             click here
           </a>{" "}
@@ -30,6 +31,7 @@ export const SelfHostInstruction: React.FC = () => {
             href="https://github.com/tidbcloud/vercel-fortune500-demo/tree/ai-insight"
             target="_blank"
             rel="noopener noreferrer"
+            data-mp-event="Click AI Insight GitHub Repo Link"
           >
             Click here
           </a>{" "}
@@ -43,6 +45,7 @@ export const SelfHostInstruction: React.FC = () => {
             href="https://nodejs.org/"
             target="_blank"
             rel="noopener noreferrer"
+            data-mp-event="Click Nodejs Site Link"
           >
             here
           </a>{" "}
@@ -61,6 +64,7 @@ export const SelfHostInstruction: React.FC = () => {
             href="https://github.com/tidbcloud/vercel-fortune500-demo/issues"
             target="_blank"
             rel="noopener noreferrer"
+            data-mp-event="Click GitHub Issue Link"
           >
             open an issue
           </a>{" "}

@@ -23,6 +23,7 @@ import { camelCase, upperFirst } from "lodash-es";
 import { UploadArea } from "../main/UploadArea";
 import { SelfHostInstruction } from "./SelfHostInstruction";
 import { fetcher } from "@/lib/fetch";
+import { eventTracking } from "@/lib/mixpanel";
 
 export const Suggestions: React.FC<{
   onSelect: (val: string) => void;
@@ -50,6 +51,16 @@ export const Suggestions: React.FC<{
     {
       revalidateOnFocus: false,
       refreshInterval: (data) => (data?.status === 2 ? 0 : 100),
+      onSuccess(data) {
+        if (data?.status === 2) {
+          eventTracking("Polling Suggest Question Successful");
+        } else {
+          eventTracking("Polling Suggest Question Ongoing");
+        }
+      },
+      onError(error) {
+        eventTracking("Polling Suggest Question Error", { error });
+      },
     }
   );
 
@@ -61,10 +72,12 @@ export const Suggestions: React.FC<{
   const shareHashtags = ["tidbcloud", "tidb", "aiinsight"];
 
   const onCancel = useMemoizedFn(() => {
+    eventTracking("Cancel on Upload Another Dataset");
     setUploadModal(false);
   });
 
   const onSuccess = useMemoizedFn((id: string) => {
+    eventTracking("Success on Upload Another Dataset");
     onSelect("");
     setUploadModal(false);
     router.push(`/search/${id}`);
@@ -99,7 +112,12 @@ export const Suggestions: React.FC<{
             return q?.question && q?.question_keyword ? (
               <Stack
                 key={q.question}
-                onClick={() => onSelect(q.question)}
+                onClick={() => {
+                  eventTracking("Click on Suggest Question", {
+                    question: q.question,
+                  });
+                  onSelect(q.question);
+                }}
                 spacing={4}
                 sx={{ cursor: "pointer" }}
               >
@@ -129,12 +147,22 @@ export const Suggestions: React.FC<{
           You may want
         </Text>
 
-        <UnstyledButton onClick={() => setSelfHostModal(true)}>
+        <UnstyledButton
+          onClick={() => {
+            eventTracking("Click Build Your Own Site");
+            setSelfHostModal(true);
+          }}
+        >
           <Text size={14} color="#0CA6F2" span>
-            Build you own site
+            Build your own site
           </Text>
         </UnstyledButton>
-        <UnstyledButton onClick={() => setUploadModal(true)}>
+        <UnstyledButton
+          onClick={() => {
+            eventTracking("Click Upload Another Dataset");
+            setUploadModal(true);
+          }}
+        >
           <Text size={14} color="#0CA6F2" span>
             Upload another dataset
           </Text>
@@ -151,6 +179,7 @@ export const Suggestions: React.FC<{
             url={shareURL}
             title={shareQuote}
             hashtags={shareHashtags}
+            onClick={() => eventTracking("Share with friends on Twitter")}
           >
             <TwitterIcon size={32} round />
           </TwitterShareButton>
@@ -158,6 +187,7 @@ export const Suggestions: React.FC<{
             url={shareURL}
             quote={shareQuote}
             hashtag={shareHashtags.join(" ")}
+            onClick={() => eventTracking("Share with friends on Facebook")}
           >
             <FacebookIcon size={32} round />
           </FacebookShareButton>

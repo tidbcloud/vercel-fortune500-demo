@@ -18,7 +18,14 @@ export const TitleWithLogo: React.FC = () => {
         priority
       />
 
-      <Text fw={600} size={26} onClick={onClick} sx={{ cursor: "pointer" }}>
+      <Text
+        fw={600}
+        size={26}
+        onClick={onClick}
+        sx={{ cursor: "pointer" }}
+        component="a"
+        data-mp-event="Click Title with Logo"
+      >
         AI Insight
       </Text>
     </Group>

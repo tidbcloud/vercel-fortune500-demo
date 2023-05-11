@@ -17,6 +17,7 @@ import { Typewriter } from "@/components/Typewriter";
 import clsx from "clsx";
 import { ChartMap } from "./ChartMap";
 import { Chat2chartResponse, ColumnInfo } from "@/lib/api";
+import { eventTracking } from "@/lib/mixpanel";
 
 const useStyles = createStyles((theme) => ({
   loading: {
@@ -125,6 +126,11 @@ export const SearchResult: React.FC<{
     </>
   );
 
+  const handleViewSQL = () => {
+    eventTracking("Click on View SQL");
+    setOpened((o) => !o);
+  };
+
   if (!isLoading && showError) {
     return (
       <div className={clsx(classes.error, className)}>
@@ -138,7 +144,7 @@ export const SearchResult: React.FC<{
 
           {result?.gen_sql && (
             <>
-              <UnstyledButton onClick={() => setOpened((o) => !o)}>
+              <UnstyledButton onClick={handleViewSQL}>
                 <Text size={16} color="dimmed" ml={2}>
                   View generated SQL.
                 </Text>
@@ -178,7 +184,7 @@ export const SearchResult: React.FC<{
 
       <Group sx={{ position: "absolute", right: 0, top: 0 }}>
         <div>
-          <UnstyledButton onClick={() => setOpened((o) => !o)}>
+          <UnstyledButton onClick={handleViewSQL}>
             <Text size={12} color="dimmed">
               View Generated SQL
             </Text>
@@ -187,13 +193,23 @@ export const SearchResult: React.FC<{
         </div>
 
         <Group spacing={1}>
-          <ActionIcon onClick={() => setType("chart")}>
+          <ActionIcon
+            onClick={() => {
+              eventTracking("Click on Chart Icon");
+              setType("chart");
+            }}
+          >
             <IconChartPie
               size={16}
               color={"chart" === type ? "#228be6" : "gray"}
             />
           </ActionIcon>
-          <ActionIcon onClick={() => setType("table")}>
+          <ActionIcon
+            onClick={() => {
+              eventTracking("Click on Table Icon");
+              setType("table");
+            }}
+          >
             <IconTableAlias
               size={16}
               color={"table" === type ? "#228be6" : "gray"}

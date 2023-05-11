@@ -13,6 +13,7 @@ import {
   GetColumnsDescriptionResponse,
 } from "@/lib/api";
 import { FilePreview } from "@/components/Preview";
+import { eventTracking } from "@/lib/mixpanel";
 
 const useStyles = createStyles({
   content: {
@@ -71,20 +72,26 @@ export const Content: React.FC<{
       revalidateOnReconnect: false,
       shouldRetryOnError: false,
       onSuccess() {
+        eventTracking("Search with Query Successful");
         setLoadingText("Analyzing question");
       },
       onLoadingSlow() {
         setLoadingText("Calculating and summarizing");
       },
+      onError(error) {
+        eventTracking("Search with Query Error", { error });
+      },
     }
   );
 
   const onConfirm = useMemoizedFn((val: string) => {
+    eventTracking("Start Search with Query", { query: val });
     setQuery(val);
     onSearch(val);
   });
 
   const handleColumnChange = useMemoizedFn((column) => {
+    eventTracking("Edit Column Description");
     trigger({
       ...column,
       id,
@@ -105,7 +112,10 @@ export const Content: React.FC<{
 
       <Tabs
         value={tab}
-        onTabChange={(val) => setTab(val as any)}
+        onTabChange={(val) => {
+          eventTracking("Search Result Tab Change", { selectTab: val });
+          setTab(val as any);
+        }}
         sx={{ position: "relative" }}
         styles={{ tabsList: { display: "inline-flex" } }}
       >
