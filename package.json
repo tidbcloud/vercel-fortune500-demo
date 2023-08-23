@@ -19,7 +19,7 @@
     "clsx": "^1.2.1",
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
-    "eslint": "8.31.0",
+    "eslint": "8.47.0",
     "eslint-config-next": "13.1.2",
     "framer-motion": "^8.4.3",
     "next": "13.1.2",
