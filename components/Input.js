@@ -45,7 +45,7 @@ export const Input = ({ onConfirm, value: _value, className }) => {
 
   const handleKeyDown = async (e) => {
     if (e.key === "Enter" && value) {
-      onConfirm?.(value);
+      // onConfirm?.(value);
     }
   };
 
@@ -81,14 +81,14 @@ export const Input = ({ onConfirm, value: _value, className }) => {
               <IconMicrophone
                 className={classes.icon}
                 onClick={() => {
-                  start();
+                  // start();
                 }}
               />
             )}
             <IconSend
               className={classes.icon}
               onClick={() => {
-                onConfirm?.(value);
+                // onConfirm?.(value);
               }}
             />
           </Group>

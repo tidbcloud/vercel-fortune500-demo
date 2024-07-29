@@ -1,10 +1,11 @@
+import { IconAlertCircle } from "@tabler/icons";
 import { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import Image from "next/image";
 import { Content } from "@/components/Content";
 import { Suggestions } from "@/components/Suggestions";
-import { createStyles } from "@mantine/core";
+import { createStyles, Alert, Anchor } from "@mantine/core";
 import { config } from "@/config";
 
 const useStyles = createStyles(() => ({
@@ -94,6 +95,19 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Alert
+        icon={<IconAlertCircle size={16} />}
+        color="yellow"
+        sx={{ borderRadius: 0 }}
+      >
+        We regret to inform you that this website is no longer available.
+        However, we are excited to introduce our enhanced version! Please visit{" "}
+        <Anchor href="https://tiinsight.chat" target="_blank" rel="noreferrer">
+          https://tiinsight.chat
+        </Anchor>{" "}
+        to experience the new and improved platform. Thank you for your
+        understanding and continued support.
+      </Alert>
       <main
         className={clsx(
           "main",
@@ -101,6 +115,7 @@ export default function Home() {
           showingResult && classes.mainWithResult
         )}
       >
+
         <div
           className={clsx(
             classes.content,
