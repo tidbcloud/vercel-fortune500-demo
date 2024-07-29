@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This repository is no longer actively maintained. For our latest AI-powered data analysis experience, please visit https://tiinsight.chat.
+
 ## Getting Started
 
 First, create a `.env.local` file in the root folder with given environment variables, you can get them in the setting of chat2query in TiDBCloud's web console:
@@ -37,7 +40,7 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 ## Basic Auth
 
-If you want to deploy your own clone and also protect the page from being visited by the public, we also provided a simple basic access authentication solution. You'll need to add two more environment variables in your `.env.local` and the Vercel dashboard. Don't use a simple passphrase like below, replace `admin` with your own one: 
+If you want to deploy your own clone and also protect the page from being visited by the public, we also provided a simple basic access authentication solution. You'll need to add two more environment variables in your `.env.local` and the Vercel dashboard. Don't use a simple passphrase like below, replace `admin` with your own one:
 
 ```env
 BASIC_AUTH_USER=admin
