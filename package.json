@@ -54,10 +54,8 @@
   },
   "pnpm": {
     "peerDependencyRules": {
-      "ignoreMissing": [
-        "webpack",
-        "@babel/*"
-      ]
+      "ignoreMissing": ["webpack", "@babel/*"]
     }
-  }
+  },
+  "packageManager": "pnpm@7.33.7"
 }

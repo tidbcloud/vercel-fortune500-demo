@@ -1,6 +1,7 @@
+import { IconAlertCircle } from "@tabler/icons";
 import { useState } from "react";
 import Image from "next/image";
-import { Button, Modal, Text, Stack } from "@mantine/core";
+import { Button, Modal, Text, Stack, Alert } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useMemoizedFn } from "ahooks";
 import { TitleWithLogo } from "@/components/TitleWithLogo";
@@ -27,6 +28,19 @@ export default function Home() {
 
   return (
     <>
+      <Alert
+        icon={<IconAlertCircle size={16} />}
+        color="yellow"
+        sx={{ borderRadius: 0 }}
+      >
+        We regret to inform you that this website is no longer available.
+        However, we are excited to introduce our enhanced version! Please visit{" "}
+        <a href="https://tiinsight.chat" target="_blank" rel="noreferrer">
+          https://tiinsight.chat
+        </a>{" "}
+        to experience the new and improved platform. Thank you for your
+        understanding and continued support.
+      </Alert>
       <header className="header">
         <TitleWithLogo />
       </header>
@@ -39,7 +53,7 @@ export default function Home() {
         </Text>
         <Button
           leftIcon={<Image src="/star.svg" height={16} width={16} alt="" />}
-          onClick={() => setShowUpload(true)}
+          onClick={() => {}}
           data-mp-event="Click Explore Dataset Button"
         >
           Explore any dataset
